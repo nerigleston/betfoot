@@ -1,0 +1,61 @@
+name: Instaladores
+
+# Gera os instaladores a partir de jogo/bf26-27.jar (empacotamento/build.sh) nos três sistemas.
+# Em tags v* (ex.: v1.0.0) publica uma Release com os arquivos; nos outros casos ficam como artifacts da execução.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  pacote:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, macos-15-intel, windows-latest, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: WiX 3 (jpackage --type exe)
+        if: runner.os == 'Windows'
+        run: |
+          if ! command -v candle.exe >/dev/null; then
+            choco install wixtoolset --version 3.14.1 -y --no-progress
+            echo "C:/Program Files (x86)/WiX Toolset v3.14/bin" >> "$GITHUB_PATH"
+          fi
+      - name: FUSE (appimagetool)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libfuse2 file
+      - name: Versão
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then echo "VERSAO=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV";
+          else echo "VERSAO=1.0.$GITHUB_RUN_NUMBER" >> "$GITHUB_ENV"; fi
+      - run: empacotamento/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: betfoot-${{ matrix.os }}
+          path: dist/*
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: pacote
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
