@@ -12,7 +12,7 @@ import nucleo.DadosPais;
 import nucleo.IniciadorCarreira;
 import components.RestricaoPosicaoLayout;
 import components.LayoutPosicaoAbsoluta;
-import configuracao.ConfigLigaType;
+import est.ConfigLigaType;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;

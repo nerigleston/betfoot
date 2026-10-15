@@ -6,7 +6,7 @@ import nucleo.FaseCompeticao;
 import nucleo.GerenciadorIdioma;
 import components.AtributosJogador;
 import components.ModeloCoeficientePais;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.SorteioAdversarios;
 import competicoes.LigaPontosCorridos;
 import comparadores.ColecaoComparadoresSorteio;

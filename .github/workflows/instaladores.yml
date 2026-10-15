@@ -1,6 +1,6 @@
 name: Instaladores
 
-# Gera os instaladores a partir de jogo/bf26-27.jar (empacotamento/build.sh) nos três sistemas.
+# Gera os instaladores a partir do codigo-fonte/ (empacotamento/build.sh) nos três sistemas.
 # Em tags v* (ex.: v1.0.0) publica uma Release com os arquivos; nos outros casos ficam como artifacts da execução.
 on:
   push:

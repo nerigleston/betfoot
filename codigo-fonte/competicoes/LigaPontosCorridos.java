@@ -15,7 +15,7 @@ import nucleo.CarregadorConfigEstadual;
 import motor.GerenciadorJogo;
 import components.ColocacaoCampeonatoEstadual;
 import components.ModeloEvolucaoAtributos;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.CompeticaoLigaNacional;
 import competicoes.GeradorChaveMataMata;
 import competicoes.CompeticaoCampeonatoEstadual;

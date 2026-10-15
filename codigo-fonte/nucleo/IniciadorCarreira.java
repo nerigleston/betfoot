@@ -1,5 +1,6 @@
 package nucleo;
 
+import persistencia.EntradaObjetosCompativel;
 import nucleo.ModeloJogador;
 import nucleo.ItemSelecaoPais;
 import nucleo.CarregadorTimes;
@@ -13,9 +14,9 @@ import nucleo.GerenciadorIdioma;
 import nucleo.ComparadorNivelTime2Decrescente;
 import nucleo.FiltroArquivoCfg;
 import components.ColocacaoCampeonatoEstadual;
-import configuracao.ArrayLigaType;
+import est.ArrayLigaType;
 import modelos.ModeloTime2;
-import configuracao.ConfigLigaType;
+import est.ConfigLigaType;
 import competicoes.CompeticaoSulAmericana;
 import competicoes.CompeticaoLigaNacional;
 import competicoes.CompeticaoConferenceLeague;
@@ -329,7 +330,7 @@ public abstract class IniciadorCarreira {
                     ArrayLigaType arrayLigaType = new ArrayLigaType();
                     try {
                         FileInputStream fileInputStream = new FileInputStream(fileArray[n2].getPath());
-                        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                        ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
                         arrayLigaType = (ArrayLigaType)objectInputStream.readObject();
                         objectInputStream.close();
                         fileInputStream.close();

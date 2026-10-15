@@ -1,4 +1,4 @@
-package configuracao;
+package est;
 
 import motor.GerenciadorJogo;
 import java.awt.Color;

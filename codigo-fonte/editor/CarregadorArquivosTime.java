@@ -1,5 +1,6 @@
 package editor;
 
+import persistencia.EntradaObjetosCompativel;
 import nucleo.UtilitariosTexto;
 import editor.FiltroArquivoBan2;
 import modelos.ModeloTime2;
@@ -27,7 +28,7 @@ public class CarregadorArquivosTime {
         ModeloTime2 t2 = new ModeloTime2();
         try {
             FileInputStream fileInputStream = new FileInputStream(string);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
             t2 = (ModeloTime2)objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();

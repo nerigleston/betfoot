@@ -12,7 +12,7 @@ import nucleo.FaseCompeticao;
 import nucleo.CandidatoSelecaoCampeonato;
 import motor.GerenciadorJogo;
 import components.ItemFormacao;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.ComparadorClassificacao;
 import competicoes.GeradorChaveMataMata;
 import competicoes.LigaPontosCorridos;

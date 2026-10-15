@@ -6,7 +6,7 @@ import nucleo.Competicao;
 import nucleo.FaseCompeticao;
 import motor.GerenciadorJogo;
 import components.ItemFormacao;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.LigaPontosCorridos;
 import comparadores.ColecaoComparadoresSorteio;
 import java.io.Serializable;

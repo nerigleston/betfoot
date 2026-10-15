@@ -1,9 +1,9 @@
 package components;
 
 public enum OrientacaoIconeComposto {
-    Oe,
-    Of,
-    Og;
+    X_AXIS,
+    Y_AXIS,
+    Z_AXIS;
 
 }
 

@@ -9,7 +9,7 @@ import nucleo.ConstantesJogo;
 import nucleo.CarregadorConfigEstadual;
 import components.RestricaoPosicaoLayout;
 import components.LayoutPosicaoAbsoluta;
-import configuracao.ConfigEstadualType;
+import est.ConfigEstadualType;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;

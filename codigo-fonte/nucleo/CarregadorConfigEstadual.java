@@ -1,5 +1,6 @@
 package nucleo;
 
+import persistencia.EntradaObjetosCompativel;
 import nucleo.ModeloPartida;
 import nucleo.LigaNacional;
 import nucleo.ModeloTime;
@@ -9,9 +10,9 @@ import nucleo.FiltroArquivoXmlConfig;
 import nucleo.FiltroArquivoCes;
 import motor.GerenciadorJogo;
 import components.ColocacaoCampeonatoEstadual;
-import configuracao.ArrayLigaEType;
-import configuracao.ConfigEstadualType;
-import configuracao.LoadLigaOptions;
+import est.ArrayLigaEType;
+import est.ConfigEstadualType;
+import est.LoadLigaOptions;
 import competicoes.CompeticaoCampeonatoEstadual;
 import competicoes.LigaPontosCorridos;
 import comparadores.ColecaoComparadoresSorteio;
@@ -370,7 +371,7 @@ implements Serializable {
                 ArrayLigaEType arrayLigaEType = new ArrayLigaEType();
                 try {
                     FileInputStream fileInputStream = new FileInputStream(fileArray[n2].getPath());
-                    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                    ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
                     arrayLigaEType = (ArrayLigaEType)objectInputStream.readObject();
                     objectInputStream.close();
                     fileInputStream.close();

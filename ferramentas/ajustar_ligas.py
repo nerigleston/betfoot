@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Ajusta conf_ligas_nacionais/BRA.cfg para os regulamentos de 2026.
 
-É o mesmo arquivo que o jogo grava pela tela "Ligas Nacionais > configurar" (configuracao.ArrayLigaType com um
-configuracao.ConfigLigaType por divisão), então só usa recursos que o motor já tem. Guarda o original em BRA.cfg.original.
+É o mesmo arquivo que o jogo grava pela tela "Ligas Nacionais > configurar" (est.ArrayLigaType com um
+est.ConfigLigaType por divisão), então só usa recursos que o motor já tem. Guarda o original em BRA.cfg.original.
 
 | Divisão | 2026 real                                                       | Configuração                                   |
 |---------|-----------------------------------------------------------------|------------------------------------------------|

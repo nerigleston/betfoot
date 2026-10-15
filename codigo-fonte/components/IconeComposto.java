@@ -19,7 +19,7 @@ implements Icon {
     private float Od = 0.5f;
 
     public IconeComposto(Icon ... iconArray) {
-        this(OrientacaoIconeComposto.Oe, iconArray);
+        this(OrientacaoIconeComposto.X_AXIS, iconArray);
     }
 
     public IconeComposto(OrientacaoIconeComposto g2, Icon ... iconArray) {
@@ -73,7 +73,7 @@ implements Icon {
     @Override
     public int getIconWidth() {
         int n2 = 0;
-        if (this.Oa == OrientacaoIconeComposto.Oe) {
+        if (this.Oa == OrientacaoIconeComposto.X_AXIS) {
             n2 += (this.NZ.length - 1) * this.Ob;
             Icon[] iconArray = this.NZ;
             int n3 = this.NZ.length;
@@ -99,7 +99,7 @@ implements Icon {
     @Override
     public int getIconHeight() {
         int n2 = 0;
-        if (this.Oa == OrientacaoIconeComposto.Of) {
+        if (this.Oa == OrientacaoIconeComposto.Y_AXIS) {
             n2 += (this.NZ.length - 1) * this.Ob;
             Icon[] iconArray = this.NZ;
             int n3 = this.NZ.length;
@@ -124,7 +124,7 @@ implements Icon {
 
     @Override
     public void paintIcon(Component component, Graphics graphics, int n2, int n3) {
-        if (this.Oa == OrientacaoIconeComposto.Oe) {
+        if (this.Oa == OrientacaoIconeComposto.X_AXIS) {
             int n4 = this.getIconHeight();
             Icon[] iconArray = this.NZ;
             int n5 = this.NZ.length;
@@ -136,7 +136,7 @@ implements Icon {
                 n2 += icon.getIconWidth() + this.Ob;
                 ++n6;
             }
-        } else if (this.Oa == OrientacaoIconeComposto.Of) {
+        } else if (this.Oa == OrientacaoIconeComposto.Y_AXIS) {
             int n8 = this.getIconWidth();
             Icon[] iconArray = this.NZ;
             int n9 = this.NZ.length;

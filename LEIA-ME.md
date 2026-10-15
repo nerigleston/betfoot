@@ -7,8 +7,8 @@ de fase de liga.
 
 | Pasta | Conteúdo |
 |---|---|
-| `codigo-fontmodelos/` | Código-fonte Java do jogo (pacotes `a`, `b`, `best`, `c`, `components`, `d`, `e`, `est`, `f`, `forms`, `g`, `h`). |
-| `jogo/` | Instalação de teste: `bf26-27.jar` (o jogo compilado) e os dados (`teams/`, `conf_*`, `selecoes/`, `impersistencia/`…). |
+| `codigo-fonte/` | Código-fonte Java do jogo (pacotes por função: `nucleo`, `motor`, `competicoes`, `telas`, `editor`, `est`, `modelos`, `persistencia`…). |
+| `jogo/` | Instalação de teste: `bf26-27.jar` (o jogo compilado) e os dados (`teams/`, `conf_*`, `selecoes/`, `img/`…). |
 | `ferramentas/` | `ajustar_ligas.py` (regulamentos 2026 das ligas nacionais), `java_serial.py` e `mapa-classes.tsv`. |
 | `empacotamento/` | Instaladores: `build.sh`, o lançador (`Lancador.java`) e os ícones. |
 
@@ -32,25 +32,25 @@ javac -encoding UTF-8 -nowarn --add-exports java.desktop/sun.java2d=ALL-UNNAMED 
   -d classes @/tmp/fontes.txt
 ```
 
-Os recursos (imagens, sons, `arquivos/…`) ficam dentro do `jogo/bf26-27.jar`.
+Os recursos (imagens, sons, `arquivos/…`) e as bibliotecas ficam dentro do `jogo/bf26-27.jar`; o `empacotamento/build.sh` compila o código-fonte e monta o `betfoot.jar` com eles.
 
 ### Nomes das classes
 
 As classes e os pacotes foram renomeados para descrever o que fazem (ex.: `telas/`, `nucleo/`, `competicoes/`, `comparadores/`). A correspondência com o `bf26-27.jar`, que mantém os nomes originais, está em `ferramentas/mapa-classes.tsv`: a coluna 1 é o nome no código-fonte, a coluna 2 é o nome no jar. Para conferir o bytecode, use os nomes do jar, por exemplo `javap -c -p -cp jogo/bf26-27.jar best.f`.
 
-O Kryo grava o nome das classes nos saves; um jar compilado com os nomes do código-fonte não abre saves do `bf26-27.jar`.
+Os arquivos de dados de `jogo/` foram gravados com os nomes originais das classes. O pacote `est` (`Options`, `ConfigLigaType`…) mantém o nome original, e os times e jogadores (`e.t`/`e.g` no jar) são lidos como `modelos.ModeloTime2`/`modelos.ModeloJogador2` por `persistencia/EntradaObjetosCompativel.java`. O Kryo grava o nome das classes nos saves, então saves feitos pelo `bf26-27.jar` não abrem no jogo compilado do código-fonte.
 
 ## Temporada 2026
 
 | Classe | O quê |
 |---|---|
 | `nucleo/EstadoCarreira.java` | ano-base da carreira `rM = 2026`; a tela lista `rM + i` → 2026, 2027 |
-| `telas/TelaEstatisticasCompeticao.java`, `components/ListenerFecharFiltroJogadorainelHistoricoTemporada.java` | rótulos das telas com 2026 |
+| `telas/TelaEstatisticasCompeticao.java`, `components/PainelHistoricoTemporada.java` | rótulos das telas com 2026 |
 | `telas/TelaConfiguracoesIniciais.java` | tela "Configurações iniciais": temporadas 2026/2027 e "Usar grupos da Copa do Mundo 2026" |
 | `nucleo/Calendario.java` → `g()` | calendário com as datas das competições continentais |
 | `competicoes/CompeticaoCopaDoMundo.java` | Copa do Mundo no formato 2026 |
 | `competicoes/CompeticaoChampionsLeague.java`, `competicoes/CompeticaoLigaEuropa.java`, `competicoes/CompeticaoConferenceLeague.java` | Champions, Liga Europa e Conference com fase de liga |
-| `competicoes/CompeticaoTorneioAmistosoigaSuica.java` | sorteio e montagem da fase de liga |
+| `competicoes/LigaSuica.java` | sorteio e montagem da fase de liga |
 
 ### Copa do Mundo 2026 (`competicoes/CompeticaoCopaDoMundo.java`)
 
@@ -77,7 +77,7 @@ K Portugal, Colômbia, RD Congo, Uzbequistão · L Inglaterra, Croácia, Gana, P
 | Liga Europa | `competicoes/CompeticaoLigaEuropa.java` | 36 (16 diretos + 10 da Champions + 10 das preliminares), 8 jogos | idem |
 | Conference | `competicoes/CompeticaoConferenceLeague.java` | 36 (4 diretos novos + 10 das outras copas + 22 das preliminares), 6 potes de 6, 6 jogos | idem |
 
-- `competicoes/CompeticaoTorneioAmistosoigaSuica.java`: sorteio por potes sem adversário repetido e sem clubes do mesmo país (relaxa só quando é
+- `competicoes/LigaSuica.java`: sorteio por potes sem adversário repetido e sem clubes do mesmo país (relaxa só quando é
   impossível, ex.: 5 ingleses no mesmo pote), divisão em rodadas, criação da liga (`competicoes.LigaPontosCorridos` sem gerador + jogos `nucleo.ModeloPartida`
   nas próximas datas livres), playoff 9x24/10x23… e oitavas 1-8/4-5/2-7/3-6.
 - Fim da liga: o motor chama a competição pelo código da liga (4005 → `v.yt()`, 6005 → `x.Be()`, 12005 → `j_0.Be()`).
@@ -87,7 +87,7 @@ K Portugal, Colômbia, RD Congo, Uzbequistão · L Inglaterra, Croácia, Gana, P
 
 ### Calendário (`nucleo/Calendario.java` → `g()`)
 
-Sequência fixa `telas.ListenerFecharAdicionarTecnico(dia da semana, tipo)`; tipo 4 = continentais (Champions, Libertadores…), 6 = Liga Europa e
+Sequência fixa `Calendario.b(dia da semana, tipo)`; tipo 4 = continentais (Champions, Libertadores…), 6 = Liga Europa e
 Sul-Americana, 12 = Conference, 100/200 = pausas. São 27 datas do tipo 4, 21 do tipo 6 e 23 da Conference.
 
 ## Instaladores
@@ -101,7 +101,7 @@ um Java 21 reduzido embutido, em `dist/`:
 | macOS | `Betfoot-26-27-<versão>-macos-arm64.dmg` / `-macos-x86_64.dmg` | Apple Silicon / Intel; sem assinatura: na 1ª vez, botão direito > Abrir (ou `xattr -cr "/Applications/Betfoot 26-27.app"`) |
 | Linux | `Betfoot-26-27-<versão>-linux-x86_64.AppImage` | `chmod +x` e abrir; baixa o `appimagetool` sozinho |
 
-O GitHub Actions (`.githutabelas/ModeloTabelaCampanhaCompeticoesorkflows/instaladores.yml`) gera os três a cada push na `main` (ficam nos *artifacts* da
+O GitHub Actions (`.github/workflows/instaladores.yml`) gera os três a cada push na `main` (ficam nos *artifacts* da
 execução) e, numa tag `v*` (`git tag v1.0.0 && git push --tags`), publica uma Release com eles.
 
 O jogo lê e grava tudo em `user.dir` (saves, `options.bcf`, `teams/`, `conf_*`), e a pasta do app instalado não é
@@ -110,7 +110,7 @@ porque 4 times de `teams/` têm caracteres de uso privado no nome, ex.: `crac
 lançador (`empacotamento/Lancador.java`) os extrai para uma pasta do usuário, aponta o `user.dir` para lá e chama
 `nucleo.LancadorBetfoot` no mesmo processo:
 
-- Windows `%APPDATA%\Betfoot 26-27` · macOS `~/Library/Application Support/Betfoot 26-27` · Linux `~/.local/sharmodelos/betfoot-26-27`
+- Windows `%APPDATA%\Betfoot 26-27` · macOS `~/Library/Application Support/Betfoot 26-27` · Linux `~/.local/share/betfoot-26-27`
 - Numa versão nova, cada arquivo só é atualizado se o usuário não o alterou (hashes em `.instalado`); `sav/` e
   `options.bcf` nunca são sobrescritos. Saída do jogo em `betfoot.log`, na mesma pasta.
 - O registro do jogo fica nas Preferences do Java (`Preferences.userRoot()`), fora da pasta, e vale para o app instalado.
@@ -143,11 +143,11 @@ motor (`nucleo/LigaNacional.java`, divisão 4).
 | `telas/TelaMelhoresTemporada.java` → `mW()` | monta a lista "Temporada de início" |
 | `nucleo/ConstantesJogo.java` | tabelas fixas: grupos padrão da Libertadores (`sP`, `sQ`), nomes de fases etc. |
 | `arquivos/default_lang.xml` (dentro do jar) | nomes dos países: chave `P<índice>` (ex.: `P39` = Catar) |
-| `configuracao/Options.java` | preferências gravadas em `options.bcf` |
-| `configuracao/ConfigLigaType.java`, `telas/PainelConfigFormatoLiga.java` | regulamento das ligas nacionais e a tela que o edita |
+| `est/Options.java` | preferências gravadas em `options.bcf` |
+| `est/ConfigLigaType.java`, `telas/PainelConfigFormatoLiga.java` | regulamento das ligas nacionais e a tela que o edita |
 | `nucleo/LigaNacional.java` (~linha 120) | monta as divisões de cada país a partir do `.cfg` |
 | `competicoes/CompeticaoLigaNacional.java` → `BQ()` | playoff de acesso (`vagasSobemPeloMataMata`) |
-| `competicoes/LigaPontosCorridos.java` | ligtelas/ListenerProporAmistosoase de grupos: `a(ArrayList, …)` gera a tabela (todos contra todos, via `nucleo/GeradorChaveamento.java`) |
+| `competicoes/LigaPontosCorridos.java` | liga/fase de grupos: `a(ArrayList, …)` gera a tabela (todos contra todos, via `nucleo/GeradorChaveamento.java`) |
 | `competicoes/ChaveMataMata.java`, `competicoes/GeradorChaveMataMata.java` | mata-mata (2 a 128 times) |
 | `competicoes/CompeticaoLibertadores.java`, `competicoes/CompeticaoSulAmericana.java` | Libertadores e Sul-Americana |
 

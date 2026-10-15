@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Gera o instalador do sistema atual a partir de jogo/bf26-27.jar (o jpackage não faz pacote de outro sistema):
+# Gera o instalador do sistema atual compilando o codigo-fonte/ (recursos e bibliotecas de jogo/bf26-27.jar):
 #   macOS   -> dist/Betfoot-26-27-<versão>-macos-<arq>.dmg
 #   Windows -> dist/Betfoot-26-27-<versão>-windows-x64.exe   (Git Bash; precisa do WiX 3 no PATH)
 #   Linux   -> dist/Betfoot-26-27-<versão>-linux-x86_64.AppImage   (baixa o appimagetool se não houver)
@@ -27,17 +27,29 @@ case "$(uname -s)" in
 esac
 
 rm -rf "$OBRA"
-mkdir -p "$OBRA/classes" "$OBRA/entrada" "$DIST"
+mkdir -p "$OBRA/classes" "$OBRA/jogo-classes" "$OBRA/recursos" "$OBRA/entrada" "$DIST"
+
+# Bibliotecas (kryo etc.) e recursos (imagens, sons, arquivos/…) vêm de jogo/bf26-27.jar; as classes, do codigo-fonte/.
+LIBS=$("$BIN/jar" --list --file "$RAIZ/jogo/bf26-27.jar" | grep '\.jar$' | tr -d '\r' | tr '\n' ' ')
+(cd "$OBRA/entrada" && "$BIN/jar" --extract --file "$RAIZ/jogo/bf26-27.jar" $LIBS)
+(cd "$OBRA/recursos" && "$BIN/jar" --extract --file "$RAIZ/jogo/bf26-27.jar")
+find "$OBRA/recursos" -name '*.class' -delete
+rm -rf "$OBRA/recursos/META-INF" "$OBRA/recursos/"*.jar
+
+# Jogo: compila o codigo-fonte/ e junta os recursos em betfoot.jar.
+# Roda dentro de build/pacote/entrada com caminhos relativos (funciona igual no Git Bash do Windows).
+find "$RAIZ/codigo-fonte" -name '._*' -delete
+(cd "$RAIZ" && find codigo-fonte -name '*.java' | sed 's|^|../../../|') > "$OBRA/fontes.txt"
+SEP=$([ $SO = windows ] && echo ';' || echo ':')
+(cd "$OBRA/entrada" && "$BIN/javac" -encoding UTF-8 -nowarn -proc:none --add-exports java.desktop/sun.java2d=ALL-UNNAMED \
+  -cp "$(echo $LIBS | tr ' ' "$SEP")" -d ../jogo-classes @../fontes.txt)
+cp -R "$OBRA/recursos/." "$OBRA/jogo-classes/"
+"$BIN/jar" --create --file "$OBRA/entrada/betfoot.jar" -C "$OBRA/jogo-classes" .
 
 # Lançador: copia os dados para a pasta do usuário e chama nucleo.LancadorBetfoot (ver Lancador.java).
-LIBS=$("$BIN/jar" --list --file "$RAIZ/jogo/bf26-27.jar" | grep '\.jar$' | tr -d '\r' | tr '\n' ' ')
 "$BIN/javac" --release 17 -encoding UTF-8 -d "$OBRA/classes" "$RAIZ/empacotamento/Lancador.java"
-printf 'Main-Class: lancador.Lancador\nClass-Path: bf26-27.jar %s\n' "$LIBS" > "$OBRA/manifesto.txt"
+printf 'Main-Class: lancador.Lancador\nClass-Path: betfoot.jar %s\n' "$LIBS" > "$OBRA/manifesto.txt"
 "$BIN/jar" --create --file "$OBRA/entrada/lancador.jar" --manifest "$OBRA/manifesto.txt" -C "$OBRA/classes" .
-
-# O jar do jogo e as bibliotecas que ele carrega pelo jar-in-jar (kryo etc.), soltas para o classpath normal.
-cp "$RAIZ/jogo/bf26-27.jar" "$OBRA/entrada/"
-(cd "$OBRA/entrada" && "$BIN/jar" --extract --file bf26-27.jar $LIBS)
 
 # Dados do jogo (lidos e gravados em user.dir) num zip; sem atalhos, backups e metadados do macOS (ver Dados.java).
 "$BIN/java" "$RAIZ/empacotamento/Dados.java" "$RAIZ/jogo" "$OBRA/entrada/jogo.zip" \

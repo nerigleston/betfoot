@@ -1,5 +1,6 @@
 package editor;
 
+import persistencia.EntradaObjetosCompativel;
 import editor.FiltroArquivoB16;
 import editor.FiltroArquivoXml2;
 import modelos.ModeloJogador2;
@@ -51,7 +52,7 @@ public class LeitorArquivoElencoXml {
         ModeloTime2 t2 = new ModeloTime2();
         try {
             closeable2 = new FileInputStream(string);
-            closeable = new ObjectInputStream((InputStream)closeable2);
+            closeable = new EntradaObjetosCompativel((InputStream)closeable2);
             t2 = (ModeloTime2)((ObjectInputStream)closeable).readObject();
             ((ObjectInputStream)closeable).close();
             ((FileInputStream)closeable2).close();

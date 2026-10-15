@@ -26,7 +26,7 @@ import nucleo.CarregadorConfigEstadual;
 import components.ProcessoLeilaoJogador;
 import components.ModeloRegistroJogador;
 import components.ModeloOfertaJogador;
-import configuracao.InfoArquivoSalvoType;
+import est.InfoArquivoSalvoType;
 import competicoes.CompeticaoSulAmericana;
 import competicoes.CompeticaoTorneioAmistoso;
 import competicoes.CompeticaoLigaDasNacoesUefa;

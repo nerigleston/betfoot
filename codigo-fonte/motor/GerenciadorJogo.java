@@ -1,5 +1,6 @@
 package motor;
 
+import persistencia.EntradaObjetosCompativel;
 import nucleo.GeradorPropostaSelecao;
 import nucleo.EstadoCarreira;
 import nucleo.GerenciadorIdioma;
@@ -8,8 +9,8 @@ import nucleo.GerenciadorTelas;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import configuracao.InfoArquivoSalvoType;
-import configuracao.Options;
+import est.InfoArquivoSalvoType;
+import est.Options;
 import persistencia.RestauradorReferenciasJogo;
 import java.io.File;
 import java.io.FileInputStream;
@@ -200,7 +201,7 @@ public class GerenciadorJogo {
         if (file.exists() && !file.isDirectory()) {
             try {
                 FileInputStream fileInputStream = new FileInputStream(String.valueOf(System.getProperty("user.dir")) + "/options.bcf");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
                 SS = (Options)objectInputStream.readObject();
                 objectInputStream.close();
                 fileInputStream.close();
@@ -236,7 +237,7 @@ public class GerenciadorJogo {
         if (string != null) {
             try {
                 FileInputStream fileInputStream = new FileInputStream(String.valueOf(System.getProperty("user.dir")) + "/sav/" + string + ".info");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
                 infoArquivoSalvoType = (InfoArquivoSalvoType)objectInputStream.readObject();
                 objectInputStream.close();
                 fileInputStream.close();
@@ -258,7 +259,7 @@ public class GerenciadorJogo {
         if (string != null) {
             try {
                 FileInputStream fileInputStream = new FileInputStream(String.valueOf(System.getProperty("user.dir")) + "/sav/" + string + ".sb19");
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+                ObjectInputStream objectInputStream = new EntradaObjetosCompativel(fileInputStream);
                 infoArquivoSalvoType = (InfoArquivoSalvoType)objectInputStream.readObject();
                 objectInputStream.close();
                 fileInputStream.close();

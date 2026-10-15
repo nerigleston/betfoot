@@ -1,4 +1,4 @@
-package configuracao;
+package est;
 
 import nucleo.ConstantesJogo;
 import java.io.Serializable;

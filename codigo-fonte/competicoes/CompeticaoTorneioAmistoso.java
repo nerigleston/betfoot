@@ -3,7 +3,7 @@ package competicoes;
 import nucleo.Competicao;
 import nucleo.FaseCompeticao;
 import components.ItemFormacao;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.LigaPontosCorridos;
 import java.io.Serializable;
 import java.util.ArrayList;

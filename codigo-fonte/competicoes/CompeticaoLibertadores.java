@@ -10,7 +10,7 @@ import motor.GerenciadorJogo;
 import components.AtributosJogador;
 import components.ModeloCoeficientePais;
 import components.ItemFormacao;
-import configuracao.LoadLigaOptions;
+import est.LoadLigaOptions;
 import competicoes.SorteioAdversarios;
 import competicoes.GeradorChaveMataMata;
 import competicoes.LigaPontosCorridos;

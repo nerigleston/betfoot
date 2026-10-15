@@ -5,7 +5,7 @@ import telas.DialogoConfigCampeonatosEstaduais;
 import nucleo.ConstantesJogo;
 import components.RestricaoPosicaoLayout;
 import components.LayoutPosicaoAbsoluta;
-import configuracao.ConfigEstadualType;
+import est.ConfigEstadualType;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JCheckBox;

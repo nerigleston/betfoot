@@ -1,4 +1,4 @@
-package configuracao;
+package est;
 
 public class LoadLigaOptions {
     public int nTimes = 0;

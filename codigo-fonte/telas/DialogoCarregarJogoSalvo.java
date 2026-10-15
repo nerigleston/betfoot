@@ -9,7 +9,7 @@ import telas.OuvinteExcluirJogoSalvo;
 import telas.OuvinteCarregarJogoSalvoSelecionado;
 import nucleo.UtilitariosTexto;
 import motor.GerenciadorJogo;
-import configuracao.InfoArquivoSalvoType;
+import est.InfoArquivoSalvoType;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
