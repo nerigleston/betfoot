@@ -23,7 +23,7 @@ import javax.swing.JOptionPane;
  *
  * O Betfoot lê e grava tudo em System.getProperty("user.dir") (sav/, options.bcf, teams/, conf_*), e a pasta do
  * aplicativo instalado não é gravável. Então os dados que vêm no pacote (jogo.zip, ao lado deste jar) são extraídos
- * para uma pasta do usuário, o user.dir passa a apontar para ela e o jogo (best.h2) roda no mesmo processo.
+ * para uma pasta do usuário, o user.dir passa a apontar para ela e o jogo (nucleo.LancadorBetfoot) roda no mesmo processo.
  *
  * Numa versão nova do pacote, cada arquivo é atualizado só se o usuário não o alterou (comparando com o hash do que
  * foi copiado antes, em .instalado); sav/ e options.bcf nunca são sobrescritos.
@@ -48,7 +48,7 @@ public final class Lancador {
             throw e;
         }
         System.setProperty("user.dir", dados.toString());
-        Method main = Class.forName("best.h2").getMethod("main", String[].class);
+        Method main = Class.forName("nucleo.LancadorBetfoot").getMethod("main", String[].class);
         main.invoke(null, (Object) args);
     }
 

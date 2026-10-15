@@ -1,10 +1,10 @@
 package components;
 
-import best.aq;
-import c.a;
-import components.aa;
-import components.ab_0;
-import components.ac;
+import nucleo.ConstantesJogo;
+import motor.GerenciadorJogo;
+import components.SliderEstilizado;
+import components.ListenerRecalculaPolegarSlider;
+import components.ListenerMouseSliderFaixa;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,13 +21,13 @@ import javax.swing.plaf.basic.BasicSliderUI;
 
 class RangeSliderUI
 extends BasicSliderUI {
-    private Color QY = aq.E(a.vM().getCorTema(), 3);
+    private Color QY = ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 3);
     private Rectangle QZ;
     private boolean Ra;
     private transient boolean Rb;
     private transient boolean Rc;
 
-    public RangeSliderUI(aa aa2) {
+    public RangeSliderUI(SliderEstilizado aa2) {
         super(aa2);
     }
 
@@ -39,12 +39,12 @@ extends BasicSliderUI {
 
     @Override
     protected BasicSliderUI.TrackListener createTrackListener(JSlider jSlider) {
-        return new ac(this);
+        return new ListenerMouseSliderFaixa(this);
     }
 
     @Override
     protected ChangeListener createChangeListener(JSlider jSlider) {
-        return new ab_0(this);
+        return new ListenerRecalculaPolegarSlider(this);
     }
 
     @Override
@@ -162,9 +162,9 @@ extends BasicSliderUI {
         Shape shape = this.P(n2 - 1, n3 - 1);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.translate(rectangle.x, rectangle.y);
-        graphics2D.setColor(aq.E(a.vM().getCorTema(), 3));
+        graphics2D.setColor(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 3));
         graphics2D.fill(shape);
-        graphics2D.setColor(aq.E(a.vM().getCorTema(), 3));
+        graphics2D.setColor(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 3));
         graphics2D.draw(shape);
         graphics2D.dispose();
     }
@@ -177,9 +177,9 @@ extends BasicSliderUI {
         Shape shape = this.P(n2 - 1, n3 - 1);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.translate(rectangle.x, rectangle.y);
-        graphics2D.setColor(aq.E(a.vM().getCorTema(), 3));
+        graphics2D.setColor(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 3));
         graphics2D.fill(shape);
-        graphics2D.setColor(aq.E(a.vM().getCorTema(), 3));
+        graphics2D.setColor(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 3));
         graphics2D.draw(shape);
         graphics2D.dispose();
     }
@@ -207,8 +207,8 @@ extends BasicSliderUI {
             }
             int n4 = n3 * (n2 > 0 ? 1 : -1);
             if (this.Ra) {
-                int n5 = ((aa)this.slider).uv();
-                ((aa)this.slider).dP(n5 + n4);
+                int n5 = ((SliderEstilizado)this.slider).uv();
+                ((SliderEstilizado)this.slider).dP(n5 + n4);
             } else {
                 int n6 = this.slider.getValue();
                 this.slider.setValue(n6 + n4);
@@ -222,8 +222,8 @@ extends BasicSliderUI {
         synchronized (jSlider) {
             int n3 = 1 * (n2 > 0 ? 1 : -1);
             if (this.Ra) {
-                int n4 = ((aa)this.slider).uv();
-                ((aa)this.slider).dP(n4 + n3);
+                int n4 = ((SliderEstilizado)this.slider).uv();
+                ((SliderEstilizado)this.slider).dP(n4 + n3);
             } else {
                 int n5 = this.slider.getValue();
                 this.slider.setValue(n5 + n3);

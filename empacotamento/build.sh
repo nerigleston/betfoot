@@ -29,7 +29,7 @@ esac
 rm -rf "$OBRA"
 mkdir -p "$OBRA/classes" "$OBRA/entrada" "$DIST"
 
-# Lançador: copia os dados para a pasta do usuário e chama best.h2 (ver Lancador.java).
+# Lançador: copia os dados para a pasta do usuário e chama nucleo.LancadorBetfoot (ver Lancador.java).
 LIBS=$("$BIN/jar" --list --file "$RAIZ/jogo/bf26-27.jar" | grep '\.jar$' | tr -d '\r' | tr '\n' ' ')
 "$BIN/javac" --release 17 -encoding UTF-8 -d "$OBRA/classes" "$RAIZ/empacotamento/Lancador.java"
 printf 'Main-Class: lancador.Lancador\nClass-Path: bf26-27.jar %s\n' "$LIBS" > "$OBRA/manifesto.txt"

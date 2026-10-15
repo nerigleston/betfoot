@@ -1,0 +1,20 @@
+package telas;
+
+import telas.PainelAcademiaJuniores;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class ListenerDefinirApelidoJunior
+implements ActionListener {
+    final /* synthetic */ PainelAcademiaJuniores FS;
+
+    ListenerDefinirApelidoJunior(PainelAcademiaJuniores ds_02) {
+        this.FS = ds_02;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        PainelAcademiaJuniores.d(this.FS);
+    }
+}
+

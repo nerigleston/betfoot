@@ -1,0 +1,24 @@
+package comparadores;
+
+import nucleo.ModeloTime;
+import java.util.Comparator;
+
+class ComparadorTimeZonaEstados
+implements Comparator {
+    ComparadorTimeZonaEstados() {
+    }
+
+    public int c(ModeloTime ah2, ModeloTime ah3) {
+        int n2;
+        int n3 = ah2.jX();
+        if (n3 != (n2 = ah3.jX())) {
+            return n3 - n2;
+        }
+        return 0;
+    }
+
+    public /* synthetic */ int compare(Object object, Object object2) {
+        return this.c((ModeloTime)object, (ModeloTime)object2);
+    }
+}
+

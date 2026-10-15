@@ -12,22 +12,22 @@ public final class AtalhosAl {
     }
 
     public static boolean ehA_0(Object object) {
-        return object instanceof f.a_0;
+        return object instanceof competicoes.CompeticaoMundialDeClubes;
     }
 
     public static boolean ehD(Object object) {
-        return object instanceof f.d;
+        return object instanceof competicoes.CompeticaoCopaAmerica;
     }
 
     public static boolean ehE(Object object) {
-        return object instanceof f.e;
+        return object instanceof competicoes.CompeticaoCopaAsia;
     }
 
-    public static b.b_0 novoB_0() {
-        return new b.b_0();
+    public static tabelas.RenderizadorTabelaChaveamento novoB_0() {
+        return new tabelas.RenderizadorTabelaChaveamento();
     }
 
-    public static b.l_0 novoL_0(ArrayList arrayList) {
-        return new b.l_0(arrayList);
+    public static tabelas.ModeloTabelaListaJogos novoL_0(ArrayList arrayList) {
+        return new tabelas.ModeloTabelaListaJogos(arrayList);
     }
 }

@@ -1,0 +1,33 @@
+package telas;
+
+import nucleo.ModeloJogador;
+import java.util.Comparator;
+
+class ComparadorPosicaoLinhaTabela
+implements Comparator {
+    ComparadorPosicaoLinhaTabela() {
+    }
+
+    public int a(ModeloJogador f2, ModeloJogador f3) {
+        int n2 = 0;
+        int n3 = 0;
+        int n4 = 0;
+        int n5 = 0;
+        n2 = f3.getPosicao();
+        n3 = f2.getPosicao();
+        n4 = f3.fi();
+        n5 = f2.fi();
+        if (n2 != n3) {
+            return n3 - n2;
+        }
+        if (n4 != n5) {
+            return n4 - n5;
+        }
+        return 0;
+    }
+
+    public /* synthetic */ int compare(Object object, Object object2) {
+        return this.a((ModeloJogador)object, (ModeloJogador)object2);
+    }
+}
+
