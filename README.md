@@ -21,9 +21,19 @@ Os instaladores já trazem o Java: não é preciso instalar mais nada.
 - **Windows**: abra o `.exe` e siga o instalador. Ele instala só para o seu usuário (não pede administrador) e cria
   atalhos no menu Iniciar e na área de trabalho. Se o Windows SmartScreen avisar, clique em "Mais informações" >
   "Executar assim mesmo" (o instalador não é assinado).
-- **macOS**: abra o `.dmg` e arraste o **Betfoot 26-27** para a pasta Aplicativos. Na primeira vez, clique com o botão
-  direito no app > **Abrir** (o app não é assinado pela Apple). Se o macOS disser que o app está danificado, rode no
-  Terminal: `xattr -cr "/Applications/Betfoot 26-27.app"`.
+- **macOS**: abra o `.dmg` e arraste o **Betfoot 26-27** para a pasta Aplicativos. O app não é assinado pela Apple,
+  então na primeira vez o macOS mostra *"Betfoot 26-27" Not Opened / não foi aberto* (ou diz que o app está
+  danificado). Para liberar, escolha uma das formas:
+  - **Terminal** (mais rápido): rode o comando abaixo e abra o app normalmente.
+    ```sh
+    xattr -cr "/Applications/Betfoot 26-27.app"
+    ```
+    Se aparecer "Permission denied", use `sudo xattr -cr "/Applications/Betfoot 26-27.app"` e digite a senha do Mac.
+  - **Ajustes do Sistema**: no aviso clique em **Concluído** (não em "Mover para o Lixo"), abra **Ajustes do Sistema >
+    Privacidade e Segurança**, role até o fim e clique em **Abrir Mesmo Assim** ao lado de "Betfoot 26-27"; abra o app
+    de novo e confirme com a senha. (No macOS 15 Sequoia ou mais novo, o antigo "botão direito > Abrir" não libera mais.)
+
+  É preciso liberar de novo a cada versão nova instalada.
 - **Linux**: dê permissão de execução e abra: `chmod +x Betfoot-26-27-1.2.0-linux-x86_64.AppImage && ./Betfoot-26-27-1.2.0-linux-x86_64.AppImage`.
 
 Os saves e os dados do jogo ficam numa pasta do usuário, que é mantida ao instalar uma versão nova:
@@ -179,7 +189,7 @@ um Java 21 reduzido embutido, em `dist/`:
 | Sistema | Arquivo | Observação |
 |---|---|---|
 | Windows | `Betfoot-26-27-<versão>-windows-x64.exe` | instala por usuário (sem admin), atalho no menu Iniciar e na área de trabalho; precisa do WiX 3 para gerar |
-| macOS | `Betfoot-26-27-<versão>-macos-arm64.dmg` / `-macos-x86_64.dmg` | Apple Silicon / Intel; sem assinatura: na 1ª vez, botão direito > Abrir (ou `xattr -cr "/Applications/Betfoot 26-27.app"`) |
+| macOS | `Betfoot-26-27-<versão>-macos-arm64.dmg` / `-macos-x86_64.dmg` | Apple Silicon / Intel; sem assinatura: liberar com `xattr -cr "/Applications/Betfoot 26-27.app"` ou em Ajustes do Sistema > Privacidade e Segurança > Abrir Mesmo Assim (ver [Instalação](#instalação)) |
 | Linux | `Betfoot-26-27-<versão>-linux-x86_64.AppImage` | `chmod +x` e abrir; baixa o `appimagetool` sozinho |
 
 O GitHub Actions (`.github/workflows/instaladores.yml`) gera os três a cada push na `main` (ficam nos *artifacts* da
