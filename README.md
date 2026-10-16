@@ -5,14 +5,14 @@ com Série A e Série B, Copa do Mundo 2026 no formato de 48 seleções e compet
 
 ## Download
 
-Versão atual: **1.2.1** — [todas as versões](https://github.com/nerigleston/betfoot/releases)
+Versão atual: **1.2.2** — [todas as versões](https://github.com/nerigleston/betfoot/releases)
 
 | Sistema | Instalador |
 |---|---|
-| Windows 10/11 (64 bits) | [Betfoot-26-27-1.2.1-windows-x64.exe](https://github.com/nerigleston/betfoot/releases/download/v1.2.1/Betfoot-26-27-1.2.1-windows-x64.exe) |
-| macOS Apple Silicon (M1, M2, M3, M4…) | [Betfoot-26-27-1.2.1-macos-arm64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.1/Betfoot-26-27-1.2.1-macos-arm64.dmg) |
-| macOS Intel | [Betfoot-26-27-1.2.1-macos-x86_64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.1/Betfoot-26-27-1.2.1-macos-x86_64.dmg) |
-| Linux (64 bits) | [Betfoot-26-27-1.2.1-linux-x86_64.AppImage](https://github.com/nerigleston/betfoot/releases/download/v1.2.1/Betfoot-26-27-1.2.1-linux-x86_64.AppImage) |
+| Windows 10/11 (64 bits) | [Betfoot-26-27-1.2.2-windows-x64.exe](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-windows-x64.exe) |
+| macOS Apple Silicon (M1, M2, M3, M4…) | [Betfoot-26-27-1.2.2-macos-arm64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-macos-arm64.dmg) |
+| macOS Intel | [Betfoot-26-27-1.2.2-macos-x86_64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-macos-x86_64.dmg) |
+| Linux (64 bits) | [Betfoot-26-27-1.2.2-linux-x86_64.AppImage](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-linux-x86_64.AppImage) |
 
 Os instaladores já trazem o Java: não é preciso instalar mais nada.
 
@@ -34,7 +34,7 @@ Os instaladores já trazem o Java: não é preciso instalar mais nada.
     de novo e confirme com a senha. (No macOS 15 Sequoia ou mais novo, o antigo "botão direito > Abrir" não libera mais.)
 
   É preciso liberar de novo a cada versão nova instalada.
-- **Linux**: dê permissão de execução e abra: `chmod +x Betfoot-26-27-1.2.1-linux-x86_64.AppImage && ./Betfoot-26-27-1.2.1-linux-x86_64.AppImage`.
+- **Linux**: dê permissão de execução e abra: `chmod +x Betfoot-26-27-1.2.2-linux-x86_64.AppImage && ./Betfoot-26-27-1.2.2-linux-x86_64.AppImage`.
 
 Os saves e os dados do jogo ficam numa pasta do usuário, que é mantida ao instalar uma versão nova:
 Windows `%APPDATA%\Betfoot 26-27` · macOS `~/Library/Application Support/Betfoot 26-27` · Linux `~/.local/share/betfoot-26-27`.

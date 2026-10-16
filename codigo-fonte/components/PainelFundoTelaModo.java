@@ -1,5 +1,9 @@
 package components;
 
+import java.awt.LayoutManager;
+import java.awt.Insets;
+import java.awt.Container;
+import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
@@ -21,6 +25,52 @@ extends JPanel {
     public PainelFundoTelaModo(String string, int n2) {
         Qf = n2;
         Qg = string;
+        this.setLayout(new Centralizado());
+    }
+
+    /* Coloca a tela do jogo no centro da janela, na horizontal e na vertical, no tamanho preferido dela.
+     * Se a tela for maior que a janela, encosta no canto (a rolagem continua funcionando). */
+    private static final class Centralizado
+    implements LayoutManager {
+        @Override
+        public void addLayoutComponent(String nome, Component componente) {
+        }
+
+        @Override
+        public void removeLayoutComponent(Component componente) {
+        }
+
+        @Override
+        public Dimension preferredLayoutSize(Container pai) {
+            Dimension d = new Dimension();
+            for (Component c : pai.getComponents()) {
+                Dimension p = c.getPreferredSize();
+                d.width = Math.max(d.width, p.width);
+                d.height = Math.max(d.height, p.height);
+            }
+            Insets i = pai.getInsets();
+            d.width += i.left + i.right;
+            d.height += i.top + i.bottom;
+            return d;
+        }
+
+        @Override
+        public Dimension minimumLayoutSize(Container pai) {
+            return this.preferredLayoutSize(pai);
+        }
+
+        @Override
+        public void layoutContainer(Container pai) {
+            Insets i = pai.getInsets();
+            int w = pai.getWidth() - i.left - i.right;
+            int h = pai.getHeight() - i.top - i.bottom;
+            for (Component c : pai.getComponents()) {
+                Dimension p = c.getPreferredSize();
+                int cw = Math.min(p.width, Math.max(w, p.width));
+                int ch = Math.min(p.height, Math.max(h, p.height));
+                c.setBounds(i.left + Math.max(0, (w - cw) / 2), i.top + Math.max(0, (h - ch) / 2), cw, ch);
+            }
+        }
     }
 
     @Override
