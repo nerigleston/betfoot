@@ -35,6 +35,9 @@ LIBS=$("$BIN/jar" --list --file "$RAIZ/jogo/bf26-27.jar" | grep '\.jar$' | tr -d
 (cd "$OBRA/recursos" && "$BIN/jar" --extract --file "$RAIZ/jogo/bf26-27.jar")
 find "$OBRA/recursos" -name '*.class' -delete
 rm -rf "$OBRA/recursos/META-INF" "$OBRA/recursos/"*.jar
+# Recursos alterados (ex.: aiconsj/tela_inicial.jpg) substituem os do jar.
+find "$RAIZ/empacotamento/recursos" -name '._*' -delete
+cp -R "$RAIZ/empacotamento/recursos/." "$OBRA/recursos/"
 
 # Jogo: compila o codigo-fonte/ e junta os recursos em betfoot.jar.
 # Roda dentro de build/pacote/entrada com caminhos relativos (funciona igual no Git Bash do Windows).
