@@ -69,7 +69,7 @@ public final class TemaBetfoot {
     }
 
     public enum Simbolo {
-        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU, VOLTAR, AVANCAR, SUBIR, DESCER
+        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU, VOLTAR, AVANCAR, SUBIR, DESCER, CALENDARIO, TABELA, CAMISA, ENGRENAGEM, CONE, BANDEIRA
     }
 
     private static Image estadio;
@@ -594,6 +594,77 @@ public final class TemaBetfoot {
         return jLabel;
     }
 
+    // ----- Barra de menu (topo das telas do jogo) -----
+
+    /** Barra do topo: fundo escuro com brilho verde e linha fina embaixo; logo à esquerda. */
+    public static class BarraTopo
+    extends javax.swing.JToolBar {
+        public BarraTopo() {
+            this.setFloatable(false);
+            this.setRollover(true);
+            this.setOpaque(false);
+            this.setBorder(BorderFactory.createEmptyBorder(6, 18, 6, 18));
+        }
+
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            Graphics2D g = TemaBetfoot.suave(graphics);
+            int w = this.getWidth();
+            int h = this.getHeight();
+            g.setPaint(new GradientPaint(0.0f, 0.0f, new Color(12, 24, 18), 0.0f, h, FUNDO));
+            g.fillRect(0, 0, w, h);
+            g.setPaint(new java.awt.RadialGradientPaint(w * 0.18f, -h * 0.6f, Math.max(w, h) * 0.5f, new float[]{0.0f, 1.0f}, new Color[]{TemaBetfoot.alfa(VERDE, 0.1), TemaBetfoot.alfa(VERDE, 0.0)}));
+            g.fillRect(0, 0, w, h);
+            g.setColor(TemaBetfoot.alfa(VERDE, 0.35));
+            g.fillRect(0, h - 1, w, 1);
+            g.dispose();
+        }
+    }
+
+    /** Logo pequeno (branco) para a barra do topo. */
+    public static JLabel logoBarra() {
+        Image image = TemaBetfoot.imagem("/aiconsj/logo_completa.png");
+        JLabel jLabel = new JLabel();
+        if (image != null && image.getHeight(null) > 0) {
+            int h = 26;
+            jLabel.setIcon(new IconeEscalado(new ImageIcon(image), h * image.getWidth(null) / image.getHeight(null), h, 0));
+        } else {
+            jLabel.setText("BETFOOT");
+            jLabel.setFont(TemaBetfoot.display(22.0f));
+            jLabel.setForeground(TEXTO);
+        }
+        jLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 22));
+        return jLabel;
+    }
+
+    /**
+     * Botão de menu da barra do topo: ícone em cima, nome embaixo em caixa alta; apagado em repouso, claro com o ícone
+     * verde no hover. Ícone vetorial (Simbolo) ou uma imagem já pronta (ex.: bandeira da seleção).
+     */
+    public static <B extends AbstractButton> B botaoMenu(final B b, String string, final Icon icone) {
+        b.setUI(new BasicButtonUI());
+        b.setText(string.toUpperCase());
+        b.setFont(TemaBetfoot.espacada(TemaBetfoot.display(13.0f), 0.06f));
+        b.setForeground(TEXTO_SUAVE);
+        b.setIcon(icone);
+        if (icone instanceof IconeVetor) {
+            b.setRolloverIcon(((IconeVetor)icone).cor(VERDE));
+        }
+        b.setHorizontalTextPosition(SwingConstants.CENTER);
+        b.setVerticalTextPosition(SwingConstants.BOTTOM);
+        b.setIconTextGap(6);
+        b.setOpaque(false);
+        b.setContentAreaFilled(false);
+        b.setBorderPainted(false);
+        b.setFocusPainted(false);
+        b.setFocusable(false);
+        b.setRolloverEnabled(true);
+        b.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+        b.getModel().addChangeListener(changeEvent -> b.setForeground(b.getModel().isRollover() ? TEXTO : TEXTO_SUAVE));
+        return b;
+    }
+
     // ----- Botões -----
 
     public static <B extends AbstractButton> B botao(B b, Estilo estilo) {
@@ -928,6 +999,75 @@ public final class TemaBetfoot {
                         p.lineTo(s * 0.5, s * 0.86);
                         p.lineTo(s * 0.78, s * 0.58);
                     }
+                    g.draw(p);
+                    break;
+                }
+                case CALENDARIO: {
+                    g.draw(new RoundRectangle2D.Double(s * 0.14, s * 0.22, s * 0.72, s * 0.64, s * 0.14, s * 0.14));
+                    g.draw(new Line2D.Double(s * 0.14, s * 0.42, s * 0.86, s * 0.42));
+                    g.draw(new Line2D.Double(s * 0.34, s * 0.12, s * 0.34, s * 0.3));
+                    g.draw(new Line2D.Double(s * 0.66, s * 0.12, s * 0.66, s * 0.3));
+                    double d = s * 0.1;
+                    for (double[] c : new double[][]{{0.34, 0.6}, {0.5, 0.6}, {0.66, 0.6}, {0.34, 0.74}, {0.5, 0.74}}) {
+                        g.fill(new Ellipse2D.Double(s * c[0] - d / 2, s * c[1] - d / 2, d, d));
+                    }
+                    break;
+                }
+                case TABELA: {
+                    g.draw(new RoundRectangle2D.Double(s * 0.14, s * 0.16, s * 0.72, s * 0.68, s * 0.12, s * 0.12));
+                    g.draw(new Line2D.Double(s * 0.14, s * 0.38, s * 0.86, s * 0.38));
+                    g.draw(new Line2D.Double(s * 0.14, s * 0.6, s * 0.86, s * 0.6));
+                    g.draw(new Line2D.Double(s * 0.4, s * 0.16, s * 0.4, s * 0.84));
+                    break;
+                }
+                case CAMISA: {
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.36, s * 0.14);
+                    p.lineTo(s * 0.12, s * 0.28);
+                    p.lineTo(s * 0.2, s * 0.46);
+                    p.lineTo(s * 0.3, s * 0.42);
+                    p.lineTo(s * 0.3, s * 0.86);
+                    p.lineTo(s * 0.7, s * 0.86);
+                    p.lineTo(s * 0.7, s * 0.42);
+                    p.lineTo(s * 0.8, s * 0.46);
+                    p.lineTo(s * 0.88, s * 0.28);
+                    p.lineTo(s * 0.64, s * 0.14);
+                    p.quadTo(s * 0.5, s * 0.3, s * 0.36, s * 0.14);
+                    p.closePath();
+                    g.draw(p);
+                    break;
+                }
+                case ENGRENAGEM: {
+                    double cx = s * 0.5;
+                    double cy = s * 0.5;
+                    for (int i = 0; i < 8; ++i) {
+                        double a1 = Math.PI * 2 * i / 8.0;
+                        g.draw(new Line2D.Double(cx + Math.cos(a1) * s * 0.28, cy + Math.sin(a1) * s * 0.28, cx + Math.cos(a1) * s * 0.4, cy + Math.sin(a1) * s * 0.4));
+                    }
+                    g.draw(new Ellipse2D.Double(s * 0.22, s * 0.22, s * 0.56, s * 0.56));
+                    g.draw(new Ellipse2D.Double(s * 0.39, s * 0.39, s * 0.22, s * 0.22));
+                    break;
+                }
+                case CONE: {
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.42, s * 0.14);
+                    p.lineTo(s * 0.58, s * 0.14);
+                    p.lineTo(s * 0.74, s * 0.76);
+                    p.lineTo(s * 0.26, s * 0.76);
+                    p.closePath();
+                    g.draw(p);
+                    g.draw(new Line2D.Double(s * 0.34, s * 0.46, s * 0.66, s * 0.46));
+                    g.draw(new Line2D.Double(s * 0.14, s * 0.86, s * 0.86, s * 0.86));
+                    break;
+                }
+                case BANDEIRA: {
+                    g.draw(new Line2D.Double(s * 0.22, s * 0.12, s * 0.22, s * 0.88));
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.22, s * 0.16);
+                    p.lineTo(s * 0.82, s * 0.16);
+                    p.lineTo(s * 0.7, s * 0.34);
+                    p.lineTo(s * 0.82, s * 0.52);
+                    p.lineTo(s * 0.22, s * 0.52);
                     g.draw(p);
                     break;
                 }

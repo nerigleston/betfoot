@@ -216,15 +216,9 @@ public class GerenciadorTelas {
     }
 
     public static void a(ArrayList arrayList, nucleo.Campeonato al2, int n2) {
-        JDialog jDialog = new JDialog(cC);
+        JDialog jDialog = components.TemaBetfoot.dialogo(cC);
         PainelConvitesTecnico gO2 = new PainelConvitesTecnico(jDialog, arrayList, al2, n2);
-        jDialog.add(gO2);
-        jDialog.setSize(774, 724);
-        jDialog.setPreferredSize(new Dimension(774, 724));
-        jDialog.setModal(true);
-        jDialog.setResizable(false);
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setUndecorated(true);
+        components.TemaBetfoot.vestir(jDialog, gO2);
         jDialog.setVisible(true);
     }
 

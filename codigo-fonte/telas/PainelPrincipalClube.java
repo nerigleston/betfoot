@@ -1360,7 +1360,8 @@ extends JPanel {
         }
         if (this.qp().ka().jo() != null) {
             this.afl.setVisible(true);
-            this.afl.setIcon(this.qp().ka().jo().K(true));
+            this.afl.setIcon(components.TemaBetfoot.bandeira(this.qp().ka().jo().getPais(), 18));
+            this.afl.setRolloverIcon(this.afl.getIcon());
         } else {
             this.afl.setVisible(false);
         }
@@ -1791,7 +1792,7 @@ extends JPanel {
     }
 
     private void rz() {
-        this.ve.setBorder(BorderFactory.createEmptyBorder());
+        this.ve.setBorder(BorderFactory.createEmptyBorder(6, 18, 6, 18));
         this.HT.setToolTipText("Cores da tela");
         this.Ie.setToolTipText("Galeria de trof\u00e9us");
         this.HY.setToolTipText("Retrospecto do time");
@@ -1849,7 +1850,7 @@ extends JPanel {
         this.ze = new JLabel();
         this.Ix = new JScrollPane();
         this.Iy = new JTable();
-        this.ve = new JToolBar();
+        this.ve = new components.TemaBetfoot.BarraTopo();
         this.Io = new JToolBar.Separator();
         this.Ih = new JToolBar.Separator();
         this.HR = new JButton();
@@ -2105,10 +2106,60 @@ extends JPanel {
         this.Ic.setOpaque(false);
         this.Ic.setVerticalTextPosition(3);
         this.Iv.add(this.Ic);
+        this.temaBarra();
         GroupLayout groupLayout2 = new GroupLayout(this);
         this.setLayout(groupLayout2);
         groupLayout2.setHorizontalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.ve, -1, 1024, Short.MAX_VALUE).addGroup(groupLayout2.createSequentialGroup().addContainerGap().addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING, false).addGroup(groupLayout2.createSequentialGroup().addComponent(this.Iv, -2, -1, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, -1, Short.MAX_VALUE).addComponent(this.Ef, -2, 53, -2)).addComponent(this.HU, -1, 290, Short.MAX_VALUE).addComponent(this.If, -1, -1, Short.MAX_VALUE)).addComponent(this.wf, GroupLayout.Alignment.TRAILING, -2, -1, -2)).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.Ix).addContainerGap()));
         groupLayout2.setVerticalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addComponent(this.ve, -2, 65, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addComponent(this.wf, -2, -1, -2).addGap(18, 18, 18).addComponent(this.HU, -2, 36, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.If, -2, 236, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.Iv, -2, -1, -2).addComponent(this.Ef))).addComponent(this.Ix)).addGap(22, 22, 22)));
+    }
+
+    /** Barra do topo no tema: logo, botões com ícones vetoriais e a data à direita. */
+    private void temaBarra() {
+        java.awt.Color cor = components.TemaBetfoot.TEXTO_SUAVE;
+        Object[][] botoes = new Object[][]{
+            {this.HR, "Agenda", components.TemaBetfoot.Simbolo.CALENDARIO},
+            {this.afl, "Sele\u00e7\u00e3o", components.TemaBetfoot.Simbolo.BANDEIRA},
+            {this.HS, "Tabelas", components.TemaBetfoot.Simbolo.TABELA},
+            {this.HV, "Est\u00e1dio", components.TemaBetfoot.Simbolo.ESTADIO},
+            {this.HW, "Juniores", components.TemaBetfoot.Simbolo.PESSOA},
+            {this.Ib, "Times", components.TemaBetfoot.Simbolo.CAMISA},
+            {this.Id, "Treino", components.TemaBetfoot.Simbolo.CONE},
+            {this.yY, "Procura", components.TemaBetfoot.Simbolo.LUPA},
+            {this.Ia, "T\u00e9cnicos", components.TemaBetfoot.Simbolo.APITO},
+            {this.HZ, "Hist\u00f3ria", components.TemaBetfoot.Simbolo.TROFEU},
+            {this.HX, "Op\u00e7\u00f5es", components.TemaBetfoot.Simbolo.ENGRENAGEM}};
+        for (Object[] b : botoes) {
+            components.TemaBetfoot.botaoMenu((JButton)b[0], (String)b[1], new components.TemaBetfoot.IconeVetor((components.TemaBetfoot.Simbolo)b[2], 22, cor));
+        }
+        for (JToolBar.Separator separador : new JToolBar.Separator[]{this.Io, this.Ih, this.Is, this.Ij, this.OD, this.In, this.Ik, this.Iu, this.Il, this.Im, this.It, this.Ip, this.Iq, this.Ir, this.Ii}) {
+            separador.setSeparatorSize(new Dimension(2, 2));
+            separador.setVisible(false);
+        }
+        this.ve.add((java.awt.Component)components.TemaBetfoot.logoBarra(), 0);
+        // Data à direita, numa pílula.
+        int indice = this.ve.getComponentIndex(this.Eh);
+        this.ve.add(javax.swing.Box.createHorizontalGlue(), Math.max(0, indice));
+        this.Eg.setFont(components.TemaBetfoot.espacada(components.TemaBetfoot.display(17.0f), 0.04f));
+        this.Eg.setForeground(components.TemaBetfoot.TEXTO);
+        this.Eg.setIcon(new components.TemaBetfoot.IconeVetor(components.TemaBetfoot.Simbolo.CALENDARIO, 18, components.TemaBetfoot.VERDE));
+        this.Eg.setIconTextGap(10);
+        this.Eg.setBorder(new javax.swing.border.AbstractBorder() {
+            @Override
+            public void paintBorder(java.awt.Component component, java.awt.Graphics graphics, int x, int y, int w, int h) {
+                java.awt.Graphics2D g = components.TemaBetfoot.suave(graphics);
+                java.awt.geom.RoundRectangle2D.Double forma = new java.awt.geom.RoundRectangle2D.Double(x + 0.5, y + 0.5, w - 1, h - 1, h, h);
+                g.setColor(components.TemaBetfoot.alfa(java.awt.Color.WHITE, 0.06));
+                g.fill(forma);
+                g.setColor(components.TemaBetfoot.alfa(java.awt.Color.WHITE, 0.14));
+                g.draw(forma);
+                g.dispose();
+            }
+
+            @Override
+            public java.awt.Insets getBorderInsets(java.awt.Component component) {
+                return new java.awt.Insets(8, 16, 8, 18);
+            }
+        });
     }
 
     private void a(ActionEvent actionEvent) {

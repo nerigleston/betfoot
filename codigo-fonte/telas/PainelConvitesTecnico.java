@@ -21,6 +21,7 @@ import nucleo.ConstantesJogo;
 import nucleo.GerenciadorTelas;
 import motor.GerenciadorJogo;
 import comparadores.ColecaoComparadoresSorteio;
+import components.TemaBetfoot;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -28,7 +29,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -37,7 +37,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
-import javax.swing.LayoutStyle;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -78,13 +77,13 @@ extends JPanel {
         this.Ay();
         this.mH();
         this.AP();
+        this.montar();
         if (this.Kh.size() > 0) {
             this.vn.setRowSelectionInterval(0, 0);
         }
     }
 
     private void AP() {
-        this.setBackground(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 1));
         if (this.w == 0) {
             this.ug.setText("Convites para ser t\u00e9cnico");
             this.Ki.setText("Assumir time");
@@ -168,6 +167,8 @@ extends JPanel {
         this.uK.clear();
         this.uK.addAll(this.Em.kc());
         this.nE();
+        this.temaTabelas();
+        this.previa.repaint();
     }
 
     private void Ay() {
@@ -297,13 +298,140 @@ extends JPanel {
         }
     }
 
+    // ----- Visual no tema -----
+
+    private final Previa previa = new Previa();
+
+    /** Texto de apoio do convite: continente da seleção, ou divisão e país do clube. */
+    private String apoio(ModeloTime time) {
+        if (time == null) {
+            return "";
+        }
+        if (this.w == 1) {
+            try {
+                return ConstantesJogo.aeH[time.gg()];
+            }
+            catch (Exception exception) {
+                return "";
+            }
+        }
+        return time.getDivisao() + "ª divisão  ·  " + EnumPaises.valueOf("P" + time.getPais()).getNome();
+    }
+
+    private String nome(ModeloTime time) {
+        return this.w == 1 ? EnumPaises.valueOf("P" + time.getPais()).getNome() : time.getNome();
+    }
+
+    private javax.swing.Icon icone(ModeloTime time, int tamanho) {
+        return this.w == 1 ? TemaBetfoot.bandeira(time.getPais(), tamanho) : TemaBetfoot.encaixar(time.kU(), tamanho);
+    }
+
+    /** Convite escolhido: bandeira (ou escudo) grande, nome e continente/divisão. */
+    private class Previa
+    extends javax.swing.JComponent {
+        Previa() {
+            this.setPreferredSize(new Dimension(280, 170));
+        }
+
+        @Override
+        protected void paintComponent(java.awt.Graphics graphics) {
+            java.awt.Graphics2D g = TemaBetfoot.suave(graphics);
+            int w = this.getWidth();
+            ModeloTime time = PainelConvitesTecnico.this.Em;
+            if (time != null) {
+                javax.swing.Icon icon = PainelConvitesTecnico.this.icone(time, PainelConvitesTecnico.this.w == 1 ? 56 : 84);
+                int y = 8;
+                if (icon != null) {
+                    icon.paintIcon(this, g, (w - icon.getIconWidth()) / 2, y);
+                    y += icon.getIconHeight();
+                }
+                y += 36;
+                g.setFont(TemaBetfoot.espacada(TemaBetfoot.display(26.0f), 0.02f));
+                java.awt.FontMetrics fm = g.getFontMetrics();
+                String nome = PainelConvitesTecnico.this.nome(time).toUpperCase();
+                while (nome.length() > 1 && fm.stringWidth(nome) > w - 16) {
+                    nome = nome.substring(0, nome.length() - 2) + "…";
+                }
+                g.setColor(TemaBetfoot.TEXTO);
+                g.drawString(nome, (w - fm.stringWidth(nome)) / 2, y);
+                g.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+                fm = g.getFontMetrics();
+                String apoio = PainelConvitesTecnico.this.apoio(time);
+                g.setColor(TemaBetfoot.TEXTO_SUAVE);
+                g.drawString(apoio, (w - fm.stringWidth(apoio)) / 2, y + 22);
+            }
+            g.dispose();
+        }
+    }
+
+    /** Lista de convites: posição, bandeira/escudo e nome, continente/divisão. */
+    private class RenderizadorConvites
+    extends javax.swing.table.DefaultTableCellRenderer {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(JTable jTable, Object object, boolean bl, boolean bl2, int n, int n2) {
+            super.getTableCellRendererComponent(jTable, object, bl, false, n, n2);
+            ModeloTime time = (ModeloTime)object;
+            this.setIcon(null);
+            this.setText("");
+            this.setHorizontalAlignment(LEFT);
+            this.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            if (time == null) {
+                return this;
+            }
+            if (n2 == 0) {
+                this.setText(Integer.toString(n + 1));
+                this.setFont(TemaBetfoot.display(16.0f));
+                this.setHorizontalAlignment(CENTER);
+            } else if (n2 == 1) {
+                this.setText(PainelConvitesTecnico.this.nome(time));
+                this.setIcon(PainelConvitesTecnico.this.icone(time, PainelConvitesTecnico.this.w == 1 ? 14 : 22));
+                this.setIconTextGap(10);
+            } else if (n2 == 2) {
+                this.setText(PainelConvitesTecnico.this.w == 1 ? PainelConvitesTecnico.this.apoio(time) : time.getDivisao() + "ª divisão");
+            }
+            return this;
+        }
+    }
+
+    /** Tabelas no tema (depois que o jogo configura modelos e renderizadores). */
+    private void temaTabelas() {
+        RenderizadorConvites renderizador = new RenderizadorConvites();
+        this.vn.setDefaultRenderer(ModeloTime.class, renderizador);
+        this.vn.setDefaultRenderer(Object.class, renderizador);
+        this.vn.setTableHeader(new javax.swing.table.JTableHeader(this.vn.getColumnModel()));
+        TemaBetfoot.tabela(this.vn, this.wi);
+        this.vn.setTableHeader(null);
+        this.wi.setColumnHeaderView(null);
+        int[] larguras = new int[]{44, 220, 150, 10};
+        for (int i = 0; i < larguras.length && i < this.vn.getColumnCount(); ++i) {
+            this.vn.getColumnModel().getColumn(i).setPreferredWidth(larguras[i]);
+            this.vn.getColumnModel().getColumn(i).setMaxWidth(i == 1 ? Integer.MAX_VALUE : larguras[i] + 60);
+        }
+        TemaBetfoot.tabela(this.zj, this.ut);
+        this.zj.setRowHeight(32);
+    }
+
+    private static JTable tabelaTema() {
+        return new JTable() {
+            @Override
+            public java.awt.Component prepareRenderer(javax.swing.table.TableCellRenderer tableCellRenderer, int n, int n2) {
+                return TemaBetfoot.linha(this, super.prepareRenderer(tableCellRenderer, n, n2), n, n2);
+            }
+
+            @Override
+            public boolean isCellEditable(int n, int n2) {
+                return false;
+            }
+        };
+    }
+
     private void mJ() {
         this.Kl = new ButtonGroup();
         this.vd = new JPanel();
-        this.ug = new JLabel();
+        this.ug = new JLabel("Convites para técnico de seleção");
         this.Fs = new JLabel();
         this.wi = new JScrollPane();
-        this.vn = new JTable();
+        this.vn = PainelConvitesTecnico.tabelaTema();
         this.Ki = new JButton();
         this.Kj = new JButton();
         this.ve = new JToolBar();
@@ -313,76 +441,68 @@ extends JPanel {
         this.ur = new JLabel();
         this.uu = new JLabel();
         this.ut = new JScrollPane();
-        this.zj = new JTable();
-        this.uh = new JLabel();
-        this.setBackground(new Color(104, 120, 100));
-        this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.setPreferredSize(new Dimension(774, 724));
-        this.vd.setBackground(new Color(44, 53, 49));
-        this.ug.setBackground(new Color(255, 255, 255));
-        this.ug.setFont(new Font("Tahoma", 1, 14));
-        this.ug.setForeground(new Color(255, 255, 255));
-        this.ug.setHorizontalAlignment(0);
-        this.ug.setText("Convites para ser t\u00e9cnico de sele\u00e7\u00e3o");
-        this.ug.setToolTipText("");
-        this.Fs.setBackground(new Color(255, 255, 255));
-        this.Fs.setFont(new Font("Tahoma", 1, 11));
-        this.Fs.setForeground(new Color(255, 255, 204));
-        this.Fs.setHorizontalAlignment(0);
-        this.Fs.setText("tecnico nome");
-        this.vn.setModel(new DefaultTableModel(new Object[0][], new String[0]));
+        this.zj = PainelConvitesTecnico.tabelaTema();
+        this.uh = new JLabel("Última convocação");
+        this.Ki.setText("Assumir seleção");
         this.wi.setViewportView(this.vn);
-        this.Ki.setFont(new Font("Tahoma", 0, 12));
-        this.Ki.setForeground(new Color(0, 102, 0));
-        this.Ki.setText("Assumir sele\u00e7\u00e3o");
-        this.Kj.setFont(new Font("Tahoma", 0, 12));
-        this.Kj.setForeground(new Color(0, 102, 0));
-        this.Kj.setText("Rejeitar todos");
-        this.ve.setBackground(new Color(0, 51, 51));
-        this.ve.setRollover(true);
-        this.ve.setBorderPainted(false);
-        this.HR.setIcon(new ImageIcon(this.getClass().getResource("/aicons/icon02.png")));
-        this.HR.setBorderPainted(false);
-        this.HR.setFocusable(false);
-        this.HR.setHorizontalTextPosition(0);
-        this.HR.setOpaque(false);
-        this.HR.setVerticalTextPosition(3);
-        this.ve.add(this.HR);
-        this.aeN.setIcon(new ImageIcon(this.getClass().getResource("/aicons/tabel.png")));
-        this.aeN.setBorderPainted(false);
-        this.aeN.setFocusable(false);
-        this.aeN.setHorizontalTextPosition(0);
-        this.aeN.setOpaque(false);
-        this.aeN.setVerticalTextPosition(3);
-        this.ve.add(this.aeN);
-        this.HY.setIcon(new ImageIcon(this.getClass().getResource("/aicons/icon11.png")));
-        this.HY.setBorderPainted(false);
-        this.HY.setFocusable(false);
-        this.HY.setHorizontalTextPosition(0);
-        this.HY.setMaximumSize(new Dimension(31, 31));
-        this.HY.setOpaque(false);
-        this.HY.setVerticalTextPosition(3);
-        this.ve.add(this.HY);
-        this.ur.setForeground(new Color(255, 255, 255));
-        this.ur.setText("Comvites recebidos:");
-        this.ur.setToolTipText("");
-        this.uu.setForeground(new Color(255, 255, 255));
-        this.uu.setHorizontalAlignment(2);
-        this.uu.setText("\"Sele\u00e7\u00e3o\"");
-        this.uu.setToolTipText("");
-        GroupLayout groupLayout = new GroupLayout(this.vd);
-        this.vd.setLayout(groupLayout);
-        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(this.ug, -1, -1, Short.MAX_VALUE)).addGroup(groupLayout.createSequentialGroup().addGap(24, 24, 24).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.ur, GroupLayout.Alignment.TRAILING, -1, -1, Short.MAX_VALUE).addGroup(groupLayout.createSequentialGroup().addComponent(this.wi, -2, 424, -2).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.ve, -2, 234, -2).addComponent(this.uu, -2, 246, -2).addComponent(this.Kj, -2, 173, -2).addComponent(this.Ki, -2, 173, -2)).addGap(0, 1, Short.MAX_VALUE)))).addGroup(groupLayout.createSequentialGroup().addGap(226, 226, 226).addComponent(this.Fs, -2, 261, -2).addGap(0, 0, Short.MAX_VALUE))).addContainerGap()));
-        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(this.ug).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.Fs).addGap(40, 40, 40).addComponent(this.ur).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false).addGroup(groupLayout.createSequentialGroup().addComponent(this.ve, -2, -1, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, -1, Short.MAX_VALUE).addComponent(this.uu).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.Ki, -2, 30, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.Kj, -2, 31, -2)).addComponent(this.wi, -2, 287, -2)).addContainerGap(22, Short.MAX_VALUE)));
-        this.zj.setModel(new DefaultTableModel(new Object[0][], new String[0]));
         this.ut.setViewportView(this.zj);
-        this.uh.setForeground(new Color(255, 255, 255));
-        this.uh.setText("\u00daltima convoca\u00e7\u00e3o:");
-        this.uh.setToolTipText("");
-        GroupLayout groupLayout2 = new GroupLayout(this);
-        this.setLayout(groupLayout2);
-        groupLayout2.setHorizontalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addContainerGap(20, Short.MAX_VALUE).addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.TRAILING, groupLayout2.createSequentialGroup().addComponent(this.vd, -2, -1, -2).addGap(29, 29, 29)).addGroup(GroupLayout.Alignment.TRAILING, groupLayout2.createSequentialGroup().addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.uh, -2, 729, -2).addComponent(this.ut, -2, 719, -2)).addGap(20, 20, 20)))));
-        groupLayout2.setVerticalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addGap(21, 21, 21).addComponent(this.vd, -2, -1, -2).addGap(18, 18, 18).addComponent(this.uh).addGap(18, 18, 18).addComponent(this.ut, -2, 206, -2).addContainerGap(24, Short.MAX_VALUE)));
+        this.setOpaque(false);
+    }
+
+    /** Monta o modal (no fim do construtor, quando já se sabe se é convite de seleção ou de clube). */
+    private void montar() {
+        boolean selecao = this.w == 1;
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout(0, 18));
+        this.add((java.awt.Component)TemaBetfoot.topoModal(null, selecao ? "Convites de seleção" : "Convites de clubes", "Para " + this.Es.dS() + "  ·  " + this.Kh.size() + (this.Kh.size() == 1 ? " convite" : " convites") + " recebidos", this.Kj), "North");
+
+        // Convites (lista) e o escolhido (prévia e atalhos).
+        TemaBetfoot.Cartao lista = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 12));
+        lista.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+        lista.add((java.awt.Component)TemaBetfoot.cabecalho("Convites", "Escolha um para ver os detalhes", null), "North");
+        this.wi.setPreferredSize(new Dimension(420, 250));
+        lista.add((java.awt.Component)this.wi, "Center");
+        TemaBetfoot.Cartao escolhido = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 14));
+        escolhido.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+        escolhido.add((java.awt.Component)this.previa, "Center");
+        TemaBetfoot.botao(this.HR, TemaBetfoot.Estilo.CHIP, "Calendário", null);
+        TemaBetfoot.botao(this.aeN, TemaBetfoot.Estilo.CHIP, "Tabelas", null);
+        TemaBetfoot.botao(this.HY, TemaBetfoot.Estilo.CHIP, "Retrospecto", TemaBetfoot.Simbolo.TROFEU);
+        this.HR.setToolTipText("Próximos jogos");
+        this.aeN.setToolTipText("Tabelas das competições");
+        this.HY.setToolTipText("Histórico de resultados");
+        this.HY.setMaximumSize(null);
+        JPanel atalhos = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 8, 0));
+        atalhos.setOpaque(false);
+        atalhos.add(this.HR);
+        atalhos.add(this.aeN);
+        atalhos.add(this.HY);
+        escolhido.add((java.awt.Component)atalhos, "South");
+        escolhido.setPreferredSize(new Dimension(390, 250));
+        JPanel cima = new JPanel(new java.awt.BorderLayout(18, 0));
+        cima.setOpaque(false);
+        cima.add((java.awt.Component)lista, "Center");
+        cima.add((java.awt.Component)escolhido, "East");
+
+        // Última convocação (seleção) ou elenco (clube) do escolhido.
+        TemaBetfoot.Cartao elenco = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 12));
+        elenco.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+        elenco.add((java.awt.Component)TemaBetfoot.cabecalho(selecao ? "Última convocação" : "Elenco atual", "Clique no cabeçalho para ordenar", null), "North");
+        this.ut.setPreferredSize(new Dimension(820, 230));
+        elenco.add((java.awt.Component)this.ut, "Center");
+
+        JPanel corpo = new JPanel(new java.awt.BorderLayout(0, 18));
+        corpo.setOpaque(false);
+        corpo.add((java.awt.Component)cima, "North");
+        corpo.add((java.awt.Component)elenco, "Center");
+        this.add((java.awt.Component)corpo, "Center");
+
+        TemaBetfoot.botao(this.Kj, TemaBetfoot.Estilo.FANTASMA, "Rejeitar todos", TemaBetfoot.Simbolo.VOLTAR);
+        this.Kj.setToolTipText("Recusar os convites e voltar (Esc)");
+        TemaBetfoot.botao(this.Ki, TemaBetfoot.Estilo.PRIMARIO, selecao ? "Assumir seleção" : "Assumir time", null);
+        this.Ki.setIcon(new TemaBetfoot.IconeVetor(TemaBetfoot.Simbolo.APITO, 16, Color.WHITE));
+        this.Ki.setToolTipText("Aceitar o convite escolhido");
+        this.add((java.awt.Component)TemaBetfoot.rodapeModal(null, this.Kj, this.Ki), "South");
     }
 
     static /* synthetic */ void a(PainelConvitesTecnico gO2) {
