@@ -62,7 +62,7 @@ implements Serializable {
             }
             ++n2;
         }
-        Collections.sort(arrayList, ColecaoComparadoresSorteio.cN);
+        DivisoesIniciais.ordenarEstadual(arrayList, ColecaoComparadoresSorteio.cN);
         ConfigEstadualType configEstadualType = null;
         boolean bl = false;
         int n3 = arrayList.size();
@@ -480,6 +480,16 @@ implements Serializable {
                 }
                 ++n4;
             }
+        }
+        // Time de técnico humano que só disputa o estadual (fora das Séries A, B e C) tem vaga garantida na Série D.
+        n4 = 0;
+        while (n4 < GerenciadorJogo.SR.P().size()) {
+            ModeloTime humano = (ModeloTime)GerenciadorJogo.SR.P().get(n4);
+            if (humano.getPais() == 29 && humano.jZ() != null && humano.jZ().booleanValue() && humano.getDivisao() == 0 && !arrayList.contains(humano)) {
+                arrayList.add(humano);
+                arrayList2.add(humano);
+            }
+            ++n4;
         }
         n4 = 0;
         CarregadorConfigEstadual.a(ConstantesJogo.sb, arrayList);

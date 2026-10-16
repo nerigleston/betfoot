@@ -5,14 +5,14 @@ com Série A e Série B, Copa do Mundo 2026 no formato de 48 seleções e compet
 
 ## Download
 
-Versão atual: **1.2.2** — [todas as versões](https://github.com/nerigleston/betfoot/releases)
+Versão atual: **1.2.3** — [todas as versões](https://github.com/nerigleston/betfoot/releases)
 
 | Sistema | Instalador |
 |---|---|
-| Windows 10/11 (64 bits) | [Betfoot-26-27-1.2.2-windows-x64.exe](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-windows-x64.exe) |
-| macOS Apple Silicon (M1, M2, M3, M4…) | [Betfoot-26-27-1.2.2-macos-arm64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-macos-arm64.dmg) |
-| macOS Intel | [Betfoot-26-27-1.2.2-macos-x86_64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-macos-x86_64.dmg) |
-| Linux (64 bits) | [Betfoot-26-27-1.2.2-linux-x86_64.AppImage](https://github.com/nerigleston/betfoot/releases/download/v1.2.2/Betfoot-26-27-1.2.2-linux-x86_64.AppImage) |
+| Windows 10/11 (64 bits) | [Betfoot-26-27-1.2.3-windows-x64.exe](https://github.com/nerigleston/betfoot/releases/download/v1.2.3/Betfoot-26-27-1.2.3-windows-x64.exe) |
+| macOS Apple Silicon (M1, M2, M3, M4…) | [Betfoot-26-27-1.2.3-macos-arm64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.3/Betfoot-26-27-1.2.3-macos-arm64.dmg) |
+| macOS Intel | [Betfoot-26-27-1.2.3-macos-x86_64.dmg](https://github.com/nerigleston/betfoot/releases/download/v1.2.3/Betfoot-26-27-1.2.3-macos-x86_64.dmg) |
+| Linux (64 bits) | [Betfoot-26-27-1.2.3-linux-x86_64.AppImage](https://github.com/nerigleston/betfoot/releases/download/v1.2.3/Betfoot-26-27-1.2.3-linux-x86_64.AppImage) |
 
 Os instaladores já trazem o Java: não é preciso instalar mais nada.
 
@@ -34,7 +34,7 @@ Os instaladores já trazem o Java: não é preciso instalar mais nada.
     de novo e confirme com a senha. (No macOS 15 Sequoia ou mais novo, o antigo "botão direito > Abrir" não libera mais.)
 
   É preciso liberar de novo a cada versão nova instalada.
-- **Linux**: dê permissão de execução e abra: `chmod +x Betfoot-26-27-1.2.2-linux-x86_64.AppImage && ./Betfoot-26-27-1.2.2-linux-x86_64.AppImage`.
+- **Linux**: dê permissão de execução e abra: `chmod +x Betfoot-26-27-1.2.3-linux-x86_64.AppImage && ./Betfoot-26-27-1.2.3-linux-x86_64.AppImage`.
 
 Os saves e os dados do jogo ficam numa pasta do usuário, que é mantida ao instalar uma versão nova:
 Windows `%APPDATA%\Betfoot 26-27` · macOS `~/Library/Application Support/Betfoot 26-27` · Linux `~/.local/share/betfoot-26-27`.
@@ -68,11 +68,24 @@ Os atalhos se adaptam ao sistema:
 
 No macOS, fn+F1…F11 também funciona. Abrir um jogador nas tabelas, a busca e o calendário usam clique duplo.
 
+## Divisões de início de carreira
+
+O jogo distribui os clubes nas divisões pelo nível (os mais fortes em cima), o que não reproduz o calendário real.
+Por isso a carreira começa com as divisões reais de 2026, lidas por `nucleo/DivisoesIniciais.java`:
+
+- `jogo/conf_ligas_nacionais/divisoes.txt`: Séries A, B, C (20 clubes cada) e D (96) do Brasileirão.
+- `jogo/conf_estadual/divisoes.txt`: 1ª e 2ª divisão de cada estadual.
+
+Formato: uma linha por clube, `<divisão>`, tab, `<arquivo do time>` (o resto da linha é comentário). As listas valem só
+no início da carreira; depois o acesso e o rebaixamento seguem normalmente. Clubes fora das listas são distribuídos
+pelo nível, como antes. Com "Jogar estaduais" ligado, a Série D sai dos estaduais; o time de técnico humano que não
+estiver nas Séries A, B ou C tem vaga garantida nela.
+
 ## Estaduais 2026
 
 Cada estado tem até duas divisões configuradas em `jogo/conf_estadual/<UF>.ces`. No início da carreira o jogo ordena
 os clubes do estado pelo nível e preenche a 1ª divisão com o número de clubes da fórmula; os seguintes formam a 2ª.
-Os níveis foram ajustados para que cada clube caia na divisão real de 2026.
+A divisão de cada clube em 2026 vem de `jogo/conf_estadual/divisoes.txt` (ver [Divisões de início de carreira](#divisões-de-início-de-carreira)).
 
 | UF | Série A | Série B | UF | Série A | Série B | UF | Série A | Série B |
 |---|---|---|---|---|---|---|---|---|

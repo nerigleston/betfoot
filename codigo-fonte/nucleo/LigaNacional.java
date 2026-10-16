@@ -115,7 +115,11 @@ implements Serializable {
             ((ModeloTime)arrayList.get(n2)).l(true);
             ++n2;
         }
-        Collections.sort(arrayList, ColecaoComparadoresSorteio.cN);
+        if (this.pais == 29) {
+            DivisoesIniciais.ordenarNacional(arrayList, ColecaoComparadoresSorteio.cN);
+        } else {
+            Collections.sort(arrayList, ColecaoComparadoresSorteio.cN);
+        }
         arrayList2.addAll(arrayList);
         ConfigLigaType configLigaType = null;
         LoadLigaOptions loadLigaOptions = null;
