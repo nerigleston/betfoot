@@ -155,7 +155,6 @@ public class GerenciadorTelas {
             gI.add((Component)gR, "Center");
         } else if (n2 == 10) {
             Jn = new TelaCriarTorneioAmistoso(cC);
-            Jn.setPreferredSize(new Dimension(742, 577));
             gI.add((Component)Jn, "Center");
         }
         GerenciadorTelas.aZ(n2);

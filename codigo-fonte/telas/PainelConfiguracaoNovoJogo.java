@@ -346,6 +346,16 @@ extends JPanel {
         if (count > 1 && !TemaBetfoot.confirmar(this, "Voltar \u00e0s competi\u00e7\u00f5es?", "Os t\u00e9cnicos j\u00e1 adicionados ser\u00e3o descartados.", "Voltar", true)) {
             return;
         }
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        PainelConfiguracaoNovoJogo.recomecar();
+        GerenciadorTelas.aY(0);
+    }
+
+    /**
+     * Recomeça o novo jogo do zero (como a tela inicial) devolvendo as escolhas da tela de competições: ligas marcadas
+     * e as configurações de ligas e estaduais. As demais opções vêm das preferências gravadas.
+     */
+    public static void recomecar() {
         java.util.Set<Integer> ligas = new java.util.HashSet<Integer>();
         for (Object object : GerenciadorJogo.SR.bF) {
             if (((ItemSelecaoPais)object).iC()) {
@@ -354,7 +364,6 @@ extends JPanel {
         }
         int[] estaduais = GerenciadorJogo.SR.bE;
         java.util.ArrayList configLigas = GerenciadorJogo.SR.bG;
-        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         new GerenciadorJogo();
         IniciadorCarreira.dd();
         for (Object object : GerenciadorJogo.SR.bF) {
@@ -367,7 +376,17 @@ extends JPanel {
             GerenciadorJogo.SR.bG = configLigas;
         }
         count = 1;
-        GerenciadorTelas.aY(0);
+    }
+
+    /**
+     * Volta direto para "Técnico e time" com as mesmas competições: recomeça e refaz o que a tela de competições faz
+     * ao avançar (temporada gravada, montar o calendário). Usado pelo Voltar do torneio amistoso.
+     */
+    public static void voltarParaTecnico() {
+        PainelConfiguracaoNovoJogo.recomecar();
+        GerenciadorJogo.SR.I(ConstantesJogo.am("anoinicio") == 1 ? 2027 : 2026);
+        IniciadorCarreira.dg();
+        GerenciadorTelas.aY(1);
     }
 
     /** Combos no tema; chamado depois que o construtor põe os renderizadores de país e de time. */

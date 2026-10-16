@@ -69,7 +69,7 @@ public final class TemaBetfoot {
     }
 
     public enum Simbolo {
-        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU, VOLTAR, AVANCAR
+        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU, VOLTAR, AVANCAR, SUBIR, DESCER
     }
 
     private static Image estadio;
@@ -498,6 +498,36 @@ public final class TemaBetfoot {
         return icon;
     }
 
+    /** Encaixa um ícone (ex.: escudo de tamanho variado) num quadrado de "lado" px, sem deformar. */
+    public static Icon encaixar(final Icon icon, final int lado) {
+        if (icon == null || icon.getIconWidth() <= 0 || icon.getIconHeight() <= 0) {
+            return icon;
+        }
+        final double escala = Math.min((double)lado / icon.getIconWidth(), (double)lado / icon.getIconHeight());
+        return new Icon() {
+            @Override
+            public void paintIcon(Component component, Graphics graphics, int x, int y) {
+                Graphics2D g = TemaBetfoot.suave(graphics);
+                double w = icon.getIconWidth() * escala;
+                double h = icon.getIconHeight() * escala;
+                g.translate(x + (lado - w) / 2.0, y + (lado - h) / 2.0);
+                g.scale(escala, escala);
+                icon.paintIcon(component, g, 0, 0);
+                g.dispose();
+            }
+
+            @Override
+            public int getIconWidth() {
+                return lado;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return lado;
+            }
+        };
+    }
+
     /** Desenha uma imagem em outro tamanho, com suavização e cantos arredondados opcionais. */
     public static class IconeEscalado
     implements Icon {
@@ -880,6 +910,24 @@ public final class TemaBetfoot {
                     p.moveTo(s * 0.58, s * 0.22);
                     p.lineTo(s * 0.86, s * 0.5);
                     p.lineTo(s * 0.58, s * 0.78);
+                    g.draw(p);
+                    break;
+                }
+                case SUBIR:
+                case DESCER: {
+                    boolean sobe = this.simbolo == Simbolo.SUBIR;
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.5, s * 0.16);
+                    p.lineTo(s * 0.5, s * 0.84);
+                    if (sobe) {
+                        p.moveTo(s * 0.22, s * 0.42);
+                        p.lineTo(s * 0.5, s * 0.14);
+                        p.lineTo(s * 0.78, s * 0.42);
+                    } else {
+                        p.moveTo(s * 0.22, s * 0.58);
+                        p.lineTo(s * 0.5, s * 0.86);
+                        p.lineTo(s * 0.78, s * 0.58);
+                    }
                     g.draw(p);
                     break;
                 }

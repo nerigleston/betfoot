@@ -18,7 +18,11 @@ import nucleo.ModeloTime;
 import motor.GerenciadorJogo;
 import competicoes.CompeticaoLigaNacional;
 import comparadores.ColecaoComparadoresSorteio;
+import components.TemaBetfoot;
+import components.TemaBetfoot.Estilo;
+import components.TemaBetfoot.Simbolo;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,7 +30,6 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -38,8 +41,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.LayoutStyle;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -83,6 +84,8 @@ extends JPanel {
         this.Ay();
         this.mH();
         this.mM();
+        this.temaParticipantes();
+        TemaBetfoot.combo(this.afG);
         this.zh.setText("");
         this.pO();
         this.AT();
@@ -138,19 +141,20 @@ extends JPanel {
             }
         }
         this.pO();
-        this.vn.addNotify();
+        this.atualizarParticipantes();
     }
 
     private void nA() {
         if (this.zY != null && this.afC.size() < this.nTimes && !this.afC.contains(this.zY)) {
             this.afC.add(this.zY);
-            this.vn.addNotify();
+            this.atualizarParticipantes();
             this.pO();
         }
     }
 
     private void pO() {
-        this.vz.setText("Participantes:" + this.afC.size() + "/" + this.nTimes);
+        this.vz.setText(this.afC.size() + " / " + this.nTimes);
+        this.vz.setForeground(this.afC.size() == this.nTimes ? TemaBetfoot.VERDE : TemaBetfoot.TEXTO_SUAVE);
         int n2 = 0;
         while (n2 < this.afC.size()) {
             if (n2 < this.nTimes) {
@@ -171,13 +175,13 @@ extends JPanel {
             }
             ++n2;
         }
-        this.vn.addNotify();
+        this.atualizarParticipantes();
     }
 
     private void nB() {
         if (this.vn.getSelectedRow() >= 0 && this.vn.getSelectedRow() < this.afC.size() && this.afC.get(this.vn.getSelectedRow()) != this.ul) {
             this.afC.remove(this.afC.get(this.vn.getSelectedRow()));
-            this.vn.addNotify();
+            this.atualizarParticipantes();
             this.pO();
         }
     }
@@ -194,14 +198,14 @@ extends JPanel {
         this.nTimes = this.afD[this.afG.getSelectedIndex()];
         this.pO();
         this.zh.setText("");
-        this.vn.addNotify();
+        this.atualizarParticipantes();
     }
 
     private void pn() {
         if (this.afC.size() == this.afD[this.afG.getSelectedIndex()]) {
             this.AU();
         } else {
-            this.zh.setText("Adicione pelo menos " + this.afD[this.afG.getSelectedIndex()] + " times");
+            this.zh.setText("O torneio precisa de " + this.afD[this.afG.getSelectedIndex()] + " times");
         }
     }
 
@@ -290,6 +294,233 @@ extends JPanel {
         }
     }
 
+    /** Ocupa a janela toda (com o fundo do estádio); em janelas pequenas a rolagem do jogo assume. */
+    @Override
+    public Dimension getPreferredSize() {
+        return TemaBetfoot.Tela.tamanho(this, 1100, 680);
+    }
+
+    /** Ícone da bandeira de um país pelo nome (os nós de país da árvore guardam só o nome). */
+    private static javax.swing.Icon bandeira(String string) {
+        try {
+            javax.swing.Icon icon = ((nucleo.DadosPais)nucleo.UtilitariosTexto.cY().get(nucleo.UtilitariosTexto.h(string))).jD();
+            if (icon instanceof ImageIcon && ((ImageIcon)icon).getDescription() != null) {
+                java.util.regex.Matcher m = java.util.regex.Pattern.compile("/aflags/(\\d+)\\.png").matcher(((ImageIcon)icon).getDescription());
+                if (m.find()) {
+                    return TemaBetfoot.bandeira(Integer.parseInt(m.group(1)), 14);
+                }
+            }
+            return icon;
+        }
+        catch (Exception exception) {
+            return null;
+        }
+    }
+
+    /** Seta do nó da árvore (para a direita fechado, para baixo aberto). */
+    private static javax.swing.Icon seta(final boolean aberta) {
+        return new javax.swing.Icon() {
+            @Override
+            public void paintIcon(Component component, java.awt.Graphics graphics, int x, int y) {
+                java.awt.Graphics2D g = TemaBetfoot.suave(graphics);
+                g.setColor(TemaBetfoot.TEXTO_SUAVE);
+                g.setStroke(new java.awt.BasicStroke(1.6f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND));
+                java.awt.geom.GeneralPath p = new java.awt.geom.GeneralPath();
+                if (aberta) {
+                    p.moveTo(x + 2, y + 4);
+                    p.lineTo(x + 6, y + 8);
+                    p.lineTo(x + 10, y + 4);
+                } else {
+                    p.moveTo(x + 4, y + 2);
+                    p.lineTo(x + 8, y + 6);
+                    p.lineTo(x + 4, y + 10);
+                }
+                g.draw(p);
+                g.dispose();
+            }
+
+            @Override
+            public int getIconWidth() {
+                return 12;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return 12;
+            }
+        };
+    }
+
+    /** Árvore no tema: país com bandeira, divisões em caixa alta, times com escudo. */
+    private static class RenderizadorArvore
+    extends javax.swing.tree.DefaultTreeCellRenderer {
+        RenderizadorArvore() {
+            this.setBackgroundNonSelectionColor(TemaBetfoot.LINHA_IMPAR);
+            this.setBackgroundSelectionColor(TemaBetfoot.VERDE_SELECAO);
+            this.setBorderSelectionColor(null);
+            this.setTextNonSelectionColor(TemaBetfoot.TEXTO);
+            this.setTextSelectionColor(Color.WHITE);
+        }
+
+        @Override
+        public Component getTreeCellRendererComponent(JTree jTree, Object object, boolean bl, boolean bl2, boolean bl3, int n, boolean bl4) {
+            super.getTreeCellRendererComponent(jTree, object, bl, bl2, bl3, n, false);
+            Object valor = ((DefaultMutableTreeNode)object).getUserObject();
+            int nivel = ((DefaultMutableTreeNode)object).getLevel();
+            this.setIconTextGap(10);
+            this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 10));
+            if (valor instanceof ModeloTime) {
+                this.setText(((ModeloTime)valor).getNome());
+                this.setIcon(TemaBetfoot.encaixar(((ModeloTime)valor).kU(), 22));
+                this.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            } else if (nivel == 1) {
+                this.setText(String.valueOf(valor));
+                this.setIcon("Internacionais".equals(valor) ? new TemaBetfoot.IconeVetor(TemaBetfoot.Simbolo.MAPA, 14, TemaBetfoot.TEXTO_SUAVE) : TelaCriarTorneioAmistoso.bandeira(String.valueOf(valor)));
+                this.setFont(TemaBetfoot.fonte(Font.BOLD, 14.0f));
+            } else {
+                this.setText(String.valueOf(valor).toUpperCase());
+                this.setIcon(null);
+                this.setFont(TemaBetfoot.espacada(TemaBetfoot.display(14.0f), 0.06f));
+                if (!bl) {
+                    this.setForeground(TemaBetfoot.TEXTO_SUAVE);
+                }
+            }
+            return this;
+        }
+    }
+
+    private static String sem(String string) {
+        return java.text.Normalizer.normalize(string, java.text.Normalizer.Form.NFD).replaceAll("\\p{M}", "").toLowerCase();
+    }
+
+    /** Busca: vai para o próximo time cujo nome contém o texto (sem acento), abrindo os grupos até ele. */
+    private void buscar(String string) {
+        String alvo = TelaCriarTorneioAmistoso.sem(string.trim());
+        if (alvo.isEmpty()) {
+            return;
+        }
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)this.uw.getModel().getRoot();
+        java.util.List<DefaultMutableTreeNode> achados = new ArrayList<DefaultMutableTreeNode>();
+        java.util.Enumeration<?> e = raiz.depthFirstEnumeration();
+        while (e.hasMoreElements()) {
+            DefaultMutableTreeNode no = (DefaultMutableTreeNode)e.nextElement();
+            if (no.getUserObject() instanceof ModeloTime && TelaCriarTorneioAmistoso.sem(((ModeloTime)no.getUserObject()).getNome()).contains(alvo)) {
+                achados.add(no);
+            }
+        }
+        if (achados.isEmpty()) {
+            this.zh.setText("Nenhum time com \"" + string.trim() + "\"");
+            return;
+        }
+        this.zh.setText("");
+        DefaultMutableTreeNode atual = (DefaultMutableTreeNode)this.uw.getLastSelectedPathComponent();
+        int i = atual == null ? -1 : achados.indexOf(atual);
+        javax.swing.tree.TreePath caminho = new javax.swing.tree.TreePath(achados.get((i + 1) % achados.size()).getPath());
+        this.uw.setSelectionPath(caminho);
+        this.uw.scrollPathToVisible(caminho);
+    }
+
+    /** Participantes: posição, escudo e nome, grupo; o seu time leva o selo "Seu time" e não sai da lista. */
+    private class RenderizadorParticipantes
+    extends javax.swing.table.DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable jTable, Object object, boolean bl, boolean bl2, int n, int n2) {
+            super.getTableCellRendererComponent(jTable, object, bl, false, n, n2);
+            ModeloTime time = (ModeloTime)object;
+            this.setIcon(null);
+            this.setText("");
+            this.setToolTipText(null);
+            this.setHorizontalAlignment(LEFT);
+            this.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            if (time == null) {
+                return this;
+            }
+            boolean fora = time.Au() < 0;
+            if (n2 == 0) {
+                this.setText(Integer.toString(n + 1));
+                this.setFont(TemaBetfoot.display(16.0f));
+                this.setHorizontalAlignment(CENTER);
+            } else if (n2 == 1) {
+                this.setText(time.getNome());
+                this.setIcon(TemaBetfoot.encaixar(time.kU(), 24));
+                this.setIconTextGap(10);
+            } else if (n2 == 2) {
+                this.setFont(TemaBetfoot.espacada(TemaBetfoot.display(13.0f), 0.06f));
+                this.setText(fora ? "FICA DE FORA" : (time.Au() == 0 ? "GRUPO A" : (time.Au() == 1 ? "GRUPO B" : (TelaCriarTorneioAmistoso.this.CS.isSelected() ? "SORTEIO" : ""))));
+            } else if (n2 == 3) {
+                this.setHorizontalAlignment(CENTER);
+                if (time == TelaCriarTorneioAmistoso.this.ul) {
+                    this.setFont(TemaBetfoot.espacada(TemaBetfoot.display(12.0f), 0.06f));
+                    this.setText("SEU TIME");
+                } else {
+                    this.setIcon(new TemaBetfoot.IconeVetor(TemaBetfoot.Simbolo.LIXEIRA, 14, TemaBetfoot.alfa(TemaBetfoot.VERMELHO, 0.8)));
+                    this.setToolTipText("Tirar do torneio");
+                }
+            }
+            if (fora) {
+                this.setForeground(TemaBetfoot.VERMELHO);
+            } else if (n2 == 2 || n2 == 0 || n2 == 3 && time == TelaCriarTorneioAmistoso.this.ul) {
+                this.setForeground(n2 == 3 ? TemaBetfoot.VERDE : TemaBetfoot.TEXTO_SUAVE);
+            }
+            return this;
+        }
+    }
+
+    private void temaParticipantes() {
+        RenderizadorParticipantes renderizador = new RenderizadorParticipantes();
+        this.vn.setDefaultRenderer(ModeloTime.class, renderizador);
+        this.vn.setDefaultRenderer(Object.class, renderizador);
+        this.vn.setTableHeader(new javax.swing.table.JTableHeader(this.vn.getColumnModel()));
+        TemaBetfoot.tabela(this.vn, this.wi);
+        this.vn.setTableHeader(null);
+        this.wi.setColumnHeaderView(null);
+        int[] larguras = new int[]{44, 240, 120, 90};
+        for (int i = 0; i < larguras.length; ++i) {
+            this.vn.getColumnModel().getColumn(i).setPreferredWidth(larguras[i]);
+            this.vn.getColumnModel().getColumn(i).setMaxWidth(i == 1 ? Integer.MAX_VALUE : larguras[i] + 30);
+        }
+        this.vn.setRowHeight(40);
+        this.vn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+                int linha = TelaCriarTorneioAmistoso.this.vn.rowAtPoint(mouseEvent.getPoint());
+                if (linha >= 0 && TelaCriarTorneioAmistoso.this.vn.columnAtPoint(mouseEvent.getPoint()) == 3) {
+                    TelaCriarTorneioAmistoso.this.vn.setRowSelectionInterval(linha, linha);
+                    TelaCriarTorneioAmistoso.this.nB();
+                }
+            }
+        });
+    }
+
+    /** Avisa a tabela de participantes que a lista mudou (addNotify não avisa e deixava linhas velhas na tela). */
+    private void atualizarParticipantes() {
+        int selecionada = this.vn.getSelectedRow();
+        ((javax.swing.table.AbstractTableModel)this.vn.getModel()).fireTableDataChanged();
+        if (selecionada >= 0 && selecionada < this.vn.getRowCount()) {
+            this.vn.setRowSelectionInterval(selecionada, selecionada);
+        }
+        this.vn.revalidate();
+        this.vn.repaint();
+    }
+
+    private static JPanel campo(String rotulo, Component component) {
+        JPanel jPanel = new JPanel(new java.awt.BorderLayout(0, 8));
+        jPanel.setOpaque(false);
+        jPanel.add((Component)TemaBetfoot.rotulo(rotulo), "North");
+        jPanel.add(component, "Center");
+        jPanel.setAlignmentX(0.0f);
+        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, jPanel.getPreferredSize().height));
+        return jPanel;
+    }
+
+    private void voltar() {
+        if (!TemaBetfoot.confirmar(this, "Voltar ao técnico e time?", "O técnico e o time escolhidos serão refeitos. As competições marcadas continuam.", "Voltar", false)) {
+            return;
+        }
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        PainelConfiguracaoNovoJogo.voltarParaTecnico();
+    }
+
     private void mJ() {
         this.uu = new JLabel();
         this.uv = new JPanel();
@@ -298,115 +529,217 @@ extends JPanel {
         this.afG = new JComboBox();
         this.Bw = new JButton();
         this.ut = new JScrollPane();
-        this.uw = new JTree();
+        this.uw = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode("Times")));
         this.vx = new JLabel();
-        this.Nr = new JTextField();
+        this.Nr = new JTextField("Torneio Amistoso");
         this.vy = new JLabel();
         this.wi = new JScrollPane();
-        this.vn = new JTable();
+        this.vn = new JTable() {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer tableCellRenderer, int n, int n2) {
+                Component component = super.prepareRenderer(tableCellRenderer, n, n2);
+                Color frente = component.getForeground();
+                TemaBetfoot.linha(this, component, n, n2);
+                if (!this.isRowSelected(n)) {
+                    component.setForeground(frente);
+                }
+                return component;
+            }
+
+            @Override
+            public boolean isCellEditable(int n, int n2) {
+                return false;
+            }
+        };
         this.yV = new JButton();
         this.yZ = new JButton();
         this.vz = new JLabel();
         this.zh = new JLabel();
-        this.afH = new JTextField();
+        this.afH = new JTextField("Juazeiro");
         this.afF = new JButton();
-        this.CS = new JCheckBox();
+        this.CS = new JCheckBox("Sortear grupos");
         this.afE = new JButton();
         this.uC = new JButton();
         this.ug = new JLabel();
-        this.setBackground(new Color(42, 64, 29));
-        this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 2));
-        this.uu.setFont(new Font("Tahoma", 1, 12));
-        this.uu.setForeground(new Color(255, 255, 102));
-        this.uu.setText("Torneio Amistoso");
-        this.uv.setBackground(new Color(84, 127, 59));
-        this.a_.setFont(new Font("Tahoma", 0, 12));
-        this.a_.setForeground(new Color(255, 255, 255));
-        this.a_.setHorizontalAlignment(2);
-        this.a_.setText("Escolha os participantes:");
-        this.us.setFont(new Font("Tahoma", 0, 12));
-        this.us.setForeground(new Color(255, 255, 255));
-        this.us.setHorizontalAlignment(4);
-        this.us.setText("F\u00f3rmula:");
-        this.Bw.setFont(new Font("Tahoma", 0, 14));
-        this.Bw.setText("Iniciar");
-        DefaultMutableTreeNode defaultMutableTreeNode = new DefaultMutableTreeNode("Times");
-        DefaultMutableTreeNode defaultMutableTreeNode2 = new DefaultMutableTreeNode("Brasil");
-        DefaultMutableTreeNode defaultMutableTreeNode3 = new DefaultMutableTreeNode("1\u00aa divis\u00e3o");
-        DefaultMutableTreeNode defaultMutableTreeNode4 = new DefaultMutableTreeNode("Cruzeiro");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Atl\u00e9tico");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode3 = new DefaultMutableTreeNode("2\u00aa divis\u00e3o");
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Barcelona");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Real Madrid");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode.add(defaultMutableTreeNode2);
-        defaultMutableTreeNode2 = new DefaultMutableTreeNode("Espanha");
-        defaultMutableTreeNode3 = new DefaultMutableTreeNode("1\u00aa Divis\u00e3o");
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Sevilla");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Gijon");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode3 = new DefaultMutableTreeNode("2\u00aa divis\u00e3o");
-        defaultMutableTreeNode4 = new DefaultMutableTreeNode("Sporting");
-        defaultMutableTreeNode3.add(defaultMutableTreeNode4);
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode.add(defaultMutableTreeNode2);
-        defaultMutableTreeNode2 = new DefaultMutableTreeNode("Outros Times");
-        defaultMutableTreeNode3 = new DefaultMutableTreeNode("M\u00e1laga");
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode3 = new DefaultMutableTreeNode("Alecrim");
-        defaultMutableTreeNode2.add(defaultMutableTreeNode3);
-        defaultMutableTreeNode.add(defaultMutableTreeNode2);
-        this.uw.setModel(new DefaultTreeModel(defaultMutableTreeNode));
-        this.ut.setViewportView(this.uw);
-        this.vx.setFont(new Font("Tahoma", 0, 12));
-        this.vx.setForeground(new Color(255, 255, 255));
-        this.vx.setHorizontalAlignment(4);
-        this.vx.setText("Nome do Torneio:");
-        this.Nr.setText("Torneio Amistoso");
         this.Nr.addActionListener(new OuvinteVazioNomeTorneio(this));
-        this.vy.setFont(new Font("Tahoma", 0, 12));
-        this.vy.setForeground(new Color(255, 255, 255));
-        this.vy.setHorizontalAlignment(4);
-        this.vy.setText("Sede (escolha uma cidade):");
-        this.vn.setModel(new DefaultTableModel(new Object[0][], new String[0]));
-        this.wi.setViewportView(this.vn);
-        this.yV.setText(">>");
-        this.yZ.setText("<<");
-        this.vz.setFont(new Font("Tahoma", 0, 12));
-        this.vz.setForeground(new Color(255, 255, 255));
-        this.vz.setHorizontalAlignment(2);
-        this.vz.setText("Participantes:");
-        this.zh.setForeground(new Color(255, 255, 255));
-        this.zh.setHorizontalAlignment(0);
-        this.zh.setText("\"\"");
-        this.afH.setText("Juazeiro");
-        this.afH.setToolTipText("");
         this.afH.addActionListener(new OuvinteVazioSedeTorneio(this));
-        this.afF.setIcon(new ImageIcon(this.getClass().getResource("/aicons/uparray.png")));
-        this.CS.setFont(new Font("Tahoma", 0, 12));
-        this.CS.setForeground(new Color(255, 255, 255));
-        this.CS.setText("Sortear grupos");
-        this.CS.setOpaque(false);
-        this.afE.setIcon(new ImageIcon(this.getClass().getResource("/aicons/downarray.png")));
-        this.uC.setFont(new Font("Tahoma", 0, 14));
-        this.uC.setText("Cancelar torneio");
-        GroupLayout groupLayout = new GroupLayout(this.uv);
-        this.uv.setLayout(groupLayout);
-        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addContainerGap(16, Short.MAX_VALUE).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.ut, GroupLayout.Alignment.TRAILING, -2, 266, -2).addComponent(this.a_, GroupLayout.Alignment.TRAILING, -2, 266, -2).addComponent(this.zh, GroupLayout.Alignment.TRAILING, -2, 257, -2)).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.yZ).addComponent(this.yV)).addComponent(this.afF)).addComponent(this.afE)).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addComponent(this.wi, -2, 279, -2).addGap(19, 24, Short.MAX_VALUE)).addGroup(groupLayout.createSequentialGroup().addComponent(this.vz, -1, -1, Short.MAX_VALUE).addContainerGap()).addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup().addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, -1, Short.MAX_VALUE).addComponent(this.CS, -2, 145, -2).addGap(78, 78, 78)))).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(62, 62, 62).addComponent(this.vy, -2, 190, -2)).addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(this.us, -2, 242, -2)).addGroup(groupLayout.createSequentialGroup().addContainerGap().addComponent(this.vx, -2, 242, -2))).addGap(30, 30, 30).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false).addComponent(this.afG, 0, -1, Short.MAX_VALUE).addComponent(this.Nr).addComponent(this.afH, GroupLayout.Alignment.TRAILING, -1, 243, Short.MAX_VALUE)).addContainerGap(-1, Short.MAX_VALUE)).addGroup(groupLayout.createSequentialGroup().addGap(66, 66, 66).addComponent(this.uC, -2, 164, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, -1, Short.MAX_VALUE).addComponent(this.Bw, -2, 164, -2).addGap(122, 122, 122)));
-        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addContainerGap(26, Short.MAX_VALUE).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.Nr, -2, -1, -2).addComponent(this.vx)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.afG, -2, -1, -2).addComponent(this.us)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.vy).addComponent(this.afH, -2, -1, -2)).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(48, 48, 48).addComponent(this.yV).addGap(18, 18, 18).addComponent(this.yZ).addGap(44, 44, 44).addComponent(this.afF).addGap(18, 18, 18).addComponent(this.afE)).addGroup(groupLayout.createSequentialGroup().addGap(20, 20, 20).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.vz).addComponent(this.a_)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.ut, -2, 206, -2).addComponent(this.wi, -2, 206, -2)))).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.CS).addComponent(this.zh)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.uC, -2, 39, -2).addComponent(this.Bw, -2, 39, -2)).addGap(28, 28, 28)));
-        this.ug.setForeground(new Color(255, 255, 255));
-        this.ug.setText("Realizado em centros de treinamento, n\u00e3o geram receita para os times.");
-        GroupLayout groupLayout2 = new GroupLayout(this);
-        this.setLayout(groupLayout2);
-        groupLayout2.setHorizontalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addGap(27, 27, 27).addGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.uu, -2, 434, -2).addComponent(this.ug, -2, 646, -2).addComponent(this.uv, -2, -1, -2)).addContainerGap(25, Short.MAX_VALUE)));
-        groupLayout2.setVerticalGroup(groupLayout2.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout2.createSequentialGroup().addGap(21, 21, 21).addComponent(this.uu).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.ug).addGap(7, 7, 7).addComponent(this.uv, -2, -1, -2).addContainerGap(21, Short.MAX_VALUE)));
+        this.setLayout(new java.awt.BorderLayout());
+        this.setOpaque(false);
+
+        // ---- Times (árvore com busca) ----
+        this.uw.setRootVisible(false);
+        this.uw.setShowsRootHandles(true);
+        this.uw.putClientProperty("JTree.lineStyle", "None");
+        this.uw.setRowHeight(34);
+        this.uw.setBackground(TemaBetfoot.LINHA_IMPAR);
+        this.uw.setCellRenderer(new RenderizadorArvore());
+        if (this.uw.getUI() instanceof javax.swing.plaf.basic.BasicTreeUI) {
+            javax.swing.plaf.basic.BasicTreeUI ui = (javax.swing.plaf.basic.BasicTreeUI)this.uw.getUI();
+            ui.setExpandedIcon(TelaCriarTorneioAmistoso.seta(true));
+            ui.setCollapsedIcon(TelaCriarTorneioAmistoso.seta(false));
+            ui.setLeftChildIndent(8);
+            ui.setRightChildIndent(14);
+        }
+        this.uw.setToolTipText("Clique duplo num time para adicionar");
+        this.uw.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+                javax.swing.tree.TreePath caminho = TelaCriarTorneioAmistoso.this.uw.getPathForLocation(mouseEvent.getX(), mouseEvent.getY());
+                if (mouseEvent.getClickCount() == 2 && caminho != null && ((DefaultMutableTreeNode)caminho.getLastPathComponent()).getUserObject() instanceof ModeloTime) {
+                    TelaCriarTorneioAmistoso.this.yV.doClick();
+                }
+            }
+        });
+        this.ut.setViewportView(this.uw);
+        TemaBetfoot.rolagem(this.ut);
+        final JTextField busca = new TemaBetfoot.Campo("Buscar time");
+        JButton lupa = new JButton();
+        lupa.addActionListener(actionEvent -> this.buscar(busca.getText()));
+        busca.setToolTipText("Enter vai para o próximo time com esse nome");
+        TemaBetfoot.Cartao times = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 14));
+        times.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel topoTimes = new JPanel(new java.awt.BorderLayout(0, 12));
+        topoTimes.setOpaque(false);
+        topoTimes.add((Component)TemaBetfoot.cabecalho("Times", "Clique duplo para adicionar", null), "North");
+        topoTimes.add((Component)TemaBetfoot.caixaBusca(busca, lupa), "South");
+        times.add((Component)topoTimes, "North");
+        times.add((Component)this.ut, "Center");
+        TemaBetfoot.botao(this.yV, Estilo.SECUNDARIO, "Adicionar", Simbolo.AVANCAR);
+        this.yV.setToolTipText("Adicionar o time selecionado ao torneio");
+        this.yV.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        JPanel baseTimes = new JPanel(new java.awt.BorderLayout());
+        baseTimes.setOpaque(false);
+        baseTimes.add((Component)this.yV, "East");
+        times.add((Component)baseTimes, "South");
+
+        // ---- Participantes ----
+        this.vz.setFont(TemaBetfoot.espacada(TemaBetfoot.display(16.0f), 0.06f));
+        this.wi.setViewportView(this.vn);
+        TemaBetfoot.rolagem(this.wi);
+        TemaBetfoot.Cartao participantes = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 14));
+        participantes.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        participantes.add((Component)TemaBetfoot.cabecalho("Participantes", "A ordem define os grupos; mude com as setas", this.vz), "North");
+        participantes.add((Component)this.wi, "Center");
+        TemaBetfoot.botao(this.afF, Estilo.CHIP, "Subir", Simbolo.SUBIR);
+        TemaBetfoot.botao(this.afE, Estilo.CHIP, "Descer", Simbolo.DESCER);
+        TemaBetfoot.botao(this.yZ, Estilo.CHIP, "Remover", Simbolo.LIXEIRA);
+        this.yZ.setToolTipText("Tirar o time selecionado (o seu time não sai)");
+        JPanel acoes = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        acoes.setOpaque(false);
+        acoes.add(this.afF);
+        acoes.add(javax.swing.Box.createHorizontalStrut(8));
+        acoes.add(this.afE);
+        JPanel baseParticipantes = new JPanel(new java.awt.BorderLayout());
+        baseParticipantes.setOpaque(false);
+        baseParticipantes.add((Component)acoes, "West");
+        baseParticipantes.add((Component)this.yZ, "East");
+        participantes.add((Component)baseParticipantes, "South");
+
+        // ---- Torneio ----
+        // Campos juntos no topo; o aviso de receita embaixo.
+        TemaBetfoot.Cartao torneio = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 16));
+        torneio.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        torneio.add((Component)TemaBetfoot.cabecalho("Torneio", "Nome, sede e fórmula", null), "North");
+        JPanel campos = new JPanel();
+        campos.setOpaque(false);
+        campos.setLayout(new javax.swing.BoxLayout(campos, 1));
+        campos.setAlignmentX(0.0f);
+        campos.add(TelaCriarTorneioAmistoso.campo("Nome do torneio", this.Nr));
+        campos.add(javax.swing.Box.createVerticalStrut(14));
+        this.afH.setToolTipText("Cidade que recebe os jogos");
+        campos.add(TelaCriarTorneioAmistoso.campo("Sede", this.afH));
+        campos.add(javax.swing.Box.createVerticalStrut(14));
+        this.afG.setPreferredSize(new Dimension(220, 40));
+        campos.add(TelaCriarTorneioAmistoso.campo("Fórmula", this.afG));
+        campos.add(javax.swing.Box.createVerticalStrut(14));
+        JPanel sorteio = new JPanel(new java.awt.BorderLayout(0, 2));
+        sorteio.setOpaque(false);
+        sorteio.add((Component)this.CS, "North");
+        JLabel dicaSorteio = new JLabel("Os grupos são sorteados, sem seguir a ordem");
+        dicaSorteio.setFont(TemaBetfoot.fonte(Font.PLAIN, 12.0f));
+        dicaSorteio.setForeground(TemaBetfoot.TEXTO_FRACO);
+        dicaSorteio.setBorder(BorderFactory.createEmptyBorder(0, 26, 0, 0));
+        dicaSorteio.putClientProperty("tema.ok", Boolean.TRUE);
+        sorteio.add((Component)dicaSorteio, "Center");
+        sorteio.setAlignmentX(0.0f);
+        campos.add(sorteio);
+        TemaBetfoot.aplicarTema(campos);
+        this.Nr.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+        this.afH.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+        JPanel topoCampos = new JPanel(new java.awt.BorderLayout());
+        topoCampos.setOpaque(false);
+        topoCampos.add((Component)campos, "North");
+        torneio.add((Component)topoCampos, "Center");
+        JPanel baseTorneio = new JPanel(new java.awt.BorderLayout());
+        baseTorneio.setOpaque(false);
+        baseTorneio.add((Component)TemaBetfoot.divisor(), "North");
+        this.ug.setText("<html>Jogos em centros de treinamento: não geram receita para os times.</html>");
+        this.ug.setIcon(new TemaBetfoot.IconeVetor(Simbolo.ESTADIO, 16, TemaBetfoot.TEXTO_FRACO));
+        this.ug.setIconTextGap(10);
+        this.ug.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        this.ug.setFont(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+        this.ug.setForeground(TemaBetfoot.TEXTO_SUAVE);
+        baseTorneio.add((Component)this.ug, "Center");
+        torneio.add((Component)baseTorneio, "South");
+
+        JPanel colunas = new JPanel(new java.awt.GridBagLayout());
+        colunas.setOpaque(false);
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        c.fill = java.awt.GridBagConstraints.BOTH;
+        c.weighty = 1.0;
+        c.gridy = 0;
+        c.gridx = 0;
+        c.weightx = 1.0;
+        c.insets = new java.awt.Insets(0, 0, 0, 20);
+        times.setPreferredSize(new Dimension(340, 400));
+        colunas.add((Component)times, c);
+        c.gridx = 1;
+        c.weightx = 1.2;
+        participantes.setPreferredSize(new Dimension(400, 400));
+        colunas.add((Component)participantes, c);
+        c.gridx = 2;
+        c.weightx = 0.0;
+        c.insets = new java.awt.Insets(0, 0, 0, 0);
+        torneio.setPreferredSize(new Dimension(330, 400));
+        colunas.add((Component)torneio, c);
+
+        // ---- Rodapé ----
+        JButton voltar = TemaBetfoot.botao(new JButton(), Estilo.FANTASMA, "Voltar", Simbolo.VOLTAR);
+        voltar.setToolTipText("Voltar para técnico e time");
+        voltar.addActionListener(actionEvent -> this.voltar());
+        TemaBetfoot.botao(this.uC, Estilo.SECUNDARIO, "Pular torneio", null);
+        this.uC.setToolTipText("Começar a carreira sem torneio amistoso");
+        TemaBetfoot.botao(this.Bw, Estilo.PRIMARIO, "Iniciar torneio", null);
+        this.Bw.setIcon(new TemaBetfoot.IconeVetor(Simbolo.APITO, 16, Color.WHITE));
+        this.zh.setFont(TemaBetfoot.fonte(Font.BOLD, 13.0f));
+        this.zh.setForeground(TemaBetfoot.VERMELHO);
+        JPanel direita = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 12, 0));
+        direita.setOpaque(false);
+        direita.add(this.zh);
+        direita.add(this.uC);
+        direita.add(this.Bw);
+        JPanel rodape = new JPanel(new java.awt.BorderLayout(16, 0));
+        rodape.setOpaque(false);
+        rodape.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, TemaBetfoot.alfa(Color.WHITE, 0.08)), BorderFactory.createEmptyBorder(16, 0, 0, 0)));
+        rodape.add((Component)voltar, "West");
+        rodape.add((Component)direita, "East");
+
+        JPanel corpo = new JPanel(new java.awt.BorderLayout(0, 18));
+        corpo.setOpaque(false);
+        corpo.add((Component)colunas, "Center");
+        corpo.add((Component)rodape, "South");
+        JPanel topo = new JPanel(new java.awt.BorderLayout(24, 0));
+        topo.setOpaque(false);
+        topo.add((Component)new TemaBetfoot.Marca("Torneio amistoso", "Pré-temporada com os times que você escolher"), "West");
+        JPanel passos = new JPanel(new java.awt.GridBagLayout());
+        passos.setOpaque(false);
+        passos.add(new TemaBetfoot.Passos(2, "Competições", "Técnico e time", "Amistoso"));
+        topo.add((Component)passos, "East");
+        TemaBetfoot.Fundo fundo = new TemaBetfoot.Fundo(new java.awt.BorderLayout(0, 22));
+        fundo.setBorder(BorderFactory.createEmptyBorder(20, 28, 24, 28));
+        fundo.add((Component)topo, "North");
+        fundo.add((Component)TemaBetfoot.centralizar(corpo, 1320), "Center");
+        this.add((Component)fundo, "Center");
     }
 
     private void d(ActionEvent actionEvent) {

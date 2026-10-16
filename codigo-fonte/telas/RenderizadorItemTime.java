@@ -20,7 +20,7 @@ implements ListCellRenderer {
                 this.setBackground(jList.getBackground());
                 this.setForeground(jList.getForeground());
             }
-            this.setIcon(ah2.kU());
+            this.setIcon(components.TemaBetfoot.encaixar(ah2.kU(), 22));
             this.setText(string);
         }
         return this;
