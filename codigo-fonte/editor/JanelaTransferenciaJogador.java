@@ -39,6 +39,26 @@ extends JPanel {
 
     public JanelaTransferenciaJogador() {
         this.mJ();
+        this.organizar();
+    }
+
+    /** Layout novo: busca do time de destino, lista, destino escolhido e ações. */
+    private void organizar() {
+        this.UK.setVisible(false);
+        javax.swing.JPanel busca = components.TemaBetfoot.caixaBusca(this.VK, this.VJ);
+        this.wi.setPreferredSize(null);
+        this.ut.setViewportView(this.VM);
+        this.ut.setPreferredSize(new Dimension(460, 320));
+        this.zh.setFont(components.TemaBetfoot.fonte(java.awt.Font.BOLD, 14.0f));
+        this.zh.setForeground(components.TemaBetfoot.VERDE);
+        this.zh.putClientProperty("tema.ok", Boolean.TRUE);
+        components.TemaBetfoot.Formulario f = new components.TemaBetfoot.Formulario();
+        f.campo(this.VL, "Time de destino", busca);
+        f.livre(this.ut);
+        f.livre(this.zh);
+        String nome = nucleo.UtilitariosTexto.da().wL() == null ? "" : nucleo.UtilitariosTexto.da().wL().getNome();
+        f.montar(this, this.QU, "Escolha para onde " + nome + " vai", this.uC, null, this.uC, this.VI);
+        this.VI.setText("Transferir");
     }
 
     private void mJ() {

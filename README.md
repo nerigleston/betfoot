@@ -110,10 +110,13 @@ A divisão de cada clube em 2026 vem de `jogo/conf_estadual/divisoes.txt` (ver [
 
 ## Tela inicial
 
-A imagem da tela inicial (`empacotamento/recursos/aiconsj/tela_inicial.jpg`, 532×300) substitui a do jar no build.
-Ela é montada por `ferramentas/tela-inicial/MontaTela.java` a partir de um fundo (`ferramentas/tela-inicial/fundo.png`)
-e dos ícones e textos da tela original, que ficam nas mesmas posições porque as áreas de clique dependem delas:
-`java ferramentas/tela-inicial/MontaTela.java <tela_original.jpg> <fundo.png> empacotamento/recursos/aiconsj/tela_inicial.jpg`.
+A tela inicial (`telas/TelaInicial.java`, 960×529) desenha a arte `empacotamento/recursos/aiconsj/tela_inicial_fundo.jpg`
+(1618×891, com logo e os três cartões) e põe por cima áreas de clique transparentes nos cartões (Novo jogo, Jogo salvo,
+Editor) e no X (Sair), que acendem em verde ao passar o mouse. Enter abre um novo jogo e arrastar o fundo move a janela.
+Se a arte mudar de lugar, ajuste os retângulos em `mJ()`, que estão em coordenadas da imagem.
+
+Para testar mudanças de tela sem gerar o instalador: `empacotamento/rodar.sh` (compila e abre; `--limpo` recomeça os
+dados de teste em `build/dev/dados`; `--compilar` só compila).
 
 ## Estrutura
 

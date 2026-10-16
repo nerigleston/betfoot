@@ -41,7 +41,7 @@ extends AbstractTableModel {
 
     public ModeloTabelaTimes() {
         cE = UtilitariosTexto.cZ();
-        this.Nt = new String[]{"Time", "Pais", "Nivel"};
+        this.Nt = new String[]{"Time", "Pa\u00eds", "N\u00edvel"};
     }
 
     @Override

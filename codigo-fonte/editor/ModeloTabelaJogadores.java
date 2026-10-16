@@ -39,7 +39,7 @@ implements TableModelListener {
                 Collections.sort(vp, VR);
             }
         }
-        this.Nt = new String[]{"", "", "Nome", "Posicao", "Pais", "idade", "Carac.", "Lado"};
+        this.Nt = new String[]{"", "", "Nome", "Posi\u00e7\u00e3o", "Pa\u00eds", "Idade", "Caracter\u00edstica", "Lado"};
     }
 
     public void Z(int n2, int n3) {

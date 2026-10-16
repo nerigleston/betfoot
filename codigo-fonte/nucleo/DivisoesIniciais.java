@@ -43,6 +43,22 @@ public final class DivisoesIniciais {
         ordenar(lista, estadual, porNivel);
     }
 
+    /** Série do Brasileirão (1=A..4=D) do time pelo arquivo, ou 0 se não estiver em nenhuma. */
+    public static int serieNacional(String arquivo) {
+        if (nacional == null) {
+            nacional = ler("conf_ligas_nacionais/divisoes.txt");
+        }
+        return nacional.getOrDefault(arquivo, 0);
+    }
+
+    /** Divisão do estadual (1 ou 2) do time pelo arquivo, ou 0 se não estiver em nenhuma. */
+    public static int divisaoEstadual(String arquivo) {
+        if (estadual == null) {
+            estadual = ler("conf_estadual/divisoes.txt");
+        }
+        return estadual.getOrDefault(arquivo, 0);
+    }
+
     private static void ordenar(ArrayList lista, Map<String, Integer> divisoes, Comparator porNivel) {
         Collections.sort(lista, porNivel);
         if (divisoes.isEmpty()) {

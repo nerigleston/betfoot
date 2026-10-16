@@ -81,6 +81,36 @@ extends JPanel {
         }
         this.mJ();
         this.mY();
+        this.organizar();
+    }
+
+    /** Layout novo do modal: grade de duas colunas, rótulos em cima, ações no rodapé. */
+    private void organizar() {
+        javax.swing.JPanel idade = new javax.swing.JPanel(new java.awt.BorderLayout(14, 0));
+        idade.setOpaque(false);
+        idade.add((java.awt.Component)this.Us, "Center");
+        this.Up.setFont(components.TemaBetfoot.display(26.0f));
+        this.Up.setForeground(components.TemaBetfoot.VERDE);
+        this.Up.putClientProperty("tema.ok", Boolean.TRUE);
+        this.Up.setPreferredSize(new Dimension(44, 30));
+        idade.add((java.awt.Component)this.Up, "East");
+        javax.swing.JPanel destaques = new javax.swing.JPanel(new java.awt.FlowLayout(0, 0, 0));
+        destaques.setOpaque(false);
+        destaques.add(this.Qs);
+        destaques.add(javax.swing.Box.createHorizontalStrut(24));
+        destaques.add(this.Qt);
+        this.Qs.setToolTipText("Jogador estrela do time");
+        this.Qt.setToolTipText("Entre os melhores do mundo");
+        this.uf.setColumns(24);
+        components.TemaBetfoot.Formulario f = new components.TemaBetfoot.Formulario();
+        f.campo(this.uF, "Nome", this.uf);
+        f.par(this.Ur, "Posi\u00e7\u00e3o", this.Nq, this.Uq, "Lado", this.Qx);
+        f.par(this.MQ, "Pa\u00eds", this.ue, this.Uo, "Idade", idade);
+        f.par(this.Um, "Caracter\u00edstica 1", this.Qv, this.Un, "Caracter\u00edstica 2", this.Qw);
+        f.livre(destaques);
+        this.Ul.setText("Continuar adicionando");
+        this.Ul.setToolTipText("Depois de salvar, abre de novo para cadastrar o pr\u00f3ximo");
+        f.montar(this, this.ug, this.Ud ? "Cadastre um jogador no elenco" : "Ajuste os dados do jogador", this.uC, this.Ul, this.uC, this.Fu);
     }
 
     private void mY() {
@@ -341,6 +371,10 @@ extends JPanel {
     }
 
     private void wl() {
+        // Edição de jogador existente: confirma antes de gravar.
+        if (!UtilitariosTexto.da().wM() && !components.TemaBetfoot.confirmar(UtilitariosTexto.da().Uw, "Salvar altera\u00e7\u00f5es", "Salvar as altera\u00e7\u00f5es em " + this.uf.getText() + "?", "Salvar", false)) {
+            return;
+        }
         this.Ue.clear();
         if (!this.Ud) {
             this.wk();
@@ -366,7 +400,7 @@ extends JPanel {
                 UtilitariosTexto.da().Uw.dispose();
             }
         } else {
-            JOptionPane.showMessageDialog(null, this.Ue.get(0), "", 0);
+            components.TemaBetfoot.aviso(UtilitariosTexto.da().Uw, "Confira os dados", String.valueOf(this.Ue.get(0)));
         }
     }
 

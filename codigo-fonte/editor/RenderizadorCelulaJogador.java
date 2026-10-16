@@ -37,8 +37,8 @@ extends DefaultTableCellRenderer {
         } else if (n3 == 4) {
             String string = EnumPaises.valueOf("P" + object).jA();
             this.setText(string);
-            ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aflags/" + object + ".png"));
-            this.setIcon(imageIcon);
+            this.setIcon(components.TemaBetfoot.bandeira(Integer.parseInt(String.valueOf(object)), 14));
+            this.setIconTextGap(8);
         } else if (n3 == 5) {
             this.setHorizontalAlignment(0);
             this.setIcon(null);

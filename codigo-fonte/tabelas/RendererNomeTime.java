@@ -14,7 +14,7 @@ extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable jTable, Object object, boolean bl, boolean bl2, int n2, int n3) {
         super.getTableCellRendererComponent(jTable, object, bl, bl2, n2, n3);
         this.setBorder(noFocusBorder);
-        super.setForeground(Color.BLACK);
+        super.setForeground(bl ? jTable.getSelectionForeground() : jTable.getForeground());
         this.setHorizontalAlignment(2);
         this.setIcon(null);
         this.setText("");
@@ -28,8 +28,8 @@ extends DefaultTableCellRenderer {
             } else if (n3 == 1) {
                 String string = EnumPaises.valueOf("P" + t2.getPais()).getNome();
                 this.setText(string);
-                ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aflags/" + t2.getPais() + ".png"));
-                this.setIcon(imageIcon);
+                this.setIcon(components.TemaBetfoot.bandeira(t2.getPais(), 14));
+                this.setIconTextGap(8);
             } else if (n3 == 2) {
                 this.setText(Integer.toString(t2.getNivel()));
             }

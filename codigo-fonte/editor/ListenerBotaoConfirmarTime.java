@@ -16,6 +16,10 @@ implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        // Edição de time existente: confirma antes de gravar.
+        if (!UtilitariosTexto.da().wN() && !components.TemaBetfoot.confirmar(UtilitariosTexto.da().Uw, "Salvar altera\u00e7\u00f5es", "Salvar as altera\u00e7\u00f5es em " + UtilitariosTexto.da().wI().getNome() + "?", "Salvar", false)) {
+            return;
+        }
         PainelEdicaoTime.a(this.VG).clear();
         if (!PainelEdicaoTime.b(this.VG)) {
             this.VG.xc();
@@ -26,7 +30,7 @@ implements ActionListener {
             UtilitariosTexto.da().wo();
             UtilitariosTexto.da().Uw.dispose();
         } else {
-            JOptionPane.showMessageDialog(null, PainelEdicaoTime.a(this.VG).get(0), "", 0);
+            components.TemaBetfoot.aviso(UtilitariosTexto.da().Uw, "Confira os dados", String.valueOf(PainelEdicaoTime.a(this.VG).get(0)));
         }
     }
 }

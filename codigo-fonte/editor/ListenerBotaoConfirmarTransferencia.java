@@ -20,6 +20,9 @@ implements ActionListener {
             if (JanelaTransferenciaJogador.d(this.VN).getJogadores().size() >= 30) {
                 JanelaTransferenciaJogador.c(this.VN).setText("O time de destino n\u00e3o tem vaga");
             } else {
+                if (UtilitariosTexto.da().wL() != null && !components.TemaBetfoot.confirmar(UtilitariosTexto.da().Uw, "Transferir jogador", "Transferir " + UtilitariosTexto.da().wL().getNome() + " para " + JanelaTransferenciaJogador.d(this.VN).getNome() + "?", "Transferir", false)) {
+                    return;
+                }
                 if (UtilitariosTexto.da().wL() != null && UtilitariosTexto.da().wK() && UtilitariosTexto.da().wI() != JanelaTransferenciaJogador.d(this.VN)) {
                     JanelaTransferenciaJogador.d(this.VN).getJogadores().add(UtilitariosTexto.da().wL());
                     UtilitariosTexto.da().wI().getJogadores().remove(UtilitariosTexto.da().wL());

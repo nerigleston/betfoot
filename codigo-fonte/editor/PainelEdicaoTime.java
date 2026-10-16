@@ -76,6 +76,58 @@ extends JPanel {
             this.IA.setEnabled(false);
         }
         this.mJ();
+        this.organizar();
+    }
+
+    /** Layout novo do modal: grade de duas colunas, rótulos em cima, ações no rodapé. */
+    private void organizar() {
+        // Nacionalidade do técnico ao lado do nome dele.
+        this.Vw.setPreferredSize(null);
+        this.Vw.setMinimumSize(null);
+        this.Vw.setToolTipText("Nacionalidade do t\u00e9cnico");
+        javax.swing.JPanel tecnico = new javax.swing.JPanel(new java.awt.BorderLayout(8, 0));
+        tecnico.setOpaque(false);
+        tecnico.add((java.awt.Component)this.Vy, "Center");
+        tecnico.add((java.awt.Component)this.Vw, "East");
+        this.Vw.setPreferredSize(new Dimension(150, this.Vy.getPreferredSize().height));
+        javax.swing.JPanel capacidade = new javax.swing.JPanel(new java.awt.BorderLayout(10, 0));
+        capacidade.setOpaque(false);
+        capacidade.add((java.awt.Component)this.Vz, "Center");
+        capacidade.add((java.awt.Component)this.VC, "East");
+        javax.swing.JPanel cores = new javax.swing.JPanel(new java.awt.GridLayout(1, 2, 16, 0));
+        cores.setOpaque(false);
+        cores.add(PainelEdicaoTime.amostra(this.VE, this.zv, "Cor do texto"));
+        cores.add(PainelEdicaoTime.amostra(this.VD, this.zw, "Cor de fundo"));
+        this.VC.setText("lugares");
+        this.uf.setColumns(24);
+        components.TemaBetfoot.Formulario f = new components.TemaBetfoot.Formulario();
+        f.campo(this.uF, "Nome do time", this.uf);
+        f.par(this.MQ, "Pa\u00eds", this.ue, this.MM, "Estado", this.Vt);
+        f.par(this.Vb, "N\u00edvel inicial", this.Vu, this.MR, "Reputa\u00e7\u00e3o", this.Vv);
+        f.campo(this.Fs, "T\u00e9cnico e nacionalidade", tecnico);
+        f.par(this.Cg, "Est\u00e1dio", this.Vx, this.VF, "Capacidade", capacidade);
+        f.livre(cores);
+        f.campo(this.VA, "Nome do arquivo", this.IA);
+        if (!this.IA.isEnabled()) {
+            this.IA.setToolTipText("O nome do arquivo s\u00f3 pode ser definido ao criar o time");
+        }
+        f.montar(this, this.QU, this.Ud ? "Crie um clube novo para usar nas carreiras" : "Ajuste os dados do clube", this.uC, null, this.uC, this.Fu);
+    }
+
+    /** Amostra de cor clicável (abre o seletor), com o nome ao lado. */
+    private static javax.swing.JPanel amostra(javax.swing.JComponent cor, JLabel rotulo, String string) {
+        javax.swing.JPanel p = new javax.swing.JPanel(new java.awt.BorderLayout(10, 0));
+        p.setOpaque(false);
+        cor.setPreferredSize(new Dimension(48, 36));
+        cor.setToolTipText("Clique para escolher a cor");
+        p.add((java.awt.Component)cor, "West");
+        rotulo.setText(string);
+        rotulo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        rotulo.setFont(components.TemaBetfoot.fonte(java.awt.Font.BOLD, 14.0f));
+        rotulo.setForeground(components.TemaBetfoot.TEXTO_SUAVE);
+        rotulo.putClientProperty("tema.ok", Boolean.TRUE);
+        p.add((java.awt.Component)rotulo, "Center");
+        return p;
     }
 
     private void mJ() {
