@@ -63,10 +63,52 @@ extends JPanel {
         this.mG();
         JViewport jViewport = this.ut.getViewport();
         jViewport.setView(this.xb);
+        this.montar();
+    }
+
+    /** Modal no tema: escudo e título, as temporadas com rolagem (ou o aviso de que ainda não há nenhuma) e Voltar. */
+    private void montar() {
+        components.TemaBetfoot.prepararDialogo(this.ub);
+        this.removeAll();
+        this.setOpaque(false);
+        this.setBorder(null);
+        this.setPreferredSize(null);
+        this.setLayout(new java.awt.BorderLayout(0, 16));
+        int temporadas = 0;
+        for (Object object : this.Lv) {
+            if (((EstatisticasTemporadaTime)object).tt()) {
+                ++temporadas;
+            }
+        }
+        String nome = this.uk == null ? "" : this.uk.getNome();
+        this.add((Component)components.TemaBetfoot.topoModal(this.uk == null ? null : components.TemaBetfoot.encaixar(this.uk.kU(), 30), "Retrospecto", nome + "  \u00b7  " + (temporadas == 0 ? "nenhuma temporada conclu\u00edda" : temporadas + (temporadas == 1 ? " temporada" : " temporadas")), this.vm), "North");
+        this.xb.setBackground(components.TemaBetfoot.LINHA_IMPAR);
+        this.xb.setPreferredSize(new Dimension(690, this.xh));
+        JPanel bloco = new JPanel(new java.awt.BorderLayout());
+        bloco.setOpaque(false);
+        if (this.Lw.size() <= 1) {
+            // Só o cabeçalho: ainda não há histórico.
+            JLabel vazio = new JLabel("<html><div style='text-align:center'>O retrospecto aparece aqui ao fim de cada temporada:<br>coloca\u00e7\u00e3o, jogos, vit\u00f3rias e gols em cada competi\u00e7\u00e3o.</div></html>", javax.swing.SwingConstants.CENTER);
+            vazio.setFont(components.TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            vazio.setForeground(components.TemaBetfoot.TEXTO_SUAVE);
+            vazio.setIcon(new components.TemaBetfoot.IconeVetor(components.TemaBetfoot.Simbolo.TROFEU, 36, components.TemaBetfoot.TEXTO_FRACO));
+            vazio.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            vazio.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            vazio.setIconTextGap(14);
+            vazio.setPreferredSize(new Dimension(700, 360));
+            bloco.add((Component)vazio, "Center");
+        } else {
+            components.TemaBetfoot.rolagem(this.ut);
+            this.ut.setPreferredSize(new Dimension(706, Math.min(560, this.xh + 4)));
+            bloco.add((Component)this.ut, "Center");
+        }
+        this.add((Component)bloco, "Center");
+        JButton voltar = components.TemaBetfoot.botao(new JButton(), components.TemaBetfoot.Estilo.FANTASMA, "Voltar", components.TemaBetfoot.Simbolo.VOLTAR);
+        voltar.addActionListener(actionEvent -> this.vm.doClick());
+        this.add((Component)components.TemaBetfoot.rodapeModal(null, voltar), "South");
     }
 
     private void mG() {
-        this.setBackground(ConstantesJogo.E(vM().getCorTema(), 2));
         this.ut.setBorder(BorderFactory.createEmptyBorder());
     }
 

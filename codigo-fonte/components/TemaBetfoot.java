@@ -1408,6 +1408,11 @@ public final class TemaBetfoot {
         Color atual = component.getForeground();
         boolean marcado = Color.RED.equals(atual);
         component.setBackground(selecionada ? new Color(18, 72, 40) : LINHA_IMPAR);
+        if (component instanceof JLabel) {
+            JLabel l = (JLabel)component;
+            l.setIcon(TemaBetfoot.modernizar(l.getIcon(), 14));
+            l.setIconTextGap(Math.max(l.getIconTextGap(), 8));
+        }
         component.setForeground(marcado ? VERMELHO : (selecionada ? Color.WHITE : TEXTO));
         if (component instanceof JComponent) {
             // Linha selecionada: barra verde à esquerda, como nos menus de jogo.
@@ -1757,6 +1762,42 @@ public final class TemaBetfoot {
     /** Como modal(), para painéis já feitos no tema novo: só põe no cartão, centraliza e deixa arrastar. */
     public static javax.swing.JDialog janela(Component component, JComponent jComponent) {
         return TemaBetfoot.vestir(TemaBetfoot.dialogo(component), jComponent);
+    }
+
+    /**
+     * Para painéis antigos que recebem um JDialog pronto (quem abre faz jDialog.add(painel) e setSize): troca o conteúdo
+     * da janela pelo cartão do modal, com cantos arredondados, arrastar e Esc fechando. Chamar no construtor do painel.
+     */
+    public static void prepararDialogo(final javax.swing.JDialog jDialog) {
+        if (jDialog == null || jDialog.getContentPane() instanceof CorpoModal) {
+            return;
+        }
+        CorpoModal corpo = new CorpoModal(new java.awt.BorderLayout());
+        jDialog.setContentPane(corpo);
+        jDialog.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+                try {
+                    jDialog.setShape(new RoundRectangle2D.Double(0.0, 0.0, jDialog.getWidth(), jDialog.getHeight(), 28.0, 28.0));
+                }
+                catch (Exception exception) {
+                    // janela com moldura: fica com o canto quadrado
+                }
+            }
+        });
+        jDialog.getRootPane().registerKeyboardAction(actionEvent -> jDialog.dispose(), javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+        TemaBetfoot.arrastavel(jDialog, corpo);
+    }
+
+    /** Bandeira redonda antiga (aflags/N.png) vira a retangular nova; outros ícones ficam como estão. */
+    public static Icon modernizar(Icon icon, int altura) {
+        if (icon instanceof ImageIcon && ((ImageIcon)icon).getDescription() != null) {
+            java.util.regex.Matcher m = java.util.regex.Pattern.compile("/aflags/(\\d+)\\.png").matcher(((ImageIcon)icon).getDescription());
+            if (m.find()) {
+                return TemaBetfoot.bandeira(Integer.parseInt(m.group(1)), altura);
+            }
+        }
+        return icon;
     }
 
     /** Põe o painel (já no tema) no cartão do modal, dentro de um diálogo criado por dialogo(); centraliza e deixa arrastar. */

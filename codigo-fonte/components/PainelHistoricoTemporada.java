@@ -42,6 +42,29 @@ extends JPanel {
         } else if (n2 == 0) {
             this.ui();
         }
+        this.tema(n2);
+    }
+
+    /** Linha no tema: cabeçalho discreto em caixa alta, temporadas em texto claro, totais destacados. */
+    private void tema(int n2) {
+        this.setBackground(n2 == 2 ? new Color(16, 30, 23) : TemaBetfoot.LINHA_IMPAR);
+        if (this.vd != null) {
+            this.vd.setBackground(TemaBetfoot.LINHA_IMPAR);
+        }
+        for (JLabel l : new JLabel[]{this.Sw, this.Sx, this.wm, this.yE, this.So, this.Sj, this.Si, this.Sl, this.Sk}) {
+            if (l == null) {
+                continue;
+            }
+            l.setOpaque(false);
+            if (n2 == 0) {
+                l.setText(l.getText() == null ? null : l.getText().toUpperCase());
+                l.setFont(TemaBetfoot.espacada(TemaBetfoot.display(12.0f), 0.08f));
+                l.setForeground(TemaBetfoot.TEXTO_FRACO);
+            } else {
+                l.setFont(n2 == 2 || l == this.Sw ? TemaBetfoot.fonte(Font.BOLD, 13.0f) : TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+                l.setForeground(n2 == 2 ? TemaBetfoot.VERDE : TemaBetfoot.TEXTO);
+            }
+        }
     }
 
     private void us() {
@@ -49,11 +72,7 @@ extends JPanel {
     }
 
     public void aI(boolean bl) {
-        if (bl) {
-            this.setBackground(new Color(211, 191, 22));
-        } else {
-            this.setBackground(new Color(228, 227, 227));
-        }
+        this.setBackground(bl ? new Color(18, 72, 40) : TemaBetfoot.LINHA_IMPAR);
     }
 
     private void a(EstatisticasTemporadaTime af2) {

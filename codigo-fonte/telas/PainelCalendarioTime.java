@@ -60,7 +60,51 @@ extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         this.mY();
         this.mG();
+        this.montar();
         this.Aw();
+    }
+
+    /** Modal no tema: escudo e título, filtro por competição, a tabela de jogos e Voltar. */
+    private void montar() {
+        components.TemaBetfoot.prepararDialogo(this.ub);
+        this.removeAll();
+        this.setOpaque(false);
+        this.setBorder(null);
+        this.setPreferredSize(null);
+        this.setLayout(new java.awt.BorderLayout(0, 16));
+        int jogados = 0;
+        for (Object object : this.vK) {
+            if (((ModeloPartida)object).e()) {
+                ++jogados;
+            }
+        }
+        JPanel topo = new JPanel(new java.awt.BorderLayout(16, 0));
+        topo.setOpaque(false);
+        topo.add((java.awt.Component)components.TemaBetfoot.topoModal(components.TemaBetfoot.encaixar(this.uk.kU(), 30), "Calend\u00e1rio", this.uk.getNome() + "  \u00b7  " + this.vK.size() + " jogos, " + jogados + " disputados", this.vm), "Center");
+        this.add((java.awt.Component)topo, "North");
+        JPanel filtro = new JPanel(new java.awt.BorderLayout(12, 0));
+        filtro.setOpaque(false);
+        filtro.add((java.awt.Component)components.TemaBetfoot.rotulo("Competi\u00e7\u00e3o"), "West");
+        components.TemaBetfoot.combo(this.va);
+        this.va.setPreferredSize(new Dimension(300, 38));
+        JPanel canto = new JPanel(new java.awt.BorderLayout());
+        canto.setOpaque(false);
+        canto.add((java.awt.Component)this.va, "West");
+        filtro.add((java.awt.Component)canto, "Center");
+        JPanel meio = new JPanel(new java.awt.BorderLayout(0, 12));
+        meio.setOpaque(false);
+        meio.add((java.awt.Component)filtro, "North");
+        components.TemaBetfoot.tabela(this.vN, this.ut);
+        this.vN.setShowHorizontalLines(false);
+        this.vN.setRowHeight(36);
+        meio.add((java.awt.Component)this.ut, "Center");
+        this.add((java.awt.Component)meio, "Center");
+        JButton voltar = components.TemaBetfoot.botao(new JButton(), components.TemaBetfoot.Estilo.FANTASMA, "Voltar", components.TemaBetfoot.Simbolo.VOLTAR);
+        voltar.addActionListener(actionEvent -> this.vm.doClick());
+        JLabel dica = new JLabel("Clique duplo num jogo j\u00e1 disputado para ver as estat\u00edsticas");
+        dica.setFont(components.TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+        dica.setForeground(components.TemaBetfoot.TEXTO_FRACO);
+        this.add((java.awt.Component)components.TemaBetfoot.rodapeModal(dica, voltar), "South");
     }
 
     private void Aw() {
@@ -88,7 +132,7 @@ extends JPanel {
     }
 
     private void mG() {
-        this.setBackground(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 1));
+        // Fundo do modal vem do tema (prepararDialogo).
     }
 
     private void mY() {
@@ -154,7 +198,7 @@ extends JPanel {
                 ++n3;
             }
         }
-        this.vN.addNotify();
+        ((javax.swing.table.AbstractTableModel)this.vN.getModel()).fireTableDataChanged();
         this.Aw();
     }
 
@@ -215,7 +259,12 @@ extends JPanel {
     private void mJ() {
         this.vf = new JLabel();
         this.ut = new JScrollPane();
-        this.vN = new JTable();
+        this.vN = new JTable() {
+            @Override
+            public java.awt.Component prepareRenderer(javax.swing.table.TableCellRenderer tableCellRenderer, int n, int n2) {
+                return components.TemaBetfoot.linha(this, super.prepareRenderer(tableCellRenderer, n, n2), n, n2);
+            }
+        };
         this.vm = new JButton();
         this.va = new JComboBox();
         this.setBackground(new Color(0, 51, 0));
