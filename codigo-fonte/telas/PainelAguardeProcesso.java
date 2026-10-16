@@ -50,7 +50,7 @@ extends JPanel {
     }
 
     private void mY() {
-        this.a(this);
+        this.a((JComponent)this);
         this.a(this.Hf);
     }
 

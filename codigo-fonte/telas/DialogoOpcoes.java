@@ -33,7 +33,7 @@ import nucleo.LigaNacional;
 import nucleo.ConstantesJogo;
 import motor.GerenciadorJogo;
 import components.OpcaoTipoCompeticao;
-import components.LayoutPosicaoAbsoluta;
+import components.TemaBetfoot;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -49,7 +49,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class DialogoOpcoes
 extends JPanel {
@@ -125,6 +124,7 @@ extends JPanel {
         this.b(this.afr, this.afn);
         this.mH();
         this.mG();
+        this.temaTabelas();
     }
 
     private void AO() {
@@ -159,8 +159,22 @@ extends JPanel {
             this.afn.remove(ae_02);
             GerenciadorJogo.vM().setVerJint(true, ae_02.getIndex());
         }
-        this.afq.addNotify();
-        this.afr.addNotify();
+        // Avisa as tabelas que as linhas mudaram (addNotify não avisa e deixava linhas "fantasmas" na tela)
+        // e deixa selecionado o item que acabou de mudar de lado.
+        for (JTable jTable : new JTable[]{this.afq, this.afr}) {
+            ((javax.swing.table.AbstractTableModel)jTable.getModel()).fireTableDataChanged();
+            jTable.clearSelection();
+            jTable.revalidate();
+            jTable.repaint();
+        }
+        if (ae_02 != null) {
+            JTable destino = n2 == 0 ? this.afr : this.afq;
+            int linha = (n2 == 0 ? this.afn : this.afm).indexOf(ae_02);
+            if (linha >= 0) {
+                destino.setRowSelectionInterval(linha, linha);
+                destino.scrollRectToVisible(destino.getCellRect(linha, 0, true));
+            }
+        }
         GerenciadorJogo.vJ();
     }
 
@@ -402,40 +416,23 @@ extends JPanel {
     }
 
     private void mG() {
-        this.setBackground(ConstantesJogo.E(GerenciadorJogo.vM().getCorTema(), 1));
+        // O modal novo tem o fundo do tema; a cor escolhida vale para as telas clássicas.
     }
 
     private void rH() {
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png"));
-        this.Ef.setIcon(imageIcon);
-        ImageIcon imageIcon2 = new ImageIcon(this.getClass().getResource("/aiconsc/cor2.png"));
-        this.Eg.setIcon(imageIcon2);
-        ImageIcon imageIcon3 = new ImageIcon(this.getClass().getResource("/aiconsc/cor3.png"));
-        this.Eh.setIcon(imageIcon3);
+        this.amostras(new JLabel[]{this.Ef, this.Eg, this.Eh}, new Color[]{DialogoOpcoes.corDaImagem(CORES_PLACAR[0]), DialogoOpcoes.corDaImagem(CORES_PLACAR[1]), DialogoOpcoes.corDaImagem(CORES_PLACAR[2])}, -1);
     }
 
     private void rI() {
-        this.Jr.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/corTema0.png")));
-        this.Js.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/corTema1.png")));
-        this.Jt.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/corTema2.png")));
-        this.Ju.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/corTema3.png")));
-        this.Jv.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/corTema4.png")));
+        this.amostras(new JLabel[]{this.Jr, this.Js, this.Jt, this.Ju, this.Jv}, new Color[]{ConstantesJogo.E(0, 1), ConstantesJogo.E(1, 1), ConstantesJogo.E(2, 1), ConstantesJogo.E(3, 1), ConstantesJogo.E(4, 1)}, -1);
     }
 
     private void du(int n2) {
-        this.rH();
-        JLabel[] jLabelArray = new JLabel[]{this.Ef, this.Eg, this.Eh};
-        String[] stringArray = new String[]{"cor0s", "cor2s", "cor3s"};
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aiconsc/" + stringArray[n2] + ".png"));
-        jLabelArray[n2].setIcon(imageIcon);
+        this.amostras(new JLabel[]{this.Ef, this.Eg, this.Eh}, new Color[]{DialogoOpcoes.corDaImagem(CORES_PLACAR[0]), DialogoOpcoes.corDaImagem(CORES_PLACAR[1]), DialogoOpcoes.corDaImagem(CORES_PLACAR[2])}, n2);
     }
 
     private void setCorTema(int n2) {
-        this.rI();
-        JLabel[] jLabelArray = new JLabel[]{this.Jr, this.Js, this.Jt, this.Ju, this.Jv};
-        String[] stringArray = new String[]{"corTema0s", "corTema1s", "corTema2s", "corTema3s", "corTema4s"};
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aiconsc/" + stringArray[n2] + ".png"));
-        jLabelArray[n2].setIcon(imageIcon);
+        this.amostras(new JLabel[]{this.Jr, this.Js, this.Jt, this.Ju, this.Jv}, new Color[]{ConstantesJogo.E(0, 1), ConstantesJogo.E(1, 1), ConstantesJogo.E(2, 1), ConstantesJogo.E(3, 1), ConstantesJogo.E(4, 1)}, n2);
     }
 
     private void c(Object object) {
@@ -463,6 +460,185 @@ extends JPanel {
         GerenciadorJogo.vJ();
     }
 
+    // ----- Visual no tema -----
+
+    /** Amostra de cor clicável: quadrado arredondado; a escolhida ganha anel verde. */
+    private static class Amostra
+    implements javax.swing.Icon {
+        private final Color cor;
+        private final boolean escolhida;
+
+        Amostra(Color color, boolean bl) {
+            this.cor = color;
+            this.escolhida = bl;
+        }
+
+        @Override
+        public void paintIcon(Component component, java.awt.Graphics graphics, int x, int y) {
+            java.awt.Graphics2D g = TemaBetfoot.suave(graphics);
+            if (this.escolhida) {
+                g.setColor(TemaBetfoot.VERDE);
+                g.setStroke(new java.awt.BasicStroke(2.0f));
+                g.draw(new java.awt.geom.RoundRectangle2D.Double(x + 1, y + 1, 28, 28, 12, 12));
+            }
+            g.setColor(this.cor);
+            g.fill(new java.awt.geom.RoundRectangle2D.Double(x + 5, y + 5, 20, 20, 8, 8));
+            g.setColor(TemaBetfoot.alfa(Color.WHITE, 0.25));
+            g.setStroke(new java.awt.BasicStroke(1.0f));
+            g.draw(new java.awt.geom.RoundRectangle2D.Double(x + 5.5, y + 5.5, 19, 19, 8, 8));
+            g.dispose();
+        }
+
+        @Override
+        public int getIconWidth() {
+            return 30;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 30;
+        }
+    }
+
+    /** Cor do centro de uma imagem antiga de amostra (aiconsc/), para desenhar a amostra nova. */
+    private static Color corDaImagem(String string) {
+        try {
+            java.awt.image.BufferedImage imagem = javax.imageio.ImageIO.read(DialogoOpcoes.class.getResource("/aiconsc/" + string + ".png"));
+            return new Color(imagem.getRGB(imagem.getWidth() / 2, imagem.getHeight() / 2));
+        }
+        catch (Exception exception) {
+            return Color.GRAY;
+        }
+    }
+
+    private static final String[] CORES_PLACAR = new String[]{"cor0", "cor2", "cor3"};
+
+    private void amostras(JLabel[] jLabelArray, Color[] colorArray, int escolhida) {
+        for (int i = 0; i < jLabelArray.length; ++i) {
+            jLabelArray[i].setIcon(new Amostra(colorArray[i], i == escolhida));
+            jLabelArray[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        }
+    }
+
+    private static JLabel rotuloLinha(JLabel jLabel, String string) {
+        jLabel.setText(string);
+        jLabel.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+        jLabel.setForeground(TemaBetfoot.TEXTO_SUAVE);
+        jLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel.putClientProperty("tema.ok", Boolean.TRUE);
+        return jLabel;
+    }
+
+    /** Linha "rótulo .... combo" das preferências. */
+    private static JPanel linha(JLabel jLabel, String string, JComboBox jComboBox) {
+        JPanel jPanel = new JPanel(new java.awt.BorderLayout(16, 0));
+        jPanel.setOpaque(false);
+        jPanel.add((Component)DialogoOpcoes.rotuloLinha(jLabel, string), "Center");
+        jComboBox.setPreferredSize(new Dimension(180, 38));
+        jPanel.add((Component)jComboBox, "East");
+        jPanel.setAlignmentX(0.0f);
+        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        return jPanel;
+    }
+
+    private static JPanel fila(Component ... componentArray) {
+        JPanel jPanel = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        jPanel.setOpaque(false);
+        for (int i = 0; i < componentArray.length; ++i) {
+            if (i > 1) {
+                jPanel.add(javax.swing.Box.createHorizontalStrut(6));
+            }
+            jPanel.add(componentArray[i]);
+        }
+        jPanel.setAlignmentX(0.0f);
+        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, jPanel.getPreferredSize().height));
+        return jPanel;
+    }
+
+    private static Component em(Component component) {
+        if (component instanceof javax.swing.JComponent) {
+            ((javax.swing.JComponent)component).setAlignmentX(0.0f);
+        }
+        return component;
+    }
+
+    /** Tabelas no tema (chamado no fim do construtor, depois que o jogo configura modelos e renderizadores). */
+    private void temaTabelas() {
+        this.JG.setDefaultRenderer(LigaNacional.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jTable, Object object, boolean bl, boolean bl2, int n, int n2) {
+                super.getTableCellRendererComponent(jTable, object, bl, false, n, n2);
+                LigaNacional liga = (LigaNacional)object;
+                this.setIcon(null);
+                this.setText("");
+                this.setIconTextGap(10);
+                this.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+                if (n2 == 0) {
+                    this.setIcon(TemaBetfoot.marcador(liga.jr()));
+                    this.setHorizontalAlignment(CENTER);
+                } else if (n2 == 1) {
+                    this.setText(nucleo.EnumPaises.valueOf("P" + liga.jc()).getNome());
+                    this.setIcon(TemaBetfoot.bandeira(liga.jc(), 14));
+                    this.setHorizontalAlignment(LEFT);
+                }
+                return this;
+            }
+        });
+        this.JG.getColumnModel().getColumn(0).setMaxWidth(56);
+        this.JG.getColumnModel().getColumn(2).setMaxWidth(10);
+        TemaBetfoot.tabela(this.JG, this.wi);
+        this.JG.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+                javax.swing.SwingUtilities.invokeLater(() -> DialogoOpcoes.this.JG.repaint());
+            }
+        });
+        // Clique duplo também passa a competição para a outra lista.
+        this.afq.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    DialogoOpcoes.this.fx(0);
+                }
+            }
+        });
+        this.afr.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() == 2) {
+                    DialogoOpcoes.this.fx(1);
+                }
+            }
+        });
+        if (this.JG.getRowCount() == 0) {
+            // Na tela de novo jogo as ligas ainda não existem: explica em vez de mostrar a tabela vazia.
+            JLabel vazio = new JLabel("<html><div style='text-align:center'>As ligas aparecem aqui depois que a carreira come\u00e7a.</div></html>", javax.swing.SwingConstants.CENTER);
+            vazio.setFont(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+            vazio.setForeground(TemaBetfoot.TEXTO_FRACO);
+            this.wi.setColumnHeaderView(null);
+            this.wi.setViewportView(vazio);
+            this.wi.getViewport().setBackground(TemaBetfoot.LINHA_IMPAR);
+            this.wi.setPreferredSize(new Dimension(380, 80));
+        }
+        this.JG.setToolTipText("Marque para ver as rodadas dessa liga mesmo sem técnico humano nela");
+        for (JTable jTable : new JTable[]{this.afq, this.afr}) {
+            jTable.setDefaultRenderer(OpcaoTipoCompeticao.class, new javax.swing.table.DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable jTable, Object object, boolean bl, boolean bl2, int n, int n2) {
+                    super.getTableCellRendererComponent(jTable, object, bl, false, n, n2);
+                    this.setText(object == null ? "" : ((OpcaoTipoCompeticao)object).sT());
+                    this.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+                    return this;
+                }
+            });
+            JScrollPane rolagem = jTable == this.afq ? this.zf : this.ut;
+            jTable.setTableHeader(new javax.swing.table.JTableHeader(jTable.getColumnModel()));
+            TemaBetfoot.tabela(jTable, rolagem);
+            jTable.setRowHeight(32);
+            jTable.setTableHeader(null);
+        }
+    }
+
     private void mJ() {
         this.vd = new JPanel();
         this.a_ = new JLabel();
@@ -479,11 +655,11 @@ extends JPanel {
         this.Jm = new JComboBox();
         this.vA = new JLabel();
         this.IW = new JComboBox();
-        this.IN = new JCheckBox();
-        this.IO = new JCheckBox();
-        this.IV = new JCheckBox();
-        this.IU = new JCheckBox();
-        this.IP = new JCheckBox();
+        this.IN = new JCheckBox("Renovar sozinho os contratos que terminam");
+        this.IO = new JCheckBox("Cor nos placares humanos");
+        this.IV = new JCheckBox("Sons nos eventos dos jogos");
+        this.IU = new JCheckBox("Destaque nos eventos do time da casa");
+        this.IP = new JCheckBox("Usar cores na lista de jogadores");
         this.IM = new JButton();
         this.Ef = new JLabel();
         this.Eg = new JLabel();
@@ -494,159 +670,195 @@ extends JPanel {
         this.Jt = new JLabel();
         this.Ju = new JLabel();
         this.Jv = new JLabel();
-        this.IL = new JCheckBox();
+        this.IL = new JCheckBox("Ver leilão de jogadores");
         this.vm = new JButton();
         this.we = new JPanel();
         this.Bj = new JLabel();
         this.ut = new JScrollPane();
-        this.afr = new JTable();
+        this.afr = new JTable() {
+            @Override
+            public boolean isCellEditable(int n, int n2) {
+                return false;
+            }
+        };
         this.vw = new JLabel();
-        this.IQ = new JCheckBox();
-        this.IR = new JCheckBox();
-        this.IT = new JCheckBox();
-        this.IS = new JCheckBox();
+        this.IQ = new JCheckBox("Ver todos os estaduais agrupados");
+        this.IR = new JCheckBox("Fora do Brasil, não mostrar estaduais e regionais");
+        this.IT = new JCheckBox("Não mostrar rodadas das ligas sem humanos");
+        this.IS = new JCheckBox("Não mostrar regionais que não tiveram humanos");
         this.wi = new JScrollPane();
-        this.JG = new JTable();
+        this.JG = new JTable() {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer tableCellRenderer, int n, int n2) {
+                return TemaBetfoot.linha(this, super.prepareRenderer(tableCellRenderer, n, n2), n, n2);
+            }
+
+            @Override
+            public boolean isCellEditable(int n, int n2) {
+                return false;
+            }
+        };
         this.afo = new JLabel();
         this.zf = new JScrollPane();
-        this.afq = new JTable();
+        this.afq = new JTable() {
+            @Override
+            public boolean isCellEditable(int n, int n2) {
+                return false;
+            }
+        };
         this.afp = new JLabel();
         this.yZ = new JButton();
         this.yV = new JButton();
         this.ug = new JLabel();
-        this.setBackground(new Color(104, 120, 100));
-        this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.setPreferredSize(new Dimension(800, 567));
-        this.setLayout(new LayoutPosicaoAbsoluta());
-        this.vd.setBackground(new Color(224, 220, 220));
-        this.vd.setLayout(new LayoutPosicaoAbsoluta());
-        this.a_.setHorizontalAlignment(4);
-        this.a_.setText("Salvar automaticamente:");
-        this.vd.add((Component)this.a_, new components.RestricaoPosicaoLayout(10, 23, 204, -1));
-        this.vd.add((Component)this.Jk, new components.RestricaoPosicaoLayout(224, 20, 148, -1));
-        this.ur.setHorizontalAlignment(4);
-        this.ur.setText("Velocidade do Jogo:");
-        this.vd.add((Component)this.ur, new components.RestricaoPosicaoLayout(10, 54, 204, -1));
-        this.vd.add((Component)this.Jp, new components.RestricaoPosicaoLayout(224, 51, 148, -1));
-        this.us.setHorizontalAlignment(4);
-        this.us.setText("Velocidade sem jogos humanos:");
-        this.vd.add((Component)this.us, new components.RestricaoPosicaoLayout(10, 85, 204, -1));
-        this.vd.add((Component)this.Jq, new components.RestricaoPosicaoLayout(224, 82, 148, -1));
-        this.vx.setHorizontalAlignment(4);
-        this.vx.setText("Disputas de p\u00eanaltis sem humanos:");
-        this.vd.add((Component)this.vx, new components.RestricaoPosicaoLayout(10, 123, 204, -1));
-        this.vd.add((Component)this.Ji, new components.RestricaoPosicaoLayout(224, 120, 148, -1));
-        this.vy.setHorizontalAlignment(4);
-        this.vy.setText("Mudan\u00e7as de t\u00e9cnicos:");
-        this.vd.add((Component)this.vy, new components.RestricaoPosicaoLayout(10, 154, 204, -1));
-        this.vd.add((Component)this.Jo, new components.RestricaoPosicaoLayout(224, 151, 148, -1));
-        this.vz.setHorizontalAlignment(4);
-        this.vz.setText("Janela de substitui\u00e7\u00e3o no intervalo:");
-        this.vd.add((Component)this.vz, new components.RestricaoPosicaoLayout(10, 192, 204, -1));
-        this.vd.add((Component)this.Jm, new components.RestricaoPosicaoLayout(224, 189, 148, -1));
-        this.vA.setHorizontalAlignment(4);
-        this.vA.setText("Aviso de t\u00e9rmino de contrato:");
-        this.vd.add((Component)this.vA, new components.RestricaoPosicaoLayout(10, 223, 204, -1));
-        this.vd.add((Component)this.IW, new components.RestricaoPosicaoLayout(224, 220, 148, -1));
-        this.IN.setFont(new Font("Tahoma", 0, 12));
-        this.IN.setText("Atualizar automaticamente contratos encerrados");
-        this.IN.setOpaque(false);
-        this.vd.add((Component)this.IN, new components.RestricaoPosicaoLayout(20, 290, 350, -1));
-        this.IO.setFont(new Font("Tahoma", 0, 12));
-        this.IO.setText("Cor nos placares humanos:");
-        this.IO.setOpaque(false);
-        this.vd.add((Component)this.IO, new components.RestricaoPosicaoLayout(20, 330, 200, -1));
-        this.IV.setFont(new Font("Tahoma", 0, 12));
-        this.IV.setText("Sons nos eventos dos jogos");
-        this.IV.setOpaque(false);
-        this.vd.add((Component)this.IV, new components.RestricaoPosicaoLayout(20, 370, 265, -1));
-        this.IU.setFont(new Font("Tahoma", 0, 12));
-        this.IU.setText("Destaque nos eventos do time da casa");
-        this.IU.setOpaque(false);
-        this.vd.add((Component)this.IU, new components.RestricaoPosicaoLayout(20, 410, 265, -1));
-        this.IP.setFont(new Font("Tahoma", 0, 12));
-        this.IP.setText("Usar cores na lista de jogadores");
-        this.IP.setOpaque(false);
-        this.vd.add((Component)this.IP, new components.RestricaoPosicaoLayout(22, 512, 230, -1));
-        this.IM.setIcon(new ImageIcon(this.getClass().getResource("/aicons/iconcor.png")));
-        this.IM.setText("cores");
-        this.vd.add((Component)this.IM, new components.RestricaoPosicaoLayout(260, 510, -1, -1));
-        this.Ef.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Ef, new components.RestricaoPosicaoLayout(240, 330, -1, -1));
-        this.Eg.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor2.png")));
-        this.vd.add((Component)this.Eg, new components.RestricaoPosicaoLayout(280, 330, -1, -1));
-        this.Eh.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor3s.png")));
-        this.vd.add((Component)this.Eh, new components.RestricaoPosicaoLayout(320, 330, -1, -1));
-        this.JD.setFont(new Font("Tahoma", 0, 12));
-        this.JD.setText("Tema de cores das janelas:");
-        this.vd.add((Component)this.JD, new components.RestricaoPosicaoLayout(22, 445, 320, -1));
-        this.Jr.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Jr, new components.RestricaoPosicaoLayout(60, 467, -1, -1));
-        this.Js.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Js, new components.RestricaoPosicaoLayout(100, 467, -1, -1));
-        this.Jt.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Jt, new components.RestricaoPosicaoLayout(140, 467, -1, -1));
-        this.Ju.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Ju, new components.RestricaoPosicaoLayout(180, 467, -1, -1));
-        this.Jv.setIcon(new ImageIcon(this.getClass().getResource("/aiconsc/cor0.png")));
-        this.vd.add((Component)this.Jv, new components.RestricaoPosicaoLayout(220, 467, -1, -1));
-        this.IL.setFont(new Font("Tahoma", 0, 12));
-        this.IL.setText("Ver leil\u00e3o de jogadores");
-        this.IL.setOpaque(false);
-        this.vd.add((Component)this.IL, new components.RestricaoPosicaoLayout(20, 255, 320, -1));
-        this.add((Component)this.vd, new components.RestricaoPosicaoLayout(20, 43, 380, 560));
-        this.vm.setText("X");
-        this.add((Component)this.vm, new components.RestricaoPosicaoLayout(789, 10, 60, -1));
-        this.we.setBackground(new Color(224, 220, 220));
-        this.we.setLayout(new LayoutPosicaoAbsoluta());
-        this.Bj.setFont(new Font("Tahoma", 1, 11));
-        this.Bj.setText("Visualizar partidas das ligas mesmo sem times humanos:");
-        this.we.add((Component)this.Bj, new components.RestricaoPosicaoLayout(10, 10, -1, -1));
-        this.afr.setModel(new DefaultTableModel(new Object[0][], new String[0]));
-        this.ut.setViewportView(this.afr);
-        this.we.add((Component)this.ut, new components.RestricaoPosicaoLayout(260, 340, 170, 210));
-        this.vw.setFont(new Font("Tahoma", 1, 11));
-        this.vw.setHorizontalAlignment(0);
-        this.vw.setText("Ver s\u00f3 resultados");
-        this.vw.setToolTipText("");
-        this.we.add((Component)this.vw, new components.RestricaoPosicaoLayout(240, 320, 170, -1));
-        this.IQ.setText("Ver todos os estaduais agrupados");
-        this.IQ.setOpaque(false);
-        this.we.add((Component)this.IQ, new components.RestricaoPosicaoLayout(10, 260, 304, -1));
-        this.IR.setText("Fora do Brasil n\u00e3o mostrar estaduais/regionais");
-        this.IR.setOpaque(false);
-        this.we.add((Component)this.IR, new components.RestricaoPosicaoLayout(10, 220, 362, -1));
         this.IT.setSelected(true);
-        this.IT.setText("N\u00e3o mostrar rodadas das ligas nacionais n\u00e3o-humanas");
-        this.IT.setOpaque(false);
-        this.we.add((Component)this.IT, new components.RestricaoPosicaoLayout(10, 200, 362, -1));
-        this.IS.setText("N\u00e3o mostrar regionais que n\u00e3o tiveram humanos");
-        this.IS.setOpaque(false);
-        this.we.add((Component)this.IS, new components.RestricaoPosicaoLayout(10, 240, 362, -1));
-        this.JG.setModel(new DefaultTableModel(new Object[0][], new String[0]));
         this.wi.setViewportView(this.JG);
-        this.we.add((Component)this.wi, new components.RestricaoPosicaoLayout(10, 40, 415, 151));
-        this.afo.setFont(new Font("Tahoma", 1, 12));
-        this.afo.setText("Competi\u00e7\u00f5es sem times humanos:");
-        this.we.add((Component)this.afo, new components.RestricaoPosicaoLayout(110, 290, -1, -1));
-        this.afq.setModel(new DefaultTableModel(new Object[0][], new String[0]));
         this.zf.setViewportView(this.afq);
-        this.we.add((Component)this.zf, new components.RestricaoPosicaoLayout(10, 340, 170, 210));
-        this.afp.setFont(new Font("Tahoma", 1, 11));
-        this.afp.setHorizontalAlignment(0);
-        this.afp.setText("Ver partidas");
-        this.we.add((Component)this.afp, new components.RestricaoPosicaoLayout(10, 320, 160, -1));
-        this.yZ.setFont(new Font("Tahoma", 1, 11));
-        this.yZ.setText("<<");
-        this.we.add((Component)this.yZ, new components.RestricaoPosicaoLayout(190, 440, 60, 30));
-        this.yV.setFont(new Font("Tahoma", 1, 11));
-        this.yV.setText(">>");
-        this.we.add((Component)this.yV, new components.RestricaoPosicaoLayout(190, 380, 60, 30));
-        this.add((Component)this.we, new components.RestricaoPosicaoLayout(412, 43, 440, 560));
-        this.ug.setFont(new Font("Tahoma", 1, 12));
-        this.ug.setForeground(new Color(255, 255, 255));
-        this.ug.setText("Op\u00e7\u00f5es");
-        this.add((Component)this.ug, new components.RestricaoPosicaoLayout(29, 14, 240, -1));
+        this.ut.setViewportView(this.afr);
+        this.setOpaque(false);
+        this.setLayout(new java.awt.BorderLayout(0, 20));
+
+        // ---- Jogo ----
+        TemaBetfoot.Cartao jogo = new TemaBetfoot.Cartao(null);
+        jogo.setLayout(new javax.swing.BoxLayout(jogo, 1));
+        jogo.setBorder(BorderFactory.createEmptyBorder(20, 22, 20, 22));
+        JPanel cab1 = TemaBetfoot.cabecalho("Jogo", "Salvamento, velocidade e avisos", null);
+        cab1.setAlignmentX(0.0f);
+        jogo.add(cab1);
+        jogo.add(javax.swing.Box.createVerticalStrut(14));
+        jogo.add(DialogoOpcoes.linha(this.a_, "Salvar automaticamente", this.Jk));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.ur, "Velocidade do jogo", this.Jp));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.us, "Velocidade sem jogos humanos", this.Jq));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.vx, "Pênaltis sem humanos", this.Ji));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.vy, "Mudanças de técnicos", this.Jo));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.vz, "Substituição no intervalo", this.Jm));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.linha(this.vA, "Aviso de fim de contrato", this.IW));
+        jogo.add(TemaBetfoot.divisor());
+        jogo.add(DialogoOpcoes.em(this.IL));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.em(this.IN));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.em(this.IV));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.em(this.IU));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        jogo.add(DialogoOpcoes.fila(this.IO, javax.swing.Box.createHorizontalStrut(10), this.Ef, this.Eg, this.Eh));
+        jogo.add(TemaBetfoot.divisor());
+        DialogoOpcoes.rotuloLinha(this.JD, "Cor das janelas clássicas");
+        this.JD.setToolTipText("Cor de fundo das telas do jogo que ainda estão no visual antigo");
+        jogo.add(DialogoOpcoes.fila(this.JD, javax.swing.Box.createHorizontalStrut(10), this.Jr, this.Js, this.Jt, this.Ju, this.Jv));
+        jogo.add(javax.swing.Box.createVerticalStrut(8));
+        TemaBetfoot.botao(this.IM, TemaBetfoot.Estilo.CHIP, "Escolher cores", TemaBetfoot.Simbolo.LAPIS);
+        JPanel cores = new JPanel(new java.awt.BorderLayout(12, 0));
+        cores.setOpaque(false);
+        cores.add((Component)this.IP, "Center");
+        cores.add((Component)this.IM, "East");
+        cores.setAlignmentX(0.0f);
+        cores.setMaximumSize(new Dimension(Integer.MAX_VALUE, cores.getPreferredSize().height));
+        jogo.add(cores);
+
+        // ---- Partidas sem times humanos ----
+        TemaBetfoot.Cartao partidas = new TemaBetfoot.Cartao(new java.awt.BorderLayout(0, 14));
+        partidas.setBorder(BorderFactory.createEmptyBorder(20, 22, 20, 22));
+        partidas.add((Component)TemaBetfoot.cabecalho("Partidas sem humanos", "O que mostrar dos jogos em que você não está", null), "North");
+        JPanel centro = new JPanel();
+        centro.setOpaque(false);
+        centro.setLayout(new javax.swing.BoxLayout(centro, 1));
+        this.Bj = TemaBetfoot.rotulo("Ver as partidas destas ligas");
+        this.Bj.setAlignmentX(0.0f);
+        centro.add(this.Bj);
+        centro.add(javax.swing.Box.createVerticalStrut(8));
+        this.wi.setPreferredSize(new Dimension(380, 150));
+        this.wi.setAlignmentX(0.0f);
+        centro.add(this.wi);
+        centro.add(javax.swing.Box.createVerticalStrut(12));
+        centro.add(DialogoOpcoes.em(this.IT));
+        centro.add(javax.swing.Box.createVerticalStrut(6));
+        centro.add(DialogoOpcoes.em(this.IR));
+        centro.add(javax.swing.Box.createVerticalStrut(6));
+        centro.add(DialogoOpcoes.em(this.IS));
+        centro.add(javax.swing.Box.createVerticalStrut(6));
+        centro.add(DialogoOpcoes.em(this.IQ));
+        centro.add(TemaBetfoot.divisor());
+        this.afo = TemaBetfoot.rotulo("Competições sem humanos");
+        this.afo.setAlignmentX(0.0f);
+        centro.add(this.afo);
+        centro.add(javax.swing.Box.createVerticalStrut(8));
+        // Duas listas: ver as partidas | ver só o resultado, com as setas para passar de uma para a outra.
+        JPanel listas = new JPanel(new java.awt.GridBagLayout());
+        listas.setOpaque(false);
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        c.fill = java.awt.GridBagConstraints.BOTH;
+        c.weightx = 1.0;
+        c.weighty = 0.0;
+        c.gridy = 0;
+        c.gridx = 0;
+        c.insets = new java.awt.Insets(0, 0, 6, 0);
+        this.afp.setText("VER PARTIDAS");
+        this.vw.setText("SÓ RESULTADOS");
+        for (JLabel l : new JLabel[]{this.afp, this.vw}) {
+            l.setFont(TemaBetfoot.espacada(TemaBetfoot.display(12.0f), 0.08f));
+            l.setForeground(TemaBetfoot.TEXTO_FRACO);
+            l.putClientProperty("tema.ok", Boolean.TRUE);
+        }
+        listas.add((Component)this.afp, c);
+        c.gridx = 2;
+        listas.add((Component)this.vw, c);
+        c.gridy = 1;
+        c.weighty = 1.0;
+        c.gridx = 0;
+        c.insets = new java.awt.Insets(0, 0, 0, 0);
+        this.zf.setPreferredSize(new Dimension(160, 170));
+        this.ut.setPreferredSize(new Dimension(160, 170));
+        listas.add((Component)this.zf, c);
+        c.gridx = 2;
+        listas.add((Component)this.ut, c);
+        TemaBetfoot.botao(this.yV, TemaBetfoot.Estilo.ICONE, null, TemaBetfoot.Simbolo.AVANCAR);
+        this.yV.setToolTipText("Passar para \"s\\u00f3 resultados\"");
+        TemaBetfoot.botao(this.yZ, TemaBetfoot.Estilo.ICONE, null, TemaBetfoot.Simbolo.VOLTAR);
+        this.yZ.setToolTipText("Passar para \"ver partidas\"");
+        JPanel setas = new JPanel();
+        setas.setOpaque(false);
+        setas.setLayout(new javax.swing.BoxLayout(setas, 1));
+        setas.add(this.yV);
+        setas.add(javax.swing.Box.createVerticalStrut(10));
+        setas.add(this.yZ);
+        JPanel meioSetas = new JPanel(new java.awt.GridBagLayout());
+        meioSetas.setOpaque(false);
+        meioSetas.add(setas);
+        c.gridx = 1;
+        c.weightx = 0.0;
+        c.insets = new java.awt.Insets(0, 10, 0, 10);
+        listas.add((Component)meioSetas, c);
+        listas.setAlignmentX(0.0f);
+        centro.add(listas);
+        partidas.add((Component)centro, "Center");
+
+        // Caixas e combos no tema (os rótulos e botões já estão prontos).
+        TemaBetfoot.aplicarTema(jogo);
+        TemaBetfoot.aplicarTema(centro);
+        TemaBetfoot.botao(this.IM, TemaBetfoot.Estilo.CHIP, "Escolher cores", TemaBetfoot.Simbolo.LAPIS);
+        TemaBetfoot.botao(this.yV, TemaBetfoot.Estilo.ICONE, null, TemaBetfoot.Simbolo.AVANCAR);
+        TemaBetfoot.botao(this.yZ, TemaBetfoot.Estilo.ICONE, null, TemaBetfoot.Simbolo.VOLTAR);
+
+        JPanel colunas = new JPanel(new java.awt.GridLayout(1, 2, 20, 0));
+        colunas.setOpaque(false);
+        colunas.add(jogo);
+        colunas.add(partidas);
+        this.add((Component)TemaBetfoot.topoModal(null, "Opções", "Preferências do jogo · valem para todas as carreiras", this.vm), "North");
+        this.add((Component)colunas, "Center");
+        JButton voltar = TemaBetfoot.botao(new JButton(), TemaBetfoot.Estilo.PRIMARIO, "Voltar", TemaBetfoot.Simbolo.VOLTAR);
+        voltar.setToolTipText("As mudanças já valem; só fecha (Esc)");
+        voltar.addActionListener(actionEvent -> this.vm.doClick());
+        JLabel dica = new JLabel("As mudanças valem na hora");
+        dica.setFont(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+        dica.setForeground(TemaBetfoot.TEXTO_FRACO);
+        this.add((Component)TemaBetfoot.rodapeModal(dica, voltar), "South");
     }
 
     static /* synthetic */ void a(DialogoOpcoes fB2) {

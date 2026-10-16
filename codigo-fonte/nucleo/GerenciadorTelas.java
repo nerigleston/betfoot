@@ -269,16 +269,7 @@ public class GerenciadorTelas {
     }
 
     public static void cX() {
-        JDialog jDialog = new JDialog();
-        DialogoCarregarJogoSalvo dn_02 = new DialogoCarregarJogoSalvo(jDialog);
-        jDialog.add(dn_02);
-        jDialog.setSize(407, 354);
-        jDialog.setPreferredSize(new Dimension(407, 354));
-        jDialog.setModal(true);
-        jDialog.setResizable(false);
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setUndecorated(true);
-        jDialog.setVisible(true);
+        DialogoCarregarJogoSalvo.abrir();
     }
 
     public static void a(String string, boolean bl) {
@@ -414,15 +405,9 @@ public class GerenciadorTelas {
     }
 
     public static void a(JTable jTable) {
-        JDialog jDialog = new JDialog(cC);
+        JDialog jDialog = components.TemaBetfoot.dialogo(cC);
         DialogoOpcoes fB2 = new DialogoOpcoes(jDialog, jTable);
-        jDialog.add(fB2);
-        jDialog.setSize(867, 620);
-        jDialog.setPreferredSize(new Dimension(867, 620));
-        jDialog.setModal(true);
-        jDialog.setResizable(false);
-        jDialog.setLocationRelativeTo(null);
-        jDialog.setUndecorated(true);
+        components.TemaBetfoot.vestir(jDialog, fB2);
         jDialog.setVisible(true);
     }
 

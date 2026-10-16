@@ -12,6 +12,7 @@ import telas.OuvinteIniciarJogoNovoJogo;
 import telas.OuvinteAdicionarOutroTecnicoNovoJogo;
 import nucleo.LigaNacional;
 import nucleo.EnumPaises;
+import nucleo.ItemSelecaoPais;
 import nucleo.DadosPais;
 import nucleo.ModeloTime;
 import nucleo.ConstantesJogo;
@@ -21,23 +22,33 @@ import nucleo.GerenciadorTelas;
 import motor.GerenciadorJogo;
 import competicoes.CompeticaoLigaNacional;
 import comparadores.ColecaoComparadoresSorteio;
+import components.TemaBetfoot;
+import components.TemaBetfoot.Estilo;
+import components.TemaBetfoot.Simbolo;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.FontMetrics;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Collections;
 import java.util.Random;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
 
 public class PainelConfiguracaoNovoJogo
 extends JPanel {
@@ -59,20 +70,15 @@ extends JPanel {
     private JComboBox ue;
     private JTextField uf;
     private JLabel ug;
-    private JLabel a_;
-    private JSeparator BE;
-    private JSeparator BF;
-    private JSeparator BG;
     private JLabel BH;
     private JLabel BI;
     private JLabel BJ;
     private JLabel BK;
-    private JLabel BL;
-    private JLabel BM;
-    private JLabel uF;
     private JLabel vf;
     private JLabel BN;
-    private JLabel BO;
+    private int divisao = 0;
+    private final Previa previa = new Previa();
+    private final Adicionados adicionados = new Adicionados();
 
     public PainelConfiguracaoNovoJogo(JFrame jFrame) {
         this.Br = jFrame;
@@ -119,12 +125,14 @@ extends JPanel {
         this.Bw.addActionListener(new OuvinteIniciarJogoNovoJogo(this));
         this.Bx.addActionListener(new OuvinteAdicionarOutroTecnicoNovoJogo(this));
         this.ug.setText("");
+        this.tema();
     }
 
     private void ol() {
         if (this.By.isSelected()) {
             this.BN.setText("Aleat\u00f3rio");
             this.BN.setIcon(null);
+            this.previa.repaint();
             this.Bt = null;
             int n2 = 0;
             if (this.Bu[0].getItemCount() > 0) {
@@ -151,11 +159,13 @@ extends JPanel {
         String string = this.oo();
         if (string == null) {
             this.or();
-            this.vf.setText("Adicionar t\u00e9cnico humano " + Integer.toString(++count));
+            ModeloTime time = this.By.isSelected() && this.Bt != null ? this.Bt : this.zu;
+            this.adicionados.adicionar(count, this.uf.getText().trim(), time, UtilitariosTexto.H(this.BD.getSelectedIndex()));
+            this.vf.setText("T\u00c9CNICO " + Integer.toString(++count));
             this.uf.setText("");
             this.ot();
         } else {
-            JOptionPane.showMessageDialog(null, string, "", 0);
+            TemaBetfoot.aviso(this, "Falta pouco", string);
         }
     }
 
@@ -179,8 +189,11 @@ extends JPanel {
 
     public void pl() {
         int n2 = -1;
-        n2 = JOptionPane.showConfirmDialog(null, "Deseja criar um torneio Amistoso de in\u00edcio de temporada? ", "Torneio Amistoso", 0);
-        if (n2 == 0) {
+        JLabel texto = new JLabel("<html><div style='width:360px'>Antes da temporada, d\u00e1 para montar um torneio amistoso com os times que voc\u00ea escolher.</div></html>");
+        texto.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+        texto.setForeground(TemaBetfoot.TEXTO_SUAVE);
+        n2 = TemaBetfoot.escolher(this, "Torneio amistoso", null, texto, new String[]{"Agora n\u00e3o", "Criar torneio"}, 1);
+        if (n2 == 1) {
             GerenciadorTelas.aY(10);
         } else {
             this.AB();
@@ -212,7 +225,7 @@ extends JPanel {
             }
             this.pl();
         } else {
-            JOptionPane.showMessageDialog(null, string, "", 0);
+            TemaBetfoot.aviso(this, "Falta pouco", string);
         }
     }
 
@@ -233,12 +246,7 @@ extends JPanel {
         this.zu = (ModeloTime)this.Bu[n2].getSelectedItem();
         this.ou();
         this.Bu[n2].setEnabled(true);
-        int n3 = 0;
-        while (n3 < this.Bv.length) {
-            this.Bv[n3].setForeground(new Color(255, 255, 255));
-            ++n3;
-        }
-        this.Bv[n2].setForeground(new Color(255, 255, 0));
+        this.marcarDivisao(n2);
         this.on();
     }
 
@@ -269,6 +277,7 @@ extends JPanel {
             this.BN.setText("");
             this.BN.setIcon(null);
         }
+        this.previa.repaint();
         this.on();
     }
 
@@ -278,6 +287,7 @@ extends JPanel {
             this.BN.setText(this.zu.getNome());
             this.BN.setIcon(this.zu.x(25, 25));
         }
+        this.previa.repaint();
     }
 
     private void cX(int n2) {
@@ -303,7 +313,8 @@ extends JPanel {
                 this.Bv[3].setText("4\u00aa divis\u00e3o");
             }
         } else {
-            this.Bv[3].setText("Jogando estaduais:");
+            this.Bv[3].setText("S\u00f3 estaduais");
+            this.Bv[3].setToolTipText("Clubes fora das quatro divis\u00f5es que jogam s\u00f3 o estadual");
             Collections.sort(this.Bs.jg(), ColecaoComparadoresSorteio.VS);
             int n5 = 0;
             while (n5 < this.Bs.jg().size()) {
@@ -320,92 +331,406 @@ extends JPanel {
         }
     }
 
+    /** Ocupa a janela toda (com o fundo do estádio); em janelas pequenas a rolagem do jogo assume. */
+    @Override
+    public Dimension getPreferredSize() {
+        return TemaBetfoot.Tela.tamanho(this, 1100, 680);
+    }
+
+    /**
+     * Volta para as competições. Passar para esta tela já montou o calendário, então recomeça o novo jogo do zero
+     * (como a tela inicial faz) e devolve as escolhas da tela anterior: ligas marcadas e as configurações de ligas
+     * e estaduais. As demais opções (estaduais, regionais, salários…) já ficam gravadas nas preferências.
+     */
+    private void voltar() {
+        if (count > 1 && !TemaBetfoot.confirmar(this, "Voltar \u00e0s competi\u00e7\u00f5es?", "Os t\u00e9cnicos j\u00e1 adicionados ser\u00e3o descartados.", "Voltar", true)) {
+            return;
+        }
+        java.util.Set<Integer> ligas = new java.util.HashSet<Integer>();
+        for (Object object : GerenciadorJogo.SR.bF) {
+            if (((ItemSelecaoPais)object).iC()) {
+                ligas.add(((ItemSelecaoPais)object).getPais());
+            }
+        }
+        int[] estaduais = GerenciadorJogo.SR.bE;
+        java.util.ArrayList configLigas = GerenciadorJogo.SR.bG;
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        new GerenciadorJogo();
+        IniciadorCarreira.dd();
+        for (Object object : GerenciadorJogo.SR.bF) {
+            ((ItemSelecaoPais)object).v(ligas.contains(((ItemSelecaoPais)object).getPais()));
+        }
+        if (estaduais != null && estaduais.length == GerenciadorJogo.SR.bE.length) {
+            GerenciadorJogo.SR.bE = estaduais;
+        }
+        if (configLigas != null) {
+            GerenciadorJogo.SR.bG = configLigas;
+        }
+        count = 1;
+        GerenciadorTelas.aY(0);
+    }
+
+    /** Combos no tema; chamado depois que o construtor põe os renderizadores de país e de time. */
+    private void tema() {
+        TemaBetfoot.combo(this.ue);
+        TemaBetfoot.combo(this.BD);
+        for (JComboBox jComboBox : this.Bu) {
+            TemaBetfoot.combo(jComboBox);
+        }
+    }
+
+    /** Divisão escolhida em destaque (verde), as outras apagadas. */
+    private void marcarDivisao(int n) {
+        this.divisao = n;
+        for (int i = 0; i < this.Bv.length; ++i) {
+            this.Bv[i].setForeground(i == n ? TemaBetfoot.VERDE : TemaBetfoot.TEXTO_SUAVE);
+        }
+        this.previa.repaint();
+    }
+
+    private static JPanel campo(String rotulo, Component component) {
+        JPanel jPanel = new JPanel(new BorderLayout(0, 8));
+        jPanel.setOpaque(false);
+        jPanel.add((Component)TemaBetfoot.rotulo(rotulo), "North");
+        jPanel.add(component, "Center");
+        jPanel.setAlignmentX(0.0f);
+        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, jPanel.getPreferredSize().height));
+        return jPanel;
+    }
+
+    /** Linha de uma divisão: nome à esquerda, combo dos times à direita. */
+    private static JPanel linhaDivisao(JLabel jLabel, JComboBox jComboBox) {
+        final JPanel jPanel = new JPanel(new BorderLayout(14, 0));
+        jPanel.setOpaque(false);
+        jLabel.setFont(TemaBetfoot.espacada(TemaBetfoot.display(16.0f), 0.04f));
+        jLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        jLabel.setPreferredSize(new Dimension(150, 40));
+        jPanel.add((Component)jLabel, "West");
+        jComboBox.setPreferredSize(new Dimension(240, 42));
+        jPanel.add((Component)jComboBox, "Center");
+        jPanel.setAlignmentX(0.0f);
+        jPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+        // A linha some junto com o combo (divisão sem times).
+        jComboBox.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent componentEvent) {
+                jPanel.setVisible(true);
+            }
+
+            @Override
+            public void componentHidden(java.awt.event.ComponentEvent componentEvent) {
+                jPanel.setVisible(false);
+            }
+        });
+        return jPanel;
+    }
+
+    /**
+     * Faixa com os técnicos já adicionados (aparece depois do primeiro "Adicionar outro técnico"): número, escudo,
+     * nome do técnico com a bandeira e o time de cada um.
+     */
+    private static class Adicionados
+    extends JPanel {
+        Adicionados() {
+            super(new BorderLayout(0, 10));
+            this.setOpaque(false);
+            this.setVisible(false);
+        }
+
+        private final JPanel fila = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+
+        void adicionar(int numero, String nome, ModeloTime time, int pais) {
+            if (this.getComponentCount() == 0) {
+                this.fila.setOpaque(false);
+                this.add((Component)TemaBetfoot.rotulo("T\u00e9cnicos na carreira"), "North");
+                this.add((Component)this.fila, "Center");
+            }
+            if (this.fila.getComponentCount() > 0) {
+                this.fila.add(javax.swing.Box.createHorizontalStrut(12));
+            }
+            this.fila.add(new Ficha(numero, nome, time, pais));
+            this.setVisible(true);
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
+    /** Uma ficha da faixa de técnicos adicionados. */
+    private static class Ficha
+    extends JComponent {
+        private final int numero;
+        private final String nome;
+        private final String time;
+        private final javax.swing.Icon escudo;
+        private final javax.swing.Icon bandeira;
+
+        Ficha(int n, String string, ModeloTime modeloTime, int pais) {
+            this.numero = n;
+            this.nome = string;
+            this.time = modeloTime == null ? "Time aleat\u00f3rio" : modeloTime.getNome();
+            this.escudo = modeloTime == null ? null : modeloTime.x(34, 34);
+            this.bandeira = TemaBetfoot.bandeira(pais, 11);
+            FontMetrics fn = this.getFontMetrics(TemaBetfoot.fonte(Font.BOLD, 15.0f));
+            FontMetrics ft = this.getFontMetrics(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+            int texto = Math.max(fn.stringWidth(this.nome) + this.bandeira.getIconWidth() + 8, ft.stringWidth(this.time));
+            this.setPreferredSize(new Dimension(Math.min(360, 32 + 34 + 12 + texto + 20 + 18), 58));
+            this.setToolTipText("T\u00e9cnico " + n + ": " + string + " \u00b7 " + this.time);
+        }
+
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            Graphics2D g = TemaBetfoot.suave(graphics);
+            int w = this.getWidth();
+            int h = this.getHeight();
+            RoundRectangle2D.Double forma = new RoundRectangle2D.Double(0.5, 0.5, w - 1, h - 1, 18.0, 18.0);
+            g.setColor(TemaBetfoot.CARTAO);
+            g.fill(forma);
+            g.setColor(TemaBetfoot.alfa(TemaBetfoot.VERDE, 0.35));
+            g.draw(forma);
+            // Número do técnico num círculo verde.
+            g.setColor(TemaBetfoot.VERDE_BOTAO);
+            g.fill(new Ellipse2D.Double(14, (h - 24) / 2.0, 24, 24));
+            g.setFont(TemaBetfoot.display(15.0f));
+            FontMetrics fm = g.getFontMetrics();
+            String n = Integer.toString(this.numero);
+            g.setColor(Color.WHITE);
+            g.drawString(n, 14 + (24 - fm.stringWidth(n)) / 2, h / 2 + (fm.getAscent() - fm.getDescent()) / 2);
+            int x = 48;
+            if (this.escudo != null) {
+                this.escudo.paintIcon(this, g, x, (h - 34) / 2);
+            }
+            x += 34 + 12;
+            int max = w - x - 16;
+            g.setFont(TemaBetfoot.fonte(Font.BOLD, 15.0f));
+            fm = g.getFontMetrics();
+            String nome = this.nome;
+            while (nome.length() > 1 && fm.stringWidth(nome) > max - this.bandeira.getIconWidth() - 8) {
+                nome = nome.substring(0, nome.length() - 2) + "\u2026";
+            }
+            g.setColor(TemaBetfoot.TEXTO);
+            g.drawString(nome, x, h / 2 - 4);
+            this.bandeira.paintIcon(this, g, x + fm.stringWidth(nome) + 8, h / 2 - 4 - this.bandeira.getIconHeight());
+            g.setFont(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+            fm = g.getFontMetrics();
+            String time = this.time;
+            while (time.length() > 1 && fm.stringWidth(time) > max) {
+                time = time.substring(0, time.length() - 2) + "\u2026";
+            }
+            g.setColor(TemaBetfoot.TEXTO_SUAVE);
+            g.drawString(time, x, h / 2 + 14);
+            g.dispose();
+        }
+    }
+
+    /** Cartão do clube escolhido: escudo grande, nome e divisão (ou o sorteio, no modo aleatório). */
+    private class Previa
+    extends JComponent {
+        private ModeloTime time;
+        private javax.swing.Icon escudo;
+
+        Previa() {
+            this.setPreferredSize(new Dimension(300, 230));
+        }
+
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            Graphics2D g = TemaBetfoot.suave(graphics);
+            int w = this.getWidth();
+            int h = this.getHeight();
+            RoundRectangle2D.Double forma = new RoundRectangle2D.Double(0.5, 0.5, w - 1, h - 1, 22.0, 22.0);
+            g.setPaint(new GradientPaint(0.0f, 0.0f, TemaBetfoot.alfa(TemaBetfoot.VERDE, 0.12), 0.0f, h, TemaBetfoot.alfa(TemaBetfoot.VERDE, 0.0)));
+            g.fill(forma);
+            g.setColor(TemaBetfoot.alfa(Color.WHITE, 0.08));
+            g.draw(forma);
+            boolean aleatorio = PainelConfiguracaoNovoJogo.this.By.isSelected();
+            ModeloTime atual = aleatorio ? null : PainelConfiguracaoNovoJogo.this.zu;
+            if (atual != this.time) {
+                this.time = atual;
+                this.escudo = atual == null ? null : atual.x(112, 112);
+            }
+            int lado = 112;
+            int y = 22;
+            if (this.escudo != null) {
+                this.escudo.paintIcon(this, g, (w - lado) / 2, y);
+            } else {
+                g.setColor(TemaBetfoot.alfa(Color.WHITE, 0.06));
+                g.fill(new Ellipse2D.Double((w - lado) / 2.0, y, lado, lado));
+                g.setColor(TemaBetfoot.alfa(Color.WHITE, 0.14));
+                g.draw(new Ellipse2D.Double((w - lado) / 2.0 + 0.5, y + 0.5, lado - 1, lado - 1));
+                g.setFont(TemaBetfoot.display(54.0f));
+                FontMetrics fm = g.getFontMetrics();
+                String s = aleatorio || atual == null ? "?" : atual.getNome().substring(0, 1).toUpperCase();
+                g.setColor(TemaBetfoot.TEXTO_SUAVE);
+                g.drawString(s, (w - fm.stringWidth(s)) / 2, y + (lado + fm.getAscent() - fm.getDescent()) / 2);
+            }
+            y += lado + 34;
+            String nome = aleatorio ? "TIME ALEATÓRIO" : (atual == null ? "ESCOLHA UM TIME" : atual.getNome().toUpperCase());
+            g.setFont(TemaBetfoot.espacada(TemaBetfoot.display(26.0f), 0.02f));
+            FontMetrics fm = g.getFontMetrics();
+            while (nome.length() > 1 && fm.stringWidth(nome) > w - 32) {
+                nome = nome.substring(0, nome.length() - 2) + "…";
+            }
+            g.setColor(TemaBetfoot.TEXTO);
+            g.drawString(nome, (w - fm.stringWidth(nome)) / 2, y);
+            String apoio;
+            if (aleatorio) {
+                apoio = "Sorteado ao iniciar, entre as divisões do país";
+            } else if (atual == null) {
+                apoio = "";
+            } else {
+                String div = PainelConfiguracaoNovoJogo.this.Bv[PainelConfiguracaoNovoJogo.this.divisao].getText().replace(":", "").trim();
+                apoio = String.valueOf(PainelConfiguracaoNovoJogo.this.ue.getSelectedItem() == null ? "" : ((DadosPais)UtilitariosTexto.cY().get(UtilitariosTexto.G(PainelConfiguracaoNovoJogo.this.Bs.jc()))).getNome()) + "  ·  " + div;
+            }
+            g.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            fm = g.getFontMetrics();
+            g.setColor(TemaBetfoot.TEXTO_SUAVE);
+            g.drawString(apoio, (w - fm.stringWidth(apoio)) / 2, y + 24);
+            g.dispose();
+        }
+    }
+
     private void mJ() {
-        this.a_ = new JLabel();
-        this.vf = new JLabel();
-        this.BO = new JLabel();
         this.ue = new JComboBox();
-        this.BE = new JSeparator();
         this.Bz = new JComboBox();
-        this.BH = new JLabel();
-        this.BI = new JLabel();
         this.BA = new JComboBox();
         this.BB = new JComboBox();
-        this.BJ = new JLabel();
         this.BC = new JComboBox();
-        this.BK = new JLabel();
-        this.BF = new JSeparator();
-        this.uF = new JLabel();
+        this.BH = new JLabel("1ª divisão");
+        this.BI = new JLabel("2ª divisão");
+        this.BJ = new JLabel("3ª divisão");
+        this.BK = new JLabel("4ª divisão");
         this.uf = new JTextField();
-        this.BL = new JLabel();
         this.BD = new JComboBox();
-        this.BG = new JSeparator();
         this.Bw = new JButton();
         this.Bx = new JButton();
         this.ug = new JLabel();
-        this.BM = new JLabel();
         this.BN = new JLabel();
-        this.By = new JCheckBox();
-        this.setBackground(ConstantesJogo.os);
-        this.a_.setFont(new Font("Tahoma", 1, 24));
-        this.a_.setForeground(new Color(255, 255, 102));
-        this.a_.setHorizontalAlignment(0);
-        this.a_.setText("Betfoot");
-        this.vf.setFont(new Font("Tahoma", 1, 18));
-        this.vf.setForeground(new Color(255, 255, 255));
-        this.vf.setHorizontalAlignment(0);
-        this.vf.setText("Adicionar t\u00e9cnico humano");
-        this.BO.setFont(new Font("Tahoma", 1, 14));
-        this.BO.setForeground(new Color(255, 255, 153));
-        this.BO.setHorizontalAlignment(4);
-        this.BO.setText("Treinar time do pa\u00eds:");
-        this.BH.setFont(new Font("Tahoma", 0, 14));
-        this.BH.setForeground(new Color(255, 255, 0));
-        this.BH.setHorizontalAlignment(4);
-        this.BH.setText("1\u00aa divis\u00e3o:");
-        this.BI.setFont(new Font("Tahoma", 0, 14));
-        this.BI.setForeground(new Color(255, 255, 255));
-        this.BI.setHorizontalAlignment(4);
-        this.BI.setText("2\u00aa divis\u00e3o:");
-        this.BJ.setFont(new Font("Tahoma", 0, 14));
-        this.BJ.setForeground(new Color(255, 255, 255));
-        this.BJ.setHorizontalAlignment(4);
-        this.BJ.setText("3\u00aa divis\u00e3o:");
-        this.BK.setFont(new Font("Tahoma", 0, 14));
-        this.BK.setForeground(new Color(255, 255, 255));
-        this.BK.setHorizontalAlignment(4);
-        this.BK.setText("4\u00aa divis\u00e3o:");
-        this.uF.setFont(new Font("Tahoma", 0, 14));
-        this.uF.setForeground(new Color(255, 255, 255));
-        this.uF.setHorizontalAlignment(4);
-        this.uF.setText("Nome:");
-        this.BL.setFont(new Font("Tahoma", 0, 14));
-        this.BL.setForeground(new Color(255, 255, 255));
-        this.BL.setHorizontalAlignment(4);
-        this.BL.setText("Nacionalidade:");
-        this.Bw.setText("Iniciar Jogo >>");
-        this.Bw.setToolTipText("");
-        this.Bx.setText("Adicionar e incluir outro");
-        this.Bx.setToolTipText("");
-        this.ug.setFont(new Font("Tahoma", 0, 12));
-        this.ug.setForeground(new Color(255, 255, 255));
-        this.ug.setHorizontalAlignment(0);
-        this.BM.setFont(new Font("Tahoma", 0, 14));
-        this.BM.setForeground(new Color(255, 255, 255));
-        this.BM.setHorizontalAlignment(4);
-        this.BM.setText("Time selecionado:");
-        this.BN.setFont(new Font("Tahoma", 0, 14));
-        this.BN.setForeground(new Color(255, 255, 255));
-        this.BN.setHorizontalAlignment(2);
-        this.BN.setText("Time selecionado:");
-        this.By.setBackground(ConstantesJogo.os);
-        this.By.setFont(new Font("Tahoma", 0, 14));
-        this.By.setForeground(new Color(255, 255, 255));
-        this.By.setText("Escolher um time aleat\u00f3rio");
-        GroupLayout groupLayout = new GroupLayout(this);
-        this.setLayout(groupLayout);
-        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.vf, -1, -1, Short.MAX_VALUE).addComponent(this.ug).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.BF, -2, 308, -2).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(261, 261, 261).addComponent(this.a_)).addGroup(groupLayout.createSequentialGroup().addGap(100, 100, 100).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.BE, -2, 308, -2).addGroup(groupLayout.createSequentialGroup().addComponent(this.BO, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.ue, -2, 154, -2)))).addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(94, 94, 94).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup().addComponent(this.BM, -2, 214, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BN, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.By).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addComponent(this.BI, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BA, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BH, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.Bz, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BJ, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BB, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BK, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BC, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addGap(6, 6, 6).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addComponent(this.BL, -2, 198, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.BD, -2, 202, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.uF, -2, 198, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.uf, -2, 202, -2)))))).addGap(31, 31, 31))))).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false).addGroup(groupLayout.createSequentialGroup().addComponent(this.Bx).addGap(18, 18, 18).addComponent(this.Bw, -1, -1, Short.MAX_VALUE)).addComponent(this.BG, -2, 308, -2))).addContainerGap(156, Short.MAX_VALUE)));
-        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(30, 30, 30).addComponent(this.a_).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.vf).addGap(41, 41, 41).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(this.BO).addComponent(this.ue, -2, -1, -2)).addGap(18, 18, 18).addComponent(this.BE, -2, 10, -2).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.Bz, -2, -1, -2).addComponent(this.BH)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BA, -2, -1, -2).addComponent(this.BI)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BB, -2, -1, -2).addComponent(this.BJ)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BC, -2, -1, -2).addComponent(this.BK)).addGap(18, 18, 18).addComponent(this.By).addGap(7, 7, 7).addComponent(this.BF, -2, 10, -2).addGap(4, 4, 4).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.uf, -2, -1, -2).addComponent(this.uF)).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BL).addComponent(this.BD, -2, 20, -2)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BN).addComponent(this.BM)).addGap(18, 18, 18).addComponent(this.BG, -2, 10, -2).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.Bw, -2, 32, -2).addComponent(this.Bx, -2, 32, -2)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.ug, -1, 78, Short.MAX_VALUE).addContainerGap()));
+        this.By = new JCheckBox("Escolher um time aleatório");
+        this.vf = new JLabel("TÉCNICO 1");
+        this.setLayout(new BorderLayout());
+        this.setOpaque(false);
+
+        // ---- Clube ----
+        TemaBetfoot.Cartao clube = new TemaBetfoot.Cartao(new BorderLayout(0, 18));
+        clube.setBorder(BorderFactory.createEmptyBorder(22, 24, 22, 24));
+        clube.add((Component)TemaBetfoot.cabecalho("Escolha o clube", "País da liga e o time que você vai treinar", null), "North");
+        JPanel opcoesClube = new JPanel();
+        opcoesClube.setOpaque(false);
+        opcoesClube.setLayout(new javax.swing.BoxLayout(opcoesClube, 1));
+        this.ue.setPreferredSize(new Dimension(240, 42));
+        this.ue.setToolTipText("País da liga em que o técnico começa");
+        opcoesClube.add(PainelConfiguracaoNovoJogo.campo("País", this.ue));
+        opcoesClube.add(TemaBetfoot.divisor());
+        opcoesClube.add(javax.swing.Box.createVerticalStrut(4));
+        JLabel[] rotulos = new JLabel[]{this.BH, this.BI, this.BJ, this.BK};
+        JComboBox[] combos = new JComboBox[]{this.Bz, this.BA, this.BB, this.BC};
+        for (int i = 0; i < rotulos.length; ++i) {
+            if (i > 0) {
+                opcoesClube.add(javax.swing.Box.createVerticalStrut(10));
+            }
+            opcoesClube.add(PainelConfiguracaoNovoJogo.linhaDivisao(rotulos[i], combos[i]));
+            combos[i].setToolTipText("Times da divisão (escolher aqui seleciona o time)");
+        }
+        opcoesClube.add(javax.swing.Box.createVerticalStrut(6));
+        opcoesClube.add(TemaBetfoot.divisor());
+        JPanel aleatorio = new JPanel(new BorderLayout(0, 2));
+        aleatorio.setOpaque(false);
+        aleatorio.add((Component)this.By, "North");
+        JLabel dica = new JLabel("Sorteia um clube entre as divisões do país");
+        dica.setFont(TemaBetfoot.fonte(Font.PLAIN, 12.0f));
+        dica.setForeground(TemaBetfoot.TEXTO_FRACO);
+        dica.setBorder(BorderFactory.createEmptyBorder(0, 26, 0, 0));
+        dica.putClientProperty("tema.ok", Boolean.TRUE);
+        aleatorio.add((Component)dica, "Center");
+        TemaBetfoot.aplicarTema(aleatorio);
+        this.By.addActionListener(actionEvent -> this.previa.repaint());
+        aleatorio.setAlignmentX(0.0f);
+        aleatorio.setMaximumSize(new Dimension(Integer.MAX_VALUE, aleatorio.getPreferredSize().height));
+        opcoesClube.add(aleatorio);
+        clube.add((Component)opcoesClube, "Center");
+
+        // ---- Técnico ----
+        TemaBetfoot.Cartao tecnico = new TemaBetfoot.Cartao(new BorderLayout(0, 18));
+        tecnico.setBorder(BorderFactory.createEmptyBorder(22, 24, 22, 24));
+        this.vf.setFont(TemaBetfoot.espacada(TemaBetfoot.display(14.0f), 0.06f));
+        this.vf.setForeground(TemaBetfoot.VERDE);
+        this.vf.setToolTipText("Com \"Adicionar outro técnico\", mais gente joga na mesma carreira");
+        tecnico.add((Component)TemaBetfoot.cabecalho("Seu técnico", "Quem comanda o time", this.vf), "North");
+        JPanel opcoesTecnico = new JPanel();
+        opcoesTecnico.setOpaque(false);
+        opcoesTecnico.setLayout(new javax.swing.BoxLayout(opcoesTecnico, 1));
+        this.previa.setAlignmentX(0.0f);
+        this.previa.setMaximumSize(new Dimension(Integer.MAX_VALUE, 230));
+        opcoesTecnico.add(this.previa);
+        opcoesTecnico.add(javax.swing.Box.createVerticalStrut(20));
+        JPanel caixaNome = new JPanel(new BorderLayout());
+        caixaNome.setOpaque(false);
+        caixaNome.add((Component)this.uf, "Center");
+        TemaBetfoot.aplicarTema(caixaNome);
+        this.uf.setFont(TemaBetfoot.fonte(Font.PLAIN, 15.0f));
+        this.uf.setToolTipText("De 2 a 35 letras");
+        opcoesTecnico.add(PainelConfiguracaoNovoJogo.campo("Nome do técnico", caixaNome));
+        opcoesTecnico.add(javax.swing.Box.createVerticalStrut(16));
+        this.BD.setPreferredSize(new Dimension(240, 42));
+        opcoesTecnico.add(PainelConfiguracaoNovoJogo.campo("Nacionalidade", this.BD));
+        tecnico.add((Component)opcoesTecnico, "Center");
+
+        JPanel colunas = new JPanel(new java.awt.GridLayout(1, 2, 20, 0));
+        colunas.setOpaque(false);
+        colunas.add(clube);
+        colunas.add(tecnico);
+
+        // ---- Rodapé ----
+        TemaBetfoot.botao(this.Bx, Estilo.SECUNDARIO, "Adicionar outro técnico", Simbolo.JOGADOR_MAIS);
+        this.Bx.setToolTipText("Salva este técnico e cadastra mais um para jogar junto");
+        TemaBetfoot.botao(this.Bw, Estilo.PRIMARIO, "Iniciar jogo", null);
+        this.Bw.setIcon(new TemaBetfoot.IconeVetor(Simbolo.APITO, 16, Color.WHITE));
+        this.Bw.setToolTipText("Começar a carreira (Enter)");
+        this.ug.setFont(TemaBetfoot.fonte(Font.BOLD, 13.0f));
+        this.ug.setForeground(TemaBetfoot.VERMELHO);
+        JPanel direita = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 12, 0));
+        direita.setOpaque(false);
+        direita.add(this.ug);
+        direita.add(this.Bx);
+        direita.add(this.Bw);
+        JPanel rodape = new JPanel(new BorderLayout(16, 0));
+        rodape.setOpaque(false);
+        rodape.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, TemaBetfoot.alfa(Color.WHITE, 0.08)), BorderFactory.createEmptyBorder(16, 0, 0, 0)));
+        rodape.add((Component)direita, "East");
+        JButton voltar = TemaBetfoot.botao(new JButton(), Estilo.FANTASMA, "Voltar", Simbolo.VOLTAR);
+        voltar.setToolTipText("Voltar \u00e0s competi\u00e7\u00f5es (as escolhas ficam guardadas)");
+        voltar.addActionListener(actionEvent -> this.voltar());
+        rodape.add((Component)voltar, "West");
+
+        JPanel corpo = new JPanel(new BorderLayout(0, 18));
+        corpo.setOpaque(false);
+        corpo.add((Component)this.adicionados, "North");
+        corpo.add((Component)colunas, "Center");
+        corpo.add((Component)rodape, "South");
+
+        JPanel topo = new JPanel(new BorderLayout(24, 0));
+        topo.setOpaque(false);
+        topo.add((Component)new TemaBetfoot.Marca("Novo jogo", "Escolha o clube e crie o seu técnico"), "West");
+        JPanel passos = new JPanel(new java.awt.GridBagLayout());
+        passos.setOpaque(false);
+        passos.add(new TemaBetfoot.Passos(1, "Competições", "Técnico e time"));
+        topo.add((Component)passos, "East");
+
+        TemaBetfoot.Fundo fundo = new TemaBetfoot.Fundo(new BorderLayout(0, 22));
+        fundo.setBorder(BorderFactory.createEmptyBorder(20, 28, 24, 28));
+        fundo.add((Component)topo, "North");
+        // Cartões no tamanho do conteúdo, centralizados na vertical.
+        JPanel meio = new JPanel(new java.awt.GridBagLayout());
+        meio.setOpaque(false);
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        c.weightx = 1.0;
+        meio.add((Component)corpo, c);
+        fundo.add((Component)TemaBetfoot.centralizar(meio, 1160), "Center");
+        this.add((Component)fundo, "Center");
+
+        // Enter no nome inicia o jogo.
+        this.uf.addActionListener(actionEvent -> this.Bw.doClick());
     }
 
     static /* synthetic */ void a(PainelConfiguracaoNovoJogo bv_02) {

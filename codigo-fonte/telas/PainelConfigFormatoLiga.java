@@ -84,7 +84,8 @@ extends JPanel {
         this.aeZ.addActionListener(new OuvinteAtualizarFormatoDivisao(this));
         this.afa.addActionListener(new OuvinteTipoFormatoDivisao(this));
         if (this.divisao == 1) {
-            this.afh.setText("Times que sobem: 0");
+            this.afh.setText("SOBEM: 0");
+            this.afh.setVisible(false);
             this.aeU = 0;
             this.afa.setEnabled(false);
             this.fw(0);
@@ -110,7 +111,7 @@ extends JPanel {
     }
 
     public void fv(int n2) {
-        this.afh.setText("Times que sobem: " + n2);
+        this.afh.setText(n2 + (n2 == 1 ? " SOBE" : " SOBEM"));
         this.aeU = n2;
     }
 
@@ -157,7 +158,7 @@ extends JPanel {
         if (this.aeY.getSelectedIndex() >= 0 && this.aeZ.getSelectedIndex() >= 0) {
             n2 = this.aeS[this.aeY.getSelectedIndex()] - this.aeT[this.aeZ.getSelectedIndex()];
         }
-        this.afd.setText("Disputam playoff com liga abaixo: " + n2);
+        this.afd.setText("Playoff com a divis\u00e3o de baixo: " + n2);
     }
 
     public void c(boolean bl, boolean bl2) {
@@ -247,13 +248,18 @@ extends JPanel {
     }
 
     public void db(int n2) {
-        if (n2 == 1) {
-            this.setBackground(new Color(0, 75, 106));
-        } else if (n2 == 2) {
-            this.setBackground(new Color(116, 20, 19));
+        this.estado = n2;
+        this.aviso.setVisible(n2 != 1);
+        if (n2 == 2) {
+            this.aviso.setText("FALTAM TIMES NO PA\u00cdS");
+            this.aviso.setForeground(components.TemaBetfoot.VERMELHO);
+            this.aviso.setToolTipText("O pa\u00eds n\u00e3o tem times suficientes para esta divis\u00e3o");
         } else if (n2 == 3) {
-            this.setBackground(new Color(102, 102, 102));
+            this.aviso.setText("TIMES INSUFICIENTES");
+            this.aviso.setForeground(components.TemaBetfoot.TEXTO_FRACO);
+            this.aviso.setToolTipText("Os times do pa\u00eds n\u00e3o chegam at\u00e9 esta divis\u00e3o com essa configura\u00e7\u00e3o");
         }
+        this.repaint();
     }
 
     public void O(int n2, int n3) {
@@ -536,6 +542,64 @@ extends JPanel {
         }
     }
 
+    /** Situação da divisão (db): 1 normal, 2 faltam times para a 1ª divisão, 3 times não bastam para esta divisão. */
+    private int estado = 1;
+    private final JLabel aviso = new JLabel();
+
+    /** Rótulo em cima do campo; se o campo some (setVisible), o rótulo some junto. */
+    private static JPanel celula(JLabel jLabel, String string, final Component component) {
+        final JPanel jPanel = new JPanel(new java.awt.BorderLayout(0, 6));
+        jPanel.setOpaque(false);
+        if (jLabel != null) {
+            components.TemaBetfoot.rotuloCampo(jLabel, string);
+            jPanel.add((Component)jLabel, "North");
+        }
+        jPanel.add(component, "Center");
+        component.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent componentEvent) {
+                jPanel.setVisible(true);
+            }
+
+            @Override
+            public void componentHidden(java.awt.event.ComponentEvent componentEvent) {
+                jPanel.setVisible(false);
+            }
+        });
+        return jPanel;
+    }
+
+    private static java.awt.GridBagConstraints pos(int x, int y, int largura, double peso) {
+        java.awt.GridBagConstraints c = new java.awt.GridBagConstraints();
+        c.gridx = x;
+        c.gridy = y;
+        c.gridwidth = largura;
+        c.weightx = peso;
+        c.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        c.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        c.insets = new java.awt.Insets(0, 0, 14, x + largura < 3 ? 12 : 0);
+        return c;
+    }
+
+    private static JLabel texto(JLabel jLabel) {
+        jLabel.setFont(components.TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+        jLabel.setForeground(components.TemaBetfoot.TEXTO_SUAVE);
+        jLabel.setOpaque(false);
+        jLabel.putClientProperty("tema.ok", Boolean.TRUE);
+        return jLabel;
+    }
+
+    @Override
+    protected void paintComponent(java.awt.Graphics graphics) {
+        java.awt.Graphics2D g = components.TemaBetfoot.suave(graphics);
+        java.awt.geom.RoundRectangle2D.Double forma = new java.awt.geom.RoundRectangle2D.Double(0.5, 0.5, this.getWidth() - 1, this.getHeight() - 1, 22.0, 22.0);
+        g.setColor(this.estado == 3 ? new Color(12, 20, 16) : new Color(15, 28, 22));
+        g.fill(forma);
+        g.setColor(this.estado == 2 ? components.TemaBetfoot.alfa(components.TemaBetfoot.VERMELHO, 0.7) : components.TemaBetfoot.alfa(Color.WHITE, this.estado == 3 ? 0.05 : 0.1));
+        g.draw(forma);
+        g.dispose();
+    }
+
     private void mJ() {
         this.GE = new JTextField();
         this.aeY = new JComboBox();
@@ -543,11 +607,16 @@ extends JPanel {
         this.GF = new JTextField();
         this.GJ = new JLabel();
         this.GD = new JComboBox();
-        this.GG = new JLabel();
+        this.GG = new JLabel() {
+            @Override
+            public void setText(String string) {
+                super.setText(string == null ? null : string.toUpperCase());
+            }
+        };
         this.GA = new JComboBox();
         this.GH = new JLabel();
-        this.aeX = new JCheckBox();
-        this.CI = new JCheckBox();
+        this.aeX = new JCheckBox("Ida e volta");
+        this.CI = new JCheckBox("Desempate nos pênaltis");
         this.afc = new JLabel();
         this.Mp = new JLabel();
         this.afd = new JLabel();
@@ -557,117 +626,86 @@ extends JPanel {
         this.aeZ = new JComboBox();
         this.afh = new JLabel();
         this.GB = new JComboBox();
-        this.Gz = new JCheckBox();
-        this.aeW = new JCheckBox();
+        this.Gz = new JCheckBox("Mata-mata em dois jogos");
+        this.aeW = new JCheckBox("Ida e volta");
         this.aff = new JLabel();
-        this.aeV = new JCheckBox();
-        this.afg = new JLabel();
-        this.setBackground(new Color(0, 75, 106));
-        this.setMinimumSize(new Dimension(720, 160));
-        this.setPreferredSize(new Dimension(720, 160));
-        this.setRequestFocusEnabled(false);
-        this.setVerifyInputWhenFocusTarget(false);
-        this.setLayout(new LayoutPosicaoAbsoluta());
-        this.add((Component)this.GE, new RestricaoPosicaoLayout(100, 10, 220, -1));
-        this.add((Component)this.aeY, new RestricaoPosicaoLayout(450, 90, 48, -1));
-        this.uF.setFont(new Font("Tahoma", 0, 12));
-        this.uF.setForeground(new Color(255, 255, 255));
-        this.uF.setHorizontalAlignment(4);
-        this.uF.setText("Nome divis\u00e3o:");
-        this.add((Component)this.uF, new RestricaoPosicaoLayout(11, 40, 80, -1));
-        this.add((Component)this.GF, new RestricaoPosicaoLayout(100, 40, 220, -1));
-        this.GJ.setFont(new Font("Tahoma", 0, 12));
-        this.GJ.setForeground(new Color(255, 255, 255));
-        this.GJ.setHorizontalAlignment(4);
-        this.GJ.setText("Total times:");
-        this.add((Component)this.GJ, new RestricaoPosicaoLayout(20, 70, 70, -1));
-        this.add((Component)this.GD, new RestricaoPosicaoLayout(100, 70, 49, -1));
-        this.GG.setFont(new Font("Tahoma", 0, 12));
-        this.GG.setForeground(new Color(255, 255, 255));
-        this.GG.setHorizontalAlignment(4);
-        this.GG.setText("Grupos:");
-        this.GG.setToolTipText("");
-        this.add((Component)this.GG, new RestricaoPosicaoLayout(158, 70, 50, -1));
-        this.GA.setModel(new DefaultComboBoxModel<String>(new String[]{"Sem Grupos", "4 grupos"}));
-        this.add((Component)this.GA, new RestricaoPosicaoLayout(210, 70, 110, -1));
-        this.GH.setFont(new Font("Tahoma", 0, 12));
-        this.GH.setForeground(new Color(255, 255, 255));
-        this.GH.setHorizontalAlignment(4);
-        this.GH.setText("Mata-mata:");
-        this.add((Component)this.GH, new RestricaoPosicaoLayout(20, 100, 70, -1));
-        this.aeX.setFont(new Font("Tahoma", 0, 12));
-        this.aeX.setForeground(new Color(255, 255, 255));
-        this.aeX.setText("Ida e volta");
-        this.aeX.setOpaque(false);
-        this.add((Component)this.aeX, new RestricaoPosicaoLayout(630, 50, 90, -1));
-        this.CI.setFont(new Font("Tahoma", 0, 12));
-        this.CI.setForeground(new Color(255, 255, 255));
-        this.CI.setText("Desempate por penalties");
-        this.CI.setOpaque(false);
-        this.add((Component)this.CI, new RestricaoPosicaoLayout(180, 122, -1, -1));
-        this.afc.setFont(new Font("Tahoma", 0, 12));
-        this.afc.setForeground(new Color(255, 255, 255));
-        this.afc.setHorizontalAlignment(4);
-        this.afc.setText("Nome:");
-        this.add((Component)this.afc, new RestricaoPosicaoLayout(40, 15, 51, -1));
-        this.add((Component)this.aeZ, new RestricaoPosicaoLayout(660, 90, 48, -1));
-        this.afe.setBackground(new Color(7, 28, 39));
-        this.afe.setFont(new Font("Tahoma", 0, 12));
-        this.afe.setForeground(new Color(255, 255, 255));
-        this.afe.setHorizontalAlignment(2);
-        this.afe.setText("Rebaixados direto:");
-        this.afe.setOpaque(true);
-        this.add((Component)this.afe, new RestricaoPosicaoLayout(550, 90, 170, 20));
-        this.Mp.setBackground(new Color(7, 28, 39));
-        this.Mp.setFont(new Font("Tahoma", 0, 12));
-        this.Mp.setForeground(new Color(255, 255, 255));
-        this.Mp.setText("Total Rebaixados:");
-        this.Mp.setOpaque(true);
-        this.add((Component)this.Mp, new RestricaoPosicaoLayout(340, 90, 210, 20));
-        this.afd.setFont(new Font("Tahoma", 0, 12));
-        this.afd.setForeground(new Color(255, 255, 255));
-        this.afd.setHorizontalAlignment(4);
-        this.afd.setText("Disputam playoff com liga abaixo: 5");
-        this.add((Component)this.afd, new RestricaoPosicaoLayout(360, 120, 200, -1));
-        this.afd.getAccessibleContext().setAccessibleName("Disputam playoff com liga abaixo: 0");
-        this.afb.setFont(new Font("Tahoma", 0, 12));
-        this.afb.setForeground(new Color(255, 255, 255));
-        this.afb.setHorizontalAlignment(4);
-        this.afb.setText("Final:");
-        this.add((Component)this.afb, new RestricaoPosicaoLayout(620, 38, 40, 10));
-        this.add((Component)this.afa, new RestricaoPosicaoLayout(480, 40, 48, -1));
-        this.afh.setBackground(new Color(7, 28, 39));
-        this.afh.setFont(new Font("Tahoma", 0, 12));
-        this.afh.setForeground(new Color(255, 255, 255));
-        this.afh.setText("Times que sobem:");
-        this.afh.setOpaque(true);
-        this.add((Component)this.afh, new RestricaoPosicaoLayout(340, 10, 380, 20));
-        this.GB.setModel(new DefaultComboBoxModel<String>(new String[]{"Quartas/Semi/Final", "Sem Mata-Mata", " "}));
-        this.add((Component)this.GB, new RestricaoPosicaoLayout(100, 100, 220, -1));
-        this.Gz.setFont(new Font("Tahoma", 0, 12));
-        this.Gz.setForeground(new Color(255, 255, 255));
-        this.Gz.setText("Mata-mata em dois jogos");
-        this.Gz.setOpaque(false);
-        this.add((Component)this.Gz, new RestricaoPosicaoLayout(10, 122, 170, -1));
-        this.aeW.setFont(new Font("Tahoma", 0, 12));
-        this.aeW.setForeground(new Color(255, 255, 255));
-        this.aeW.setText("Ida e volta");
-        this.aeW.setOpaque(false);
-        this.add((Component)this.aeW, new RestricaoPosicaoLayout(535, 50, 90, -1));
-        this.aff.setFont(new Font("Tahoma", 0, 12));
-        this.aff.setForeground(new Color(255, 255, 255));
-        this.aff.setHorizontalAlignment(4);
-        this.aff.setText("Vagas pelo mata-mata:");
-        this.add((Component)this.aff, new RestricaoPosicaoLayout(340, 40, 130, -1));
-        this.aeV.setFont(new Font("Tahoma", 0, 12));
-        this.aeV.setForeground(new Color(255, 255, 255));
-        this.aeV.setText("Ida e volta");
-        this.aeV.setOpaque(false);
-        this.add((Component)this.aeV, new RestricaoPosicaoLayout(580, 115, 100, -1));
-        this.afg.setFont(new Font("Tahoma", 0, 12));
-        this.afg.setForeground(new Color(255, 255, 255));
-        this.afg.setText("Final");
-        this.add((Component)this.afg, new RestricaoPosicaoLayout(540, 36, 70, -1));
+        this.aeV = new JCheckBox("Ida e volta");
+        this.afg = new JLabel() {
+            @Override
+            public void setText(String string) {
+                super.setText(string == null ? null : string.toUpperCase());
+            }
+        };
+        this.setOpaque(false);
+        this.setLayout(new java.awt.BorderLayout(0, 16));
+        this.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 22, 8, 22));
+
+        // Topo: número da divisão, o que sobe e o aviso de times insuficientes.
+        JPanel topo = new JPanel(new java.awt.BorderLayout(14, 0));
+        JLabel titulo = new JLabel(this.divisao + "ª DIVISÃO");
+        titulo.setFont(components.TemaBetfoot.espacada(components.TemaBetfoot.display(20.0f), 0.04f));
+        titulo.setForeground(components.TemaBetfoot.TEXTO);
+        titulo.putClientProperty("tema.ok", Boolean.TRUE);
+        topo.add((Component)titulo, "West");
+        JPanel selos = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 14, 0));
+        this.aviso.setFont(components.TemaBetfoot.espacada(components.TemaBetfoot.display(13.0f), 0.06f));
+        this.aviso.putClientProperty("tema.ok", Boolean.TRUE);
+        this.aviso.setVisible(false);
+        selos.add(this.aviso);
+        this.afh.setFont(components.TemaBetfoot.espacada(components.TemaBetfoot.display(14.0f), 0.06f));
+        this.afh.setForeground(components.TemaBetfoot.VERDE);
+        this.afh.setOpaque(false);
+        this.afh.putClientProperty("tema.ok", Boolean.TRUE);
+        this.afh.setToolTipText("Quantos times desta divisão sobem para a de cima");
+        selos.add(this.afh);
+        topo.add((Component)selos, "East");
+        this.add((Component)topo, "North");
+
+        // Esquerda: o campeonato. Direita: acesso e rebaixamento.
+        JPanel campeonato = new JPanel(new java.awt.GridBagLayout());
+        this.GE.setColumns(12);
+        this.GF.setColumns(12);
+        campeonato.add((Component)PainelConfigFormatoLiga.celula(this.afc, "Campeonato", this.GE), PainelConfigFormatoLiga.pos(0, 0, 2, 1.0));
+        campeonato.add((Component)PainelConfigFormatoLiga.celula(this.uF, "Nome da divisão", this.GF), PainelConfigFormatoLiga.pos(2, 0, 1, 1.0));
+        this.GD.setPreferredSize(new Dimension(96, 40));
+        campeonato.add((Component)PainelConfigFormatoLiga.celula(this.GJ, "Times", this.GD), PainelConfigFormatoLiga.pos(0, 1, 1, 0.0));
+        campeonato.add((Component)PainelConfigFormatoLiga.celula(this.GG, "Grupos", this.GA), PainelConfigFormatoLiga.pos(1, 1, 2, 1.0));
+        campeonato.add((Component)PainelConfigFormatoLiga.celula(this.GH, "Mata-mata", this.GB), PainelConfigFormatoLiga.pos(0, 2, 3, 1.0));
+        JPanel marcas = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        marcas.add(this.Gz);
+        marcas.add(javax.swing.Box.createHorizontalStrut(18));
+        marcas.add(this.CI);
+        campeonato.add((Component)marcas, PainelConfigFormatoLiga.pos(0, 3, 3, 1.0));
+
+        JPanel acesso = new JPanel(new java.awt.GridBagLayout());
+        this.afa.setPreferredSize(new Dimension(96, 40));
+        acesso.add((Component)PainelConfigFormatoLiga.celula(this.aff, "Vagas pelo mata-mata", this.afa), PainelConfigFormatoLiga.pos(0, 0, 1, 0.0));
+        acesso.add((Component)PainelConfigFormatoLiga.celula(this.afg, "Final", this.aeW), PainelConfigFormatoLiga.pos(1, 0, 1, 0.0));
+        acesso.add((Component)PainelConfigFormatoLiga.celula(this.afb, "Final", this.aeX), PainelConfigFormatoLiga.pos(2, 0, 1, 0.0));
+        this.aeY.setPreferredSize(new Dimension(96, 40));
+        this.aeZ.setPreferredSize(new Dimension(96, 40));
+        acesso.add((Component)PainelConfigFormatoLiga.celula(this.Mp, "Rebaixados", this.aeY), PainelConfigFormatoLiga.pos(0, 1, 1, 0.0));
+        acesso.add((Component)PainelConfigFormatoLiga.celula(this.afe, "Direto", this.aeZ), PainelConfigFormatoLiga.pos(1, 1, 1, 0.0));
+        this.Mp.setToolTipText("Quantos times desta divisão descem");
+        this.afe.setToolTipText("Quantos descem direto; os outros disputam playoff com a divisão de baixo");
+        JPanel playoff = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        playoff.add(PainelConfigFormatoLiga.texto(this.afd));
+        playoff.add(javax.swing.Box.createHorizontalStrut(16));
+        playoff.add(this.aeV);
+        this.aeV.setToolTipText("Playoff de rebaixamento em ida e volta");
+        acesso.add((Component)playoff, PainelConfigFormatoLiga.pos(0, 2, 3, 1.0));
+
+        // Sobra de espaço vai para baixo/direita: os campos ficam alinhados no topo.
+        for (JPanel grade : new JPanel[]{campeonato, acesso}) {
+            java.awt.GridBagConstraints resto = PainelConfigFormatoLiga.pos(3, 9, 1, 1.0);
+            resto.weighty = 1.0;
+            grade.add((Component)javax.swing.Box.createGlue(), resto);
+        }
+        JPanel colunas = new JPanel(new java.awt.GridLayout(1, 2, 28, 0));
+        colunas.add(campeonato);
+        colunas.add(acesso);
+        this.add((Component)colunas, "Center");
+        components.TemaBetfoot.aplicarTema(this);
     }
 
     static /* synthetic */ JComboBox a(PainelConfigFormatoLiga dK2) {

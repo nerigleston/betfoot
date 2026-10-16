@@ -84,7 +84,7 @@ extends JPanel {
         this.mS();
         this.zQ.setVisible(false);
         this.mH();
-        this.a(this);
+        this.a((JComponent)this);
         this.nJ();
     }
 

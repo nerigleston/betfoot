@@ -2,16 +2,14 @@ package telas;
 
 import telas.ListenerConfirmarRegionais;
 import motor.GerenciadorJogo;
-import java.awt.Color;
+import components.TemaBetfoot;
 import java.awt.Font;
 import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
 
 public class DialogoEscolhaRegionais
 extends JPanel {
@@ -46,44 +44,56 @@ extends JPanel {
         this.ub.dispose();
     }
 
+    /** Caixa de seleção com uma linha de explicação embaixo. */
+    private static JPanel opcao(JCheckBox jCheckBox, String dica) {
+        JPanel jPanel = new JPanel(new java.awt.BorderLayout(0, 2));
+        jPanel.setOpaque(false);
+        jPanel.add((java.awt.Component)jCheckBox, "North");
+        JLabel jLabel = new JLabel(dica);
+        jLabel.setFont(TemaBetfoot.fonte(Font.PLAIN, 12.0f));
+        jLabel.setForeground(TemaBetfoot.TEXTO_FRACO);
+        jLabel.setBorder(BorderFactory.createEmptyBorder(0, 26, 0, 0));
+        jLabel.putClientProperty("tema.ok", Boolean.TRUE);
+        jPanel.add((java.awt.Component)jLabel, "Center");
+        return jPanel;
+    }
+
     private void mJ() {
         this.vf = new JLabel();
-        this.JJ = new JCheckBox();
-        this.JK = new JCheckBox();
+        this.JJ = new JCheckBox("Rio-S\u00e3o Paulo");
+        this.JK = new JCheckBox("Sul-Minas");
         this.Fu = new JButton();
-        this.JL = new JCheckBox();
-        this.JM = new JCheckBox();
-        this.JI = new JCheckBox();
-        this.setBackground(new Color(44, 53, 49));
-        this.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 3));
-        this.vf.setFont(new Font("Tahoma", 1, 14));
-        this.vf.setForeground(new Color(255, 255, 153));
-        this.vf.setText("Jogar:");
-        this.JJ.setFont(new Font("Tahoma", 0, 14));
-        this.JJ.setForeground(new Color(255, 255, 255));
-        this.JJ.setText("Rio-S\u00e3o Paulo");
-        this.JJ.setOpaque(false);
-        this.JK.setFont(new Font("Tahoma", 0, 14));
-        this.JK.setForeground(new Color(255, 255, 255));
-        this.JK.setText("Sul-Minas");
-        this.JK.setOpaque(false);
-        this.Fu.setText("OK");
-        this.JL.setFont(new Font("Tahoma", 0, 14));
-        this.JL.setForeground(new Color(255, 255, 255));
-        this.JL.setText("Copa do Nordeste");
-        this.JL.setOpaque(false);
-        this.JM.setFont(new Font("Tahoma", 0, 14));
-        this.JM.setForeground(new Color(255, 255, 255));
-        this.JM.setText("Copa Verde");
-        this.JM.setOpaque(false);
-        this.JI.setBackground(new Color(44, 53, 49));
-        this.JI.setFont(new Font("Tahoma", 0, 14));
-        this.JI.setForeground(new Color(255, 255, 255));
-        this.JI.setText("Sempre ser convidado para jogar os regionais");
-        GroupLayout groupLayout = new GroupLayout(this);
-        this.setLayout(groupLayout);
-        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(27, 27, 27).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.JI, -1, 332, Short.MAX_VALUE).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.JM, -2, 165, -2).addComponent(this.JL, -2, 165, -2).addComponent(this.JK, -2, 165, -2).addComponent(this.JJ, -2, 165, -2).addComponent(this.vf, -2, 305, -2)).addGap(0, 0, Short.MAX_VALUE))).addContainerGap()).addGroup(groupLayout.createSequentialGroup().addGap(134, 134, 134).addComponent(this.Fu, -2, 103, -2).addContainerGap(-1, Short.MAX_VALUE)));
-        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(20, 20, 20).addComponent(this.vf).addGap(18, 18, 18).addComponent(this.JJ).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.JK).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.JL).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.JM).addGap(18, 18, 18).addComponent(this.JI).addGap(18, 18, 18).addComponent(this.Fu).addContainerGap(27, Short.MAX_VALUE)));
+        this.JL = new JCheckBox("Copa do Nordeste");
+        this.JM = new JCheckBox("Copa Verde");
+        this.JI = new JCheckBox("Sempre ser convidado para os regionais");
+        this.setOpaque(false);
+        this.setLayout(new java.awt.BorderLayout(0, 22));
+        JButton voltar = TemaBetfoot.botao(new JButton(), TemaBetfoot.Estilo.FANTASMA, "Voltar", TemaBetfoot.Simbolo.VOLTAR);
+        voltar.setToolTipText("Fechar sem salvar (Esc)");
+        voltar.addActionListener(actionEvent -> this.ub.dispose());
+        this.add((java.awt.Component)TemaBetfoot.topoModal(null, "Regionais", "Quais copas regionais entram na carreira", voltar), "North");
+        JPanel copas = new JPanel(new java.awt.GridLayout(2, 2, 28, 18));
+        copas.setOpaque(false);
+        copas.add(DialogoEscolhaRegionais.opcao(this.JJ, "Clubes do Rio de Janeiro e de S\u00e3o Paulo"));
+        copas.add(DialogoEscolhaRegionais.opcao(this.JK, "Clubes do Sul e de Minas Gerais"));
+        copas.add(DialogoEscolhaRegionais.opcao(this.JL, "Clubes dos estados do Nordeste"));
+        copas.add(DialogoEscolhaRegionais.opcao(this.JM, "Norte, Centro-Oeste e Esp\u00edrito Santo"));
+        JPanel corpo = new JPanel();
+        corpo.setOpaque(false);
+        corpo.setLayout(new javax.swing.BoxLayout(corpo, 1));
+        copas.setAlignmentX(0.0f);
+        corpo.add(copas);
+        javax.swing.JComponent divisor = TemaBetfoot.divisor();
+        corpo.add(javax.swing.Box.createVerticalStrut(6));
+        corpo.add(divisor);
+        corpo.add(javax.swing.Box.createVerticalStrut(6));
+        JPanel convite = DialogoEscolhaRegionais.opcao(this.JI, "Seu time \u00e9 chamado mesmo sem vaga pelo estadual");
+        convite.setAlignmentX(0.0f);
+        corpo.add(convite);
+        TemaBetfoot.aplicarTema(corpo);
+        this.add((java.awt.Component)corpo, "Center");
+        TemaBetfoot.botao(this.Fu, TemaBetfoot.Estilo.PRIMARIO, "Salvar", null);
+        this.add((java.awt.Component)TemaBetfoot.rodapeModal(null, voltar, this.Fu), "South");
+        this.setPreferredSize(new java.awt.Dimension(620, this.getPreferredSize().height));
     }
 }
-

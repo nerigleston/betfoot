@@ -124,7 +124,7 @@ extends JPanel {
     }
 
     private void mY() {
-        this.a(this);
+        this.a((JComponent)this);
         this.a(this.Bp);
         this.a(this.vd);
     }

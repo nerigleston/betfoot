@@ -64,7 +64,7 @@ extends JPanel {
         this.JU.setText("<html><center>" + a_02.cu().getNome() + " tem um penalty" + "</center></html>");
         this.zC = new Timer();
         this.zC.scheduleAtFixedRate((TimerTask)new TarefaNarracaoPenalty(this), 2000L, 2000L);
-        this.a(this);
+        this.a((JComponent)this);
     }
 
     private void a(JComponent jComponent) {

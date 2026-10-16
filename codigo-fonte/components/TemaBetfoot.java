@@ -69,7 +69,7 @@ public final class TemaBetfoot {
     }
 
     public enum Simbolo {
-        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU
+        MAIS, LAPIS, LIXEIRA, CASA, SAIR, LUPA, DADO, JOGADOR_MAIS, JOGADOR_LAPIS, JOGADOR_MENOS, PESSOA, PESSOAS, ESTADIO, NIVEL, APITO, MAPA, TROFEU, VOLTAR, AVANCAR
     }
 
     private static Image estadio;
@@ -260,6 +260,216 @@ public final class TemaBetfoot {
                 }
             }
             graphics2D.dispose();
+        }
+    }
+
+    /**
+     * Tela do jogo que ocupa a janela toda (fundo do estádio). Dentro do PainelFundoTelaModo, que centraliza no
+     * tamanho preferido, pede o tamanho da janela; abaixo do mínimo, a rolagem da janela assume.
+     */
+    public static class Tela
+    extends Fundo {
+        private final Dimension minimo;
+
+        public Tela(LayoutManager layoutManager, int largura, int altura) {
+            super(layoutManager);
+            this.minimo = new Dimension(largura, altura);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return Tela.tamanho(this, this.minimo.width, this.minimo.height);
+        }
+
+        /** Tamanho da área do pai (a janela), nunca abaixo do mínimo. Para telas que não estendem Tela. */
+        public static Dimension tamanho(Component component, int largura, int altura) {
+            Container pai = component.getParent();
+            if (pai == null || pai.getParent() instanceof javax.swing.JViewport || pai.getWidth() <= 0) {
+                return new Dimension(largura, altura);
+            }
+            Insets i = pai.getInsets();
+            return new Dimension(Math.max(largura, pai.getWidth() - i.left - i.right), Math.max(altura, pai.getHeight() - i.top - i.bottom));
+        }
+    }
+
+    /** Centraliza o conteúdo na horizontal, sem passar de uma largura máxima (telas largas não esticam demais). */
+    public static JPanel centralizar(final JComponent jComponent, final int larguraMaxima) {
+        JPanel jPanel = new JPanel(new LayoutManager() {
+            @Override
+            public void addLayoutComponent(String string, Component component) {
+            }
+
+            @Override
+            public void removeLayoutComponent(Component component) {
+            }
+
+            @Override
+            public Dimension preferredLayoutSize(Container container) {
+                Dimension d = jComponent.getPreferredSize();
+                return new Dimension(Math.min(d.width, larguraMaxima), d.height);
+            }
+
+            @Override
+            public Dimension minimumLayoutSize(Container container) {
+                return jComponent.getMinimumSize();
+            }
+
+            @Override
+            public void layoutContainer(Container container) {
+                int w = Math.min(container.getWidth(), larguraMaxima);
+                jComponent.setBounds((container.getWidth() - w) / 2, 0, w, container.getHeight());
+            }
+        });
+        jPanel.setOpaque(false);
+        jPanel.add(jComponent);
+        return jPanel;
+    }
+
+    /** Cabeçalho de cartão: título em caixa alta, linha de apoio opcional e um componente à direita. */
+    public static JPanel cabecalho(String titulo, String subtitulo, Component direita) {
+        JPanel jPanel = new JPanel(new java.awt.BorderLayout(12, 0));
+        jPanel.setOpaque(false);
+        JPanel textos = new JPanel();
+        textos.setOpaque(false);
+        textos.setLayout(new javax.swing.BoxLayout(textos, 1));
+        JLabel jTitulo = new JLabel(titulo.toUpperCase());
+        jTitulo.setFont(TemaBetfoot.espacada(TemaBetfoot.display(20.0f), 0.03f));
+        jTitulo.setForeground(TEXTO);
+        jTitulo.putClientProperty("tema.ok", Boolean.TRUE);
+        textos.add(jTitulo);
+        if (subtitulo != null) {
+            JLabel jSub = new JLabel(subtitulo);
+            jSub.setFont(TemaBetfoot.fonte(Font.PLAIN, 13.0f));
+            jSub.setForeground(TEXTO_SUAVE);
+            jSub.putClientProperty("tema.ok", Boolean.TRUE);
+            textos.add(jSub);
+        }
+        jPanel.add((Component)textos, "Center");
+        if (direita != null) {
+            JPanel canto = new JPanel(new java.awt.BorderLayout());
+            canto.setOpaque(false);
+            canto.add(direita, "North");
+            jPanel.add((Component)canto, "East");
+        }
+        return jPanel;
+    }
+
+    /** Linha fina que separa blocos dentro de um cartão. */
+    public static JComponent divisor() {
+        JComponent jComponent = new JComponent() {
+            @Override
+            protected void paintComponent(Graphics graphics) {
+                graphics.setColor(TemaBetfoot.alfa(Color.WHITE, 0.08));
+                graphics.fillRect(0, this.getHeight() / 2, this.getWidth(), 1);
+            }
+        };
+        jComponent.setPreferredSize(new Dimension(10, 21));
+        jComponent.setMaximumSize(new Dimension(Integer.MAX_VALUE, 21));
+        jComponent.setAlignmentX(0.0f);
+        return jComponent;
+    }
+
+    /** Marcador de "jogar/não jogar" em tabelas: o mesmo quadrado com check verde das caixas de seleção. */
+    public static Icon marcador(final boolean marcado) {
+        return new Icon() {
+            @Override
+            public void paintIcon(Component component, Graphics graphics, int x, int y) {
+                Graphics2D g = TemaBetfoot.suave(graphics);
+                RoundRectangle2D.Double forma = new RoundRectangle2D.Double(x + 0.5, y + 0.5, 17.0, 17.0, 6.0, 6.0);
+                g.setColor(marcado ? VERDE_BOTAO : TemaBetfoot.alfa(Color.WHITE, 0.06));
+                g.fill(forma);
+                g.setColor(marcado ? TemaBetfoot.alfa(VERDE, 0.8) : TemaBetfoot.alfa(Color.WHITE, 0.25));
+                g.draw(forma);
+                if (marcado) {
+                    g.setColor(Color.WHITE);
+                    g.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(x + 4.5, y + 9.5);
+                    p.lineTo(x + 7.5, y + 12.5);
+                    p.lineTo(x + 13.5, y + 5.5);
+                    g.draw(p);
+                }
+                g.dispose();
+            }
+
+            @Override
+            public int getIconWidth() {
+                return 18;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return 18;
+            }
+        };
+    }
+
+    /** Indicador de etapas ("1 Competições — 2 Técnico e time"): feitas e atual em verde, próximas apagadas. */
+    public static class Passos
+    extends JComponent {
+        private final String[] nomes;
+        private final int atual;
+
+        public Passos(int n, String ... stringArray) {
+            this.atual = n;
+            this.nomes = stringArray;
+            this.setPreferredSize(new Dimension(this.largura(), 40));
+        }
+
+        private int largura() {
+            FontMetrics fm = this.getFontMetrics(TemaBetfoot.espacada(TemaBetfoot.display(15.0f), 0.06f));
+            int w = 0;
+            for (String s : this.nomes) {
+                w += 30 + 10 + fm.stringWidth(s.toUpperCase());
+            }
+            return w + (this.nomes.length - 1) * 52;
+        }
+
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            Graphics2D g = TemaBetfoot.suave(graphics);
+            int h = this.getHeight();
+            int x = Math.max(0, this.getWidth() - this.largura());
+            Font fonte = TemaBetfoot.espacada(TemaBetfoot.display(15.0f), 0.06f);
+            for (int i = 0; i < this.nomes.length; ++i) {
+                boolean feito = i < this.atual;
+                boolean agora = i == this.atual;
+                int cy = h / 2;
+                Ellipse2D.Double bola = new Ellipse2D.Double(x, cy - 15, 30, 30);
+                g.setColor(agora ? VERDE_BOTAO : (feito ? TemaBetfoot.alfa(VERDE, 0.18) : TemaBetfoot.alfa(Color.WHITE, 0.06)));
+                g.fill(bola);
+                g.setColor(agora || feito ? TemaBetfoot.alfa(VERDE, 0.8) : TemaBetfoot.alfa(Color.WHITE, 0.2));
+                g.draw(bola);
+                if (feito) {
+                    g.setStroke(new BasicStroke(2.2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(x + 9.5, cy + 0.5);
+                    p.lineTo(x + 13.5, cy + 4.5);
+                    p.lineTo(x + 20.5, cy - 4.5);
+                    g.setColor(VERDE);
+                    g.draw(p);
+                    g.setStroke(new BasicStroke(1.0f));
+                } else {
+                    g.setFont(TemaBetfoot.display(16.0f));
+                    FontMetrics fn = g.getFontMetrics();
+                    String n = Integer.toString(i + 1);
+                    g.setColor(agora ? Color.WHITE : TEXTO_FRACO);
+                    g.drawString(n, x + (30 - fn.stringWidth(n)) / 2, cy + (fn.getAscent() - fn.getDescent()) / 2);
+                }
+                x += 40;
+                g.setFont(fonte);
+                FontMetrics fm = g.getFontMetrics();
+                String s = this.nomes[i].toUpperCase();
+                g.setColor(agora ? TEXTO : (feito ? TEXTO_SUAVE : TEXTO_FRACO));
+                g.drawString(s, x, cy + (fm.getAscent() - fm.getDescent()) / 2);
+                x += fm.stringWidth(s);
+                if (i < this.nomes.length - 1) {
+                    g.setColor(feito ? TemaBetfoot.alfa(VERDE, 0.5) : TemaBetfoot.alfa(Color.WHITE, 0.14));
+                    g.fillRect(x + 12, cy, 28, 2);
+                    x += 52;
+                }
+            }
+            g.dispose();
         }
     }
 
@@ -650,6 +860,26 @@ public final class TemaBetfoot {
                     p.lineTo(s * 0.24, s * 0.86);
                     p.lineTo(s * 0.76, s * 0.86);
                     p.lineTo(s * 0.76, s * 0.38);
+                    g.draw(p);
+                    break;
+                }
+                case VOLTAR: {
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.84, s * 0.5);
+                    p.lineTo(s * 0.16, s * 0.5);
+                    p.moveTo(s * 0.42, s * 0.22);
+                    p.lineTo(s * 0.14, s * 0.5);
+                    p.lineTo(s * 0.42, s * 0.78);
+                    g.draw(p);
+                    break;
+                }
+                case AVANCAR: {
+                    GeneralPath p = new GeneralPath();
+                    p.moveTo(s * 0.16, s * 0.5);
+                    p.lineTo(s * 0.84, s * 0.5);
+                    p.moveTo(s * 0.58, s * 0.22);
+                    p.lineTo(s * 0.86, s * 0.5);
+                    p.lineTo(s * 0.58, s * 0.78);
                     g.draw(p);
                     break;
                 }
@@ -1280,7 +1510,8 @@ public final class TemaBetfoot {
         }
     }
 
-    private static javax.swing.JDialog dialogo(Component component) {
+    /** Diálogo modal sem moldura, cantos arredondados e Esc fecha. Para painéis que recebem o diálogo no construtor. */
+    public static javax.swing.JDialog dialogo(Component component) {
         java.awt.Window window = component == null ? null : (component instanceof java.awt.Window ? (java.awt.Window)component : javax.swing.SwingUtilities.getWindowAncestor(component));
         final javax.swing.JDialog jDialog = new javax.swing.JDialog(window, java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         jDialog.setUndecorated(true);
@@ -1327,12 +1558,21 @@ public final class TemaBetfoot {
      * arredondado, centraliza e permite arrastar. Esc fecha. Devolve o diálogo (ainda invisível).
      */
     public static javax.swing.JDialog modal(Component component, JComponent jComponent) {
-        javax.swing.JDialog jDialog = TemaBetfoot.dialogo(component);
         TemaBetfoot.aplicarTema(jComponent);
         // Os painéis antigos têm tamanho fixo; com as fontes novas o conteúdo cortava. Deixa o layout medir.
         if (jComponent.getLayout() instanceof javax.swing.GroupLayout) {
             jComponent.setPreferredSize(null);
         }
+        return TemaBetfoot.janela(component, jComponent);
+    }
+
+    /** Como modal(), para painéis já feitos no tema novo: só põe no cartão, centraliza e deixa arrastar. */
+    public static javax.swing.JDialog janela(Component component, JComponent jComponent) {
+        return TemaBetfoot.vestir(TemaBetfoot.dialogo(component), jComponent);
+    }
+
+    /** Põe o painel (já no tema) no cartão do modal, dentro de um diálogo criado por dialogo(); centraliza e deixa arrastar. */
+    public static javax.swing.JDialog vestir(javax.swing.JDialog jDialog, JComponent jComponent) {
         CorpoModal corpo = new CorpoModal(new java.awt.BorderLayout());
         corpo.add((Component)jComponent, "Center");
         jDialog.setContentPane(corpo);
@@ -1488,6 +1728,89 @@ public final class TemaBetfoot {
         return resposta[0];
     }
 
+    /** Topo de modal: ícone opcional (bandeira, escudo), título grande, subtítulo e o X que dispara "fechar". */
+    public static JPanel topoModal(Icon icone, String titulo, String subtitulo, final AbstractButton fechar) {
+        JPanel topo = new JPanel(new java.awt.BorderLayout(16, 0));
+        topo.setOpaque(false);
+        JPanel textos = new JPanel();
+        textos.setOpaque(false);
+        textos.setLayout(new javax.swing.BoxLayout(textos, 1));
+        JLabel jTitulo = new JLabel(titulo.toUpperCase());
+        jTitulo.setFont(TemaBetfoot.espacada(TemaBetfoot.display(30.0f), 0.02f));
+        jTitulo.setForeground(TEXTO);
+        jTitulo.setIcon(icone);
+        jTitulo.setIconTextGap(14);
+        jTitulo.putClientProperty("tema.ok", Boolean.TRUE);
+        textos.add(jTitulo);
+        if (subtitulo != null) {
+            JLabel sub = new JLabel(subtitulo);
+            sub.setFont(TemaBetfoot.fonte(Font.PLAIN, 14.0f));
+            sub.setForeground(TEXTO_SUAVE);
+            sub.putClientProperty("tema.ok", Boolean.TRUE);
+            textos.add(sub);
+        }
+        topo.add((Component)textos, "Center");
+        if (fechar != null) {
+            JButton x = TemaBetfoot.fechar();
+            x.addActionListener(actionEvent -> fechar.doClick());
+            JPanel canto = new JPanel(new java.awt.BorderLayout());
+            canto.setOpaque(false);
+            canto.add((Component)x, "North");
+            topo.add((Component)canto, "East");
+        }
+        return topo;
+    }
+
+    /** Rodapé de modal: linha fina em cima, "esquerda" (opcional) e os botões à direita (Voltar/Cancelar, depois a ação). */
+    public static JPanel rodapeModal(Component esquerda, Component ... botoes) {
+        JPanel rodape = new JPanel(new java.awt.BorderLayout(16, 0));
+        rodape.setOpaque(false);
+        rodape.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, TemaBetfoot.alfa(Color.WHITE, 0.08)), BorderFactory.createEmptyBorder(18, 0, 0, 0)));
+        if (esquerda != null) {
+            rodape.add(esquerda, "West");
+        }
+        JPanel direita = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 0));
+        direita.setOpaque(false);
+        for (Component b : botoes) {
+            direita.add(b);
+        }
+        rodape.add((Component)direita, "East");
+        return rodape;
+    }
+
+    /** Rótulo de campo de formulário (caixa alta, pequeno, espaçado), como nos modais do editor. */
+    public static JLabel rotuloCampo(JLabel jLabel, String string) {
+        return Formulario.rotuloCampo(jLabel, string);
+    }
+
+    /** Botão X do canto dos modais (fica verde no hover). */
+    public static JButton fechar() {
+        JButton fechar = TemaBetfoot.botao(new JButton(), Estilo.ICONE, null, Simbolo.MAIS);
+        fechar.setIcon(new Icon() {
+            @Override
+            public void paintIcon(Component component, Graphics graphics, int x, int y) {
+                Graphics2D g = TemaBetfoot.suave(graphics);
+                g.setColor(((AbstractButton)component).getModel().isRollover() ? VERDE : TEXTO_SUAVE);
+                g.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g.draw(new Line2D.Double(x + 3, y + 3, x + 13, y + 13));
+                g.draw(new Line2D.Double(x + 13, y + 3, x + 3, y + 13));
+                g.dispose();
+            }
+
+            @Override
+            public int getIconWidth() {
+                return 16;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return 16;
+            }
+        });
+        fechar.setToolTipText("Fechar (Esc)");
+        return fechar;
+    }
+
     /**
      * Monta formulários de modal no padrão novo: título (com X), campos em grade de 2 colunas com o rótulo em
      * cima, e uma barra de ações no rodapé. Usado para reorganizar os painéis antigos sem trocar seus campos.
@@ -1606,29 +1929,7 @@ public final class TemaBetfoot {
             barra.setMaximumSize(new Dimension(48, 4));
             topo.add((Component)textos, "Center");
             if (cancelar != null) {
-                JButton fechar = TemaBetfoot.botao(new JButton(), Estilo.ICONE, null, Simbolo.MAIS);
-                fechar.setIcon(new Icon() {
-                    @Override
-                    public void paintIcon(Component component, Graphics graphics, int x, int y) {
-                        Graphics2D g = TemaBetfoot.suave(graphics);
-                        g.setColor(((AbstractButton)component).getModel().isRollover() ? VERDE : TEXTO_SUAVE);
-                        g.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                        g.draw(new Line2D.Double(x + 3, y + 3, x + 13, y + 13));
-                        g.draw(new Line2D.Double(x + 13, y + 3, x + 3, y + 13));
-                        g.dispose();
-                    }
-
-                    @Override
-                    public int getIconWidth() {
-                        return 16;
-                    }
-
-                    @Override
-                    public int getIconHeight() {
-                        return 16;
-                    }
-                });
-                fechar.setToolTipText("Fechar (Esc)");
+                JButton fechar = TemaBetfoot.fechar();
                 fechar.addActionListener(actionEvent -> cancelar.doClick());
                 JPanel canto = new JPanel(new java.awt.BorderLayout());
                 canto.setOpaque(false);

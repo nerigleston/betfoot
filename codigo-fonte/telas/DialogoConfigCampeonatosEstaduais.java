@@ -7,8 +7,8 @@ import telas.OuvinteAlterarGrupoPadraoEstadual;
 import telas.OuvinteResetarConfigEstadual;
 import nucleo.ConstantesJogo;
 import nucleo.CarregadorConfigEstadual;
-import components.RestricaoPosicaoLayout;
-import components.LayoutPosicaoAbsoluta;
+import components.TemaBetfoot;
+import javax.swing.JScrollPane;
 import est.ConfigEstadualType;
 import java.awt.Color;
 import java.awt.Component;
@@ -53,10 +53,6 @@ extends JPanel {
         this.vb.addActionListener(new OuvinteResetarConfigEstadual(this));
         this.vc.setVisible(false);
         this.gF = n3;
-        String string = "Campeonato " + ConstantesJogo.rZ[n2] + " - " + Integer.toString(this.gF) + " times";
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aesticons/" + n2 + ".png"));
-        this.vf.setText(string);
-        this.vf.setIcon(imageIcon);
         CarregadorConfigEstadual.ef();
         int n4 = 0;
         while (n4 < CarregadorConfigEstadual.eg().size()) {
@@ -103,6 +99,7 @@ extends JPanel {
         this.CV.a(this.CP[3]);
         this.CW.a(this.CP[4]);
         this.oJ();
+        this.montar(n2);
     }
 
     public void oJ() {
@@ -152,6 +149,53 @@ extends JPanel {
         return this.dr;
     }
 
+    /** Modal no tema: escudo do estado e título, grupos reais, as 4 divisões com rolagem, Voltar/Salvar. */
+    private void montar(int estado) {
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout(0, 18));
+        this.setOpaque(false);
+        javax.swing.Icon escudo = null;
+        java.net.URL url = this.getClass().getResource("/aesticons/" + estado + ".png");
+        if (url != null) {
+            ImageIcon imageIcon = new ImageIcon(url);
+            escudo = new TemaBetfoot.IconeEscalado(imageIcon, Math.round(28.0f * imageIcon.getIconWidth() / Math.max(1, imageIcon.getIconHeight())), 28, 0);
+        }
+        JButton voltar = TemaBetfoot.botao(new JButton(), TemaBetfoot.Estilo.FANTASMA, "Voltar", TemaBetfoot.Simbolo.VOLTAR);
+        voltar.setToolTipText("Fechar sem salvar (Esc)");
+        voltar.addActionListener(actionEvent -> this.ub.dispose());
+        JPanel topo = new JPanel(new java.awt.BorderLayout(0, 12));
+        topo.setOpaque(false);
+        topo.add((Component)TemaBetfoot.topoModal(escudo, "Campeonato " + ConstantesJogo.rZ[estado], this.gF + " times  \u00b7  formato de cada divis\u00e3o", voltar), "North");
+        JPanel grupos = new JPanel(new java.awt.BorderLayout());
+        grupos.setOpaque(false);
+        this.CS.setToolTipText("Quando o estadual tem grupos, usa a divis\u00e3o real dos grupos");
+        grupos.add((Component)this.CS, "West");
+        TemaBetfoot.aplicarTema(grupos);
+        topo.add((Component)grupos, "South");
+        this.add((Component)topo, "North");
+        JPanel divisoes = new JPanel();
+        divisoes.setOpaque(false);
+        divisoes.setLayout(new javax.swing.BoxLayout(divisoes, 1));
+        PainelConfigDivisaoEstadual[] paineis = new PainelConfigDivisaoEstadual[]{this.CT, this.CU, this.CV, this.CW};
+        for (int i = 0; i < paineis.length; ++i) {
+            if (i > 0) {
+                divisoes.add(javax.swing.Box.createVerticalStrut(14));
+            }
+            divisoes.add(paineis[i]);
+        }
+        JScrollPane rolagem = new JScrollPane(divisoes);
+        TemaBetfoot.rolagem(rolagem);
+        rolagem.getViewport().setOpaque(false);
+        rolagem.setOpaque(false);
+        rolagem.getVerticalScrollBar().setUnitIncrement(24);
+        java.awt.Rectangle tela = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        java.awt.Dimension conteudo = divisoes.getPreferredSize();
+        rolagem.setPreferredSize(new java.awt.Dimension(Math.max(700, conteudo.width + 16), Math.min(conteudo.height + 4, (int)(tela.height * 0.8) - 220)));
+        this.add((Component)rolagem, "Center");
+        TemaBetfoot.botao(this.vb, TemaBetfoot.Estilo.PRIMARIO, "Salvar", null);
+        this.add((Component)TemaBetfoot.rodapeModal(null, voltar, this.vb), "South");
+    }
+
     private void mJ() {
         this.vf = new JLabel();
         this.BH = new JLabel();
@@ -160,50 +204,11 @@ extends JPanel {
         this.BK = new JLabel();
         this.vb = new JButton();
         this.vc = new JButton();
-        this.CS = new JCheckBox();
+        this.CS = new JCheckBox("Usar grupos reais quando poss\u00edvel");
         this.CW = new PainelConfigDivisaoEstadual(4, this);
         this.CT = new PainelConfigDivisaoEstadual(1, this);
         this.CU = new PainelConfigDivisaoEstadual(2, this);
         this.CV = new PainelConfigDivisaoEstadual(3, this);
-        this.setBackground(new Color(226, 228, 228));
-        this.setToolTipText("");
-        this.setLayout(new LayoutPosicaoAbsoluta());
-        this.vf.setFont(new Font("Tahoma", 1, 14));
-        this.vf.setForeground(new Color(36, 104, 43));
-        this.vf.setIcon(new ImageIcon(this.getClass().getResource("/aicons/1.png")));
-        this.vf.setText("Configurar Ligas - Brasil - 120 times");
-        this.add((Component)this.vf, new RestricaoPosicaoLayout(36, 11, 380, -1));
-        this.BH.setBackground(new Color(255, 255, 255));
-        this.BH.setForeground(new Color(36, 104, 43));
-        this.BH.setText("1\u00aa divis\u00e3o");
-        this.add((Component)this.BH, new RestricaoPosicaoLayout(36, 43, -1, -1));
-        this.BI.setBackground(new Color(255, 255, 255));
-        this.BI.setForeground(new Color(36, 104, 43));
-        this.BI.setText("2\u00aa divis\u00e3o");
-        this.add((Component)this.BI, new RestricaoPosicaoLayout(40, 160, -1, -1));
-        this.BJ.setBackground(new Color(255, 255, 255));
-        this.BJ.setForeground(new Color(36, 104, 43));
-        this.BJ.setText("3\u00aa divis\u00e3o");
-        this.add((Component)this.BJ, new RestricaoPosicaoLayout(40, 290, -1, -1));
-        this.BK.setBackground(new Color(255, 255, 255));
-        this.BK.setForeground(new Color(36, 104, 43));
-        this.BK.setText("4\u00aa divis\u00e3o");
-        this.add((Component)this.BK, new RestricaoPosicaoLayout(40, 430, -1, -1));
-        this.vb.setFont(new Font("Tahoma", 0, 12));
-        this.vb.setText("Salvar");
-        this.vb.setToolTipText("");
-        this.add((Component)this.vb, new RestricaoPosicaoLayout(510, 560, 121, 30));
-        this.vc.setFont(new Font("Tahoma", 0, 12));
-        this.vc.setText("Resetar tudo");
-        this.vc.setToolTipText("");
-        this.vc.setCursor(new Cursor(12));
-        this.add((Component)this.vc, new RestricaoPosicaoLayout(370, 560, 120, 30));
-        this.CS.setText("Usar grupos reais se poss\u00edvel");
-        this.add((Component)this.CS, new RestricaoPosicaoLayout(430, 10, 200, -1));
-        this.add((Component)this.CW, new RestricaoPosicaoLayout(40, 450, 590, 90));
-        this.add((Component)this.CT, new RestricaoPosicaoLayout(40, 60, 590, 90));
-        this.add((Component)this.CU, new RestricaoPosicaoLayout(40, 180, 590, 90));
-        this.add((Component)this.CV, new RestricaoPosicaoLayout(40, 320, 590, 90));
     }
 
     static /* synthetic */ JCheckBox a(DialogoConfigCampeonatosEstaduais cw_02) {

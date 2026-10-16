@@ -58,7 +58,7 @@ extends JPanel {
         this.ug.setText(this.uk.getNome());
         this.mV();
         this.vr.setRowSelectionInterval(0, 0);
-        this.a(this);
+        this.a((JComponent)this);
         this.mH();
     }
 

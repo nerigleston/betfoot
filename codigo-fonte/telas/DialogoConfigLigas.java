@@ -10,14 +10,11 @@ import telas.OuvinteFecharDialogoConfigLigas;
 import nucleo.EnumPaises;
 import nucleo.DadosPais;
 import nucleo.IniciadorCarreira;
-import components.RestricaoPosicaoLayout;
-import components.LayoutPosicaoAbsoluta;
+import components.TemaBetfoot;
 import est.ConfigLigaType;
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Component;
-import java.awt.Font;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -54,10 +51,6 @@ extends JPanel {
         this.vb.addActionListener(new OuvinteSalvarConfigLigas(this));
         this.uC.addActionListener(new OuvinteFecharDialogoConfigLigas(this));
         this.gF = n3;
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aflags/" + n2 + ".png"));
-        String string = "Configurar Ligas - " + EnumPaises.valueOf("P" + n2).getNome() + " - " + Integer.toString(this.gF) + " times";
-        this.vf.setText(string);
-        this.vf.setIcon(imageIcon);
         int n4 = 0;
         while (n4 < SR.bG.size()) {
             if (((ConfigLigaType)SR.bG.get(n4)).getPais() == n2) {
@@ -122,6 +115,7 @@ extends JPanel {
         this.Gs.a(this.Go[3], this.Go[4]);
         this.Gt.a(this.Go[4], null);
         this.oJ();
+        this.montar(n2);
     }
 
     public void nH() {
@@ -177,11 +171,54 @@ extends JPanel {
         }
     }
 
+    /** Monta o modal no tema: bandeira e título, a opção da Copa do Brasil, as 4 divisões com rolagem, Voltar/Salvar. */
+    private void montar(int pais) {
+        this.removeAll();
+        this.setLayout(new java.awt.BorderLayout(0, 18));
+        this.setOpaque(false);
+        JPanel topo = new JPanel(new java.awt.BorderLayout(0, 12));
+        topo.setOpaque(false);
+        topo.add((Component)TemaBetfoot.topoModal(TemaBetfoot.bandeira(pais, 26), "Configurar ligas", EnumPaises.valueOf("P" + pais).getNome() + "  \u00b7  " + this.gF + " times  \u00b7  divis\u00f5es, acesso e rebaixamento", this.uC), "North");
+        if (this.Gp.isVisible()) {
+            this.Gp.setToolTipText("Copa do Brasil no formato atual (com mais clubes)");
+            JPanel copa = new JPanel(new java.awt.BorderLayout());
+            copa.setOpaque(false);
+            copa.add((Component)this.Gp, "West");
+            TemaBetfoot.aplicarTema(copa);
+            topo.add((Component)copa, "South");
+        }
+        this.add((Component)topo, "North");
+        JPanel divisoes = new JPanel();
+        divisoes.setOpaque(false);
+        divisoes.setLayout(new javax.swing.BoxLayout(divisoes, 1));
+        PainelConfigFormatoLiga[] paineis = new PainelConfigFormatoLiga[]{this.Gq, this.Gr, this.Gs, this.Gt};
+        for (int i = 0; i < paineis.length; ++i) {
+            if (i > 0) {
+                divisoes.add(javax.swing.Box.createVerticalStrut(14));
+            }
+            divisoes.add(paineis[i]);
+        }
+        this.ut = new JScrollPane(divisoes);
+        TemaBetfoot.rolagem(this.ut);
+        this.ut.getViewport().setOpaque(false);
+        this.ut.setOpaque(false);
+        this.ut.getVerticalScrollBar().setUnitIncrement(24);
+        // Cabe na tela: até ~80% da altura; o resto rola.
+        java.awt.Rectangle tela = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        Dimension conteudo = divisoes.getPreferredSize();
+        this.ut.setPreferredSize(new Dimension(Math.max(940, conteudo.width + 16), Math.min(conteudo.height + 4, (int)(tela.height * 0.8) - 220)));
+        this.add((Component)this.ut, "Center");
+        TemaBetfoot.botao(this.uC, TemaBetfoot.Estilo.FANTASMA, "Voltar", TemaBetfoot.Simbolo.VOLTAR);
+        this.uC.setToolTipText("Fechar sem salvar (Esc)");
+        TemaBetfoot.botao(this.vb, TemaBetfoot.Estilo.PRIMARIO, "Salvar", null);
+        this.add((Component)TemaBetfoot.rodapeModal(null, this.uC, this.vb), "South");
+    }
+
     private void mJ() {
         this.vf = new JLabel();
         this.vb = new JButton();
         this.uC = new JButton();
-        this.Gp = new JCheckBox();
+        this.Gp = new JCheckBox("Usar novo formato na Copa do Brasil");
         this.Gq = new PainelConfigFormatoLiga(1, this);
         this.Gr = new PainelConfigFormatoLiga(2, this);
         this.Gs = new PainelConfigFormatoLiga(3, this);
@@ -191,53 +228,6 @@ extends JPanel {
         this.a_ = new JLabel();
         this.ur = new JLabel();
         this.ut = new JScrollPane();
-        this.setBackground(new Color(204, 204, 204));
-        this.setToolTipText("");
-        this.setLayout(new LayoutPosicaoAbsoluta());
-        this.vf.setFont(new Font("Tahoma", 1, 14));
-        this.vf.setForeground(new Color(0, 75, 106));
-        this.vf.setIcon(new ImageIcon(this.getClass().getResource("/aicons/1.png")));
-        this.vf.setText("Configurar Ligas - Brasil - 120 times");
-        this.add((Component)this.vf, new RestricaoPosicaoLayout(50, 10, 310, -1));
-        this.vb.setFont(new Font("Tahoma", 0, 12));
-        this.vb.setText("Salvar");
-        this.vb.setToolTipText("");
-        this.add((Component)this.vb, new RestricaoPosicaoLayout(610, 10, 170, 30));
-        this.uC.setFont(new Font("Tahoma", 0, 12));
-        this.uC.setText("Cancelar altera\u00e7\u00f5es");
-        this.uC.setToolTipText("");
-        this.add((Component)this.uC, new RestricaoPosicaoLayout(390, 10, 170, 30));
-        this.Gp.setBackground(new Color(0, 0, 0));
-        this.Gp.setForeground(new Color(0, 75, 106));
-        this.Gp.setText("Usar novo formato na Copa BRA");
-        this.Gp.setHorizontalAlignment(2);
-        this.Gp.setOpaque(false);
-        this.add((Component)this.Gp, new RestricaoPosicaoLayout(70, 30, 262, 20));
-        this.add((Component)this.Gt, new RestricaoPosicaoLayout(50, 550, 730, 160));
-        this.add((Component)this.Gq, new RestricaoPosicaoLayout(50, 50, 731, 147));
-        this.add((Component)this.Gr, new RestricaoPosicaoLayout(50, 210, 730, 160));
-        this.add((Component)this.Gs, new RestricaoPosicaoLayout(50, 380, 730, 160));
-        this.ug.setFont(new Font("Tahoma", 1, 14));
-        this.ug.setForeground(new Color(0, 75, 106));
-        this.ug.setText("4");
-        this.ug.setToolTipText("");
-        this.add((Component)this.ug, new RestricaoPosicaoLayout(30, 570, -1, 20));
-        this.uh.setFont(new Font("Tahoma", 1, 14));
-        this.uh.setForeground(new Color(0, 75, 106));
-        this.uh.setText("1");
-        this.uh.setToolTipText("");
-        this.add((Component)this.uh, new RestricaoPosicaoLayout(30, 60, -1, 20));
-        this.a_.setFont(new Font("Tahoma", 1, 14));
-        this.a_.setForeground(new Color(0, 75, 106));
-        this.a_.setText("2");
-        this.a_.setToolTipText("");
-        this.add((Component)this.a_, new RestricaoPosicaoLayout(30, 230, -1, 20));
-        this.ur.setFont(new Font("Tahoma", 1, 14));
-        this.ur.setForeground(new Color(0, 75, 106));
-        this.ur.setText("3");
-        this.ur.setToolTipText("");
-        this.add((Component)this.ur, new RestricaoPosicaoLayout(30, 400, -1, 20));
-        this.add((Component)this.ut, new RestricaoPosicaoLayout(-30, -10, -1, -1));
     }
 
     static /* synthetic */ JDialog a(DialogoConfigLigas dG2) {
