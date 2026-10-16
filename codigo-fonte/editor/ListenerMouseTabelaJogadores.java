@@ -1,5 +1,6 @@
 package editor;
 
+import nucleo.Plataforma;
 import editor.ModeloTabelaJogadores;
 import editor.JanelaEditorBetfoot;
 import java.awt.Point;
@@ -39,7 +40,7 @@ extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+        if (Plataforma.isCliqueSecundario(mouseEvent)) {
             Point point = mouseEvent.getPoint();
             int n2 = JanelaEditorBetfoot.g(this.Vh).rowAtPoint(point);
             ListSelectionModel listSelectionModel = JanelaEditorBetfoot.g(this.Vh).getSelectionModel();

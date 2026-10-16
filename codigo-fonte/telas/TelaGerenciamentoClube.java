@@ -236,9 +236,7 @@ extends JPanel {
     }
 
     private void sA() {
-        if (!GerenciadorJogo.vL()) {
-            JOptionPane.showMessageDialog(this.ub, "Apenas na vers\u00e3o registrada \u00e9 poss\u00edvel fazer oferta em qualquer jogador.", "Oferta", 2);
-        } else if (BuscadorTimeDestinoTransferencia.d(this.sE(), this.ul)) {
+        if (BuscadorTimeDestinoTransferencia.d(this.sE(), this.ul)) {
             if (this.sE().fg() == this.ul) {
                 JOptionPane.showMessageDialog(this.ub, "Jogador do time", "Proposta", 2);
             } else if (this.ul.kc().size() >= 35) {

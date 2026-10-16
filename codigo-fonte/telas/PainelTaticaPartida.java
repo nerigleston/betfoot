@@ -842,26 +842,6 @@ extends JPanel {
         }
     }
 
-    public static void pg() {
-        int[] nArray = new int[6];
-        String string = "";
-        boolean bl = false;
-        int n2 = 0;
-        while (n2 < nArray.length) {
-            int n3 = FiltroBuscaJogador.bE(n2);
-            String string2 = Integer.toString(n3);
-            String string3 = Character.toString(string2.charAt(string2.length() - 3));
-            if (ConstantesJogo.tG[n2]) {
-                string = String.valueOf(string) + Character.toString(string2.charAt(string2.length() - 3));
-            }
-            nArray[n2] = Integer.parseInt(string3);
-            ++n2;
-        }
-        if (IniciadorCarreira.du() < 8) {
-            ModeloTabelaArtilharia.ac(string);
-        }
-    }
-
     private void mJ() {
         this.vd = new JPanel();
         this.Dw = new JLabel();

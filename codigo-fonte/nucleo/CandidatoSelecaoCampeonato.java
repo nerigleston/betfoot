@@ -8,7 +8,6 @@ public class CandidatoSelecaoCampeonato {
     private double Z;
     private int hq;
     private int hr = new Random().nextInt(100);
-    private static boolean hs = false;
 
     public ModeloJogador x() {
         return this.U;
@@ -36,10 +35,6 @@ public class CandidatoSelecaoCampeonato {
 
     public int iS() {
         return this.hr;
-    }
-
-    public static void x(boolean bl) {
-        hs = bl;
     }
 }
 

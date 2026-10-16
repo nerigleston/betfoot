@@ -38,9 +38,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public abstract class IniciadorCarreira {
-    private static boolean cM = false;
     public static Comparator cN = new ComparadorNivelTime2Decrescente();
-    private static int cO = 0;
 
     public static void dd() {
         if (motor.GerenciadorJogo.SR.aG().size() == 0) {
@@ -406,20 +404,5 @@ public abstract class IniciadorCarreira {
         motor.GerenciadorJogo.SR.bG.add(configLigaType);
     }
 
-    public static boolean dt() {
-        return cM;
-    }
-
-    public static void n(boolean bl) {
-        cM = bl;
-    }
-
-    public static int du() {
-        return cO;
-    }
-
-    public static void dv() {
-        ++cO;
-    }
 }
 

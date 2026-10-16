@@ -28,9 +28,7 @@ extends JPanel {
         this.ub = jDialog;
         this.mJ();
         this.mH();
-        if (GerenciadorJogo.vL()) {
-            this.vx.setVisible(false);
-        }
+        this.vx.setVisible(false);
     }
 
     public void mH() {

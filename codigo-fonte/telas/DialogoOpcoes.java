@@ -115,10 +115,8 @@ extends JPanel {
     public DialogoOpcoes(JDialog jDialog, JTable jTable) {
         this.ub = jDialog;
         this.IG = jTable;
-        if (GerenciadorJogo.vL()) {
-            this.IJ = 5;
-            this.IK = 5;
-        }
+        this.IJ = 5;
+        this.IK = 5;
         this.mJ();
         this.mK();
         this.nc();

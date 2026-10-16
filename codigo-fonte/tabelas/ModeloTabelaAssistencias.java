@@ -8,7 +8,6 @@ public class ModeloTabelaAssistencias
 extends AbstractTableModel {
     private String[] Nt;
     private ArrayList vp;
-    private static String SD = "";
 
     public ModeloTabelaAssistencias(ArrayList arrayList) {
         this.vp = arrayList;
@@ -43,15 +42,6 @@ extends AbstractTableModel {
             return this.getValueAt(0, n2).getClass();
         }
         return String.class;
-    }
-
-    public static void ac(String string) {
-        SD = string;
-        PainelTesteCampoEscalacao.nZ();
-    }
-
-    public static String vF() {
-        return SD;
     }
 }
 

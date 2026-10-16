@@ -1,6 +1,6 @@
 package editor;
 
-import nucleo.VerificadorRegistro;
+import nucleo.UtilitariosTexto;
 import editor.JanelaTransferenciaJogador;
 import editor.ModeloTabelaTimes;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if (!JanelaTransferenciaJogador.a(this.VN).getText().isEmpty()) {
-            ((ModeloTabelaTimes)JanelaTransferenciaJogador.b(this.VN).getModel()).aj(VerificadorRegistro.f(JanelaTransferenciaJogador.a(this.VN).getText()));
+            ((ModeloTabelaTimes)JanelaTransferenciaJogador.b(this.VN).getModel()).aj(UtilitariosTexto.f(JanelaTransferenciaJogador.a(this.VN).getText()));
         }
     }
 }

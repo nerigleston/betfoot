@@ -1,5 +1,6 @@
 package telas;
 
+import nucleo.Plataforma;
 import telas.TelaGerenciamentoClube;
 import nucleo.GerenciadorTelas;
 import java.awt.Point;
@@ -28,7 +29,7 @@ extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+        if (Plataforma.isCliqueSecundario(mouseEvent)) {
             Point point = mouseEvent.getPoint();
             int n2 = TelaGerenciamentoClube.k(this.MV).rowAtPoint(point);
             ListSelectionModel listSelectionModel = TelaGerenciamentoClube.k(this.MV).getSelectionModel();

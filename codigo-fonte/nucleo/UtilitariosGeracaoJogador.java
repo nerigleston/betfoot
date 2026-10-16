@@ -1,16 +1,8 @@
 package nucleo;
 
-import telas.PainelTaticaPartida;
-import nucleo.VerificadorRegistro;
 import nucleo.ModeloJogador;
-import nucleo.RegistroLicenca;
 import nucleo.ModeloTime;
-import nucleo.e_0;
-import nucleo.IniciadorCarreira;
-import nucleo.CalculadoraChaveRegistro;
-import nucleo.CandidatoSelecaoCampeonato;
 import motor.GerenciadorJogo;
-import components.ItemPartidaAoVivo;
 import java.util.Random;
 import javax.swing.JProgressBar;
 
@@ -267,63 +259,6 @@ public abstract class UtilitariosGeracaoJogador {
         f2.fG();
         f2.fK();
         f2.fJ();
-    }
-
-    public static void in() {
-        Double d2;
-        Double[] doubleArray = new Double[]{58.0, 18.0, 3.0};
-        Double d3 = 2.0 * doubleArray[2];
-        VerificadorRegistro.m(RegistroLicenca.getNome());
-        VerificadorRegistro.eS();
-        Double[] doubleArray2 = new Double[]{82.0, 22.0};
-        Double[] doubleArray3 = new Double[]{70.0, 10.0};
-        Double[] doubleArray4 = new Double[]{40.0, 20.0};
-        int n2 = 0;
-        int n3 = 1;
-        int n4 = 0;
-        int[] nArray = new int[2];
-        int[] nArray2 = new int[2];
-        CalculadoraChaveRegistro.eT();
-        Double d4 = 2.0 * (double)n3;
-        Double d5 = 4.0 * (double)n3;
-        IniciadorCarreira.dv();
-        int n5 = (int)Math.round((double)n3 / doubleArray[1]);
-        int n6 = (int)Math.round((double)n3 / doubleArray[2]);
-        int n7 = 0;
-        while (n7 < n3) {
-            if (n4 == 3) {
-                int n8 = n2;
-                nArray[n8] = nArray[n8] + 1;
-                int n9 = n2;
-                nArray2[n9] = nArray2[n9] + 1;
-            }
-            if (n4 == 2) {
-                int n10 = n2;
-                nArray2[n10] = nArray2[n10] + 1;
-            }
-            n2 = n2 == 0 ? 1 : 0;
-            ++n7;
-        }
-        if (IniciadorCarreira.du() < 8) {
-            PainelTaticaPartida.pg();
-        }
-        if ((d2 = Double.valueOf(123.0)) < d3) {
-            throw new IllegalArgumentException("The upper limit, " + d2 + "must be equal to or greater than the location parameter, " + d3);
-        }
-        if (d5 <= 0.0) {
-            throw new IllegalArgumentException("The scale parameter, " + d5 + "must be greater than zero");
-        }
-        if (d4 <= 0.0) {
-            throw new IllegalArgumentException("The shape parameter, " + d4 + "must be greater than zero");
-        }
-        double d6 = 0.0;
-        if (d5 > 0.0) {
-            d6 = (d2 - d3) / d5;
-        }
-        e_0.a(d6);
-        if (d6 == ItemPartidaAoVivo.tX()) {
-            CandidatoSelecaoCampeonato.x(true);
-        }
     }
 }
 

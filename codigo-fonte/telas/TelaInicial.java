@@ -1,10 +1,8 @@
 package telas;
 
-import static motor.GerenciadorJogo.vL;
 
 import telas.OuvinteAbrirJogoTelaInicial;
 import telas.OuvinteAbrirEditorTelaInicial;
-import telas.OuvinteRegistrarJogoTelaInicial;
 import telas.OuvinteCarregarJogoTelaInicial;
 import telas.OuvinteSairTelaInicial;
 import nucleo.UtilitariosTexto;
@@ -24,12 +22,10 @@ import javax.swing.JPanel;
 
 public class TelaInicial
 extends JFrame {
-    private JLabel uh;
     private JPanel vd;
     private JLabel afs;
     private JLabel zM;
     private JLabel aft;
-    private JLabel afu;
     private JLabel afv;
     private JLabel afw;
     private JLabel afx;
@@ -45,23 +41,17 @@ extends JFrame {
         this.setTitle("Betfoot");
         this.setUndecorated(true);
         this.mJ();
-        this.afu.setIcon(new ImageIcon(this.getClass().getResource("/aiconsj/iconreg.png")));
-        this.afu.setCursor(new Cursor(12));
         this.aft.setCursor(new Cursor(12));
         this.afs.setCursor(new Cursor(12));
         this.afx.setCursor(new Cursor(12));
         this.afw.setCursor(new Cursor(12));
         this.mH();
-        if (vL()) {
-            this.rO();
-        }
         this.zM.setIcon(new ImageIcon(this.getClass().getResource("/aiconsj/tela_inicial.jpg")));
     }
 
     public void mH() {
         this.aft.addMouseListener(new OuvinteAbrirJogoTelaInicial(this));
         this.afs.addMouseListener(new OuvinteAbrirEditorTelaInicial(this));
-        this.afu.addMouseListener(new OuvinteRegistrarJogoTelaInicial(this));
         this.afx.addMouseListener(new OuvinteCarregarJogoTelaInicial(this));
         this.afw.addMouseListener(new OuvinteSairTelaInicial(this));
     }
@@ -80,11 +70,6 @@ extends JFrame {
         this.setVisible(false);
     }
 
-    private void rO() {
-        this.afu.setVisible(false);
-        this.uh.setVisible(false);
-    }
-
     private void mi() {
         new GerenciadorJogo();
         IniciadorCarreira.dd();
@@ -97,33 +82,17 @@ extends JFrame {
         this.dispose();
     }
 
-    private void rP() {
-        if (UtilitariosTexto.db() == null) {
-            new GerenciadorTelas(false);
-            GerenciadorTelas.aY(7);
-        } else {
-            GerenciadorTelas.aY(7);
-        }
-        this.dispose();
-    }
-
     private void mJ() {
         this.vd = new JPanel();
-        this.afu = new JLabel();
         this.afv = new JLabel();
         this.afx = new JLabel();
         this.aft = new JLabel();
         this.afs = new JLabel();
-        this.uh = new JLabel();
         this.afw = new JLabel();
         this.zM = new JLabel();
         this.setDefaultCloseOperation(3);
         this.getContentPane().setLayout(new LayoutPosicaoAbsoluta());
         this.vd.setLayout(new LayoutPosicaoAbsoluta());
-        this.afu.setFont(new Font("Tahoma", 0, 19));
-        this.afu.setForeground(new Color(255, 255, 255));
-        this.afu.setText("REGISTRAR JOGO");
-        this.vd.add((Component)this.afu, new components.RestricaoPosicaoLayout(10, 210, 230, 80));
         this.afv.setFont(new Font("Tahoma", 1, 12));
         this.afv.setForeground(new Color(255, 255, 255));
         this.vd.add((Component)this.afv, new components.RestricaoPosicaoLayout(60, 200, 80, 60));
@@ -136,11 +105,6 @@ extends JFrame {
         this.afs.setFont(new Font("Tahoma", 1, 12));
         this.afs.setForeground(new Color(255, 255, 255));
         this.vd.add((Component)this.afs, new components.RestricaoPosicaoLayout(370, 110, 140, 90));
-        this.uh.setFont(new Font("Tahoma", 0, 12));
-        this.uh.setForeground(new Color(255, 255, 255));
-        this.uh.setHorizontalAlignment(4);
-        this.uh.setText("vers\u00e3o n\u00e3o registrada");
-        this.vd.add((Component)this.uh, new components.RestricaoPosicaoLayout(310, 30, 150, 20));
         this.afw.setFont(new Font("Tahoma", 1, 12));
         this.afw.setForeground(new Color(255, 255, 255));
         this.vd.add((Component)this.afw, new components.RestricaoPosicaoLayout(420, 260, 80, 30));
@@ -165,10 +129,6 @@ extends JFrame {
 
     static /* synthetic */ void d(TelaInicial gq2) {
         gq2.rN();
-    }
-
-    static /* synthetic */ void e(TelaInicial gq2) {
-        gq2.rP();
     }
 
     static /* synthetic */ JLabel f(TelaInicial gq2) {

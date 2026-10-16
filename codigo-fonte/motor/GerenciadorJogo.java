@@ -33,7 +33,6 @@ public class GerenciadorJogo {
     public static EstadoCarreira SR;
     public static GeradorPropostaSelecao afQ;
     private static Options SS;
-    private static int ST;
     public static int SU;
     private static final File[] SV;
 
@@ -41,7 +40,6 @@ public class GerenciadorJogo {
         SR = null;
         afQ = null;
         SS = null;
-        ST = 0;
         SU = 64;
         SV = new File[7];
     }
@@ -280,19 +278,11 @@ public class GerenciadorJogo {
         JOptionPane.showMessageDialog(null, "Arquivo inv\u00e1lido: save corrompido ou \u00e9 de uma vers\u00e3o/build anterior.", "Arquivo inv\u00e1lido", 0);
     }
 
-    public static boolean vL() {
-        return ST >= 1920;
-    }
-
     public static Options vM() {
         if (SS == null) {
             SS = new Options();
         }
         return SS;
-    }
-
-    public static void ey(int n2) {
-        ST = n2;
     }
 
     public static void a(EstadoCarreira f_02) {

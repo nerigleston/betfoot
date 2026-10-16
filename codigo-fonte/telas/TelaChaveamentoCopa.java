@@ -17,7 +17,6 @@ import tabelas.RenderizadorListaCompeticoes;
 import tabelas.ModeloTabelaListaJogos;
 import tabelas.ModeloTabelaClassificacao;
 import tabelas.ModeloTabelaConfrontos;
-import nucleo.VerificadorRegistro;
 import nucleo.ListaTimes;
 import nucleo.ModeloPartida;
 import nucleo.ConstantesJogo;
@@ -107,14 +106,6 @@ extends JPanel {
         this.vX = at2;
     }
 
-    public void a(String string, Long l2) {
-        Preferences preferences = Preferences.userRoot();
-        Preferences preferences2 = preferences.node("systemacxyz22");
-        String string2 = VerificadorRegistro.eW();
-        preferences2.put("n", string2);
-        preferences2.putInt("nr", this.b(VerificadorRegistro.eX(), string2));
-    }
-
     public static int G(int n2, int n3) {
         String string = String.valueOf(n2);
         if (string.charAt(0) == '-') {
@@ -200,10 +191,6 @@ extends JPanel {
         char c2 = string.charAt(0);
         int n3 = c2 * 31348;
         return n2 - n3;
-    }
-
-    public TelaChaveamentoCopa() {
-        this.a("", 0L);
     }
 
     private void y(String string) {

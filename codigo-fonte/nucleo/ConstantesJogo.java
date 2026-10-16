@@ -492,8 +492,6 @@ public final class ConstantesJogo {
     public static final String[] aeI;
     public static final String[] tD;
     public static final int[] tE;
-    public static boolean[] tF;
-    public static boolean[] tG;
     public static final int[] tH;
     public static Random tI;
     public static final int tJ = 0;
@@ -770,7 +768,7 @@ public final class ConstantesJogo {
         sI = new int[]{1, 1, 2, 4, 4, 12, 15, 15, 20, 20, 23};
         sJ = new int[][]{{1, 20, 11, 13, 14, 16, 2, 9, 6, 4, 8}, {1, 20, 11, 13, 14, 16, 2, 9, 6, 4, 8}, {1, 22, 24, 12, 14, 16, 2, 9, 6, 4, 8}, {1, 23, 11, 13, 15, 2, 9, 6, 8, 10, 17}, {1, 22, 24, 11, 13, 14, 16, 2, 9, 3, 5}, {1, 19, 21, 11, 12, 13, 15, 2, 9, 6, 8}, {1, 22, 24, 12, 14, 15, 16, 2, 9, 6, 8}, {1, 22, 23, 24, 12, 14, 16, 2, 9, 6, 8}, {1, 19, 20, 21, 11, 13, 15, 2, 9, 6, 8}, {1, 22, 24, 11, 13, 15, 4, 6, 8, 10, 17}, {1, 18, 25, 23, 11, 13, 4, 6, 8, 10, 17}, {1, 23, 14, 16, 15, 13, 11, 2, 9, 6, 8}, {1, 20, 10, 17, 15, 13, 11, 2, 9, 6, 8}};
         sK = new String[]{"5-4-1", "5-4-1", "5-3-2", "4-5-1", "4-4-2", "4-4-2", "4-4-2", "4-3-3", "4-3-3", "3-5-2", "3-4-3"};
-        int[][] nArrayArray6 = new int[11][];
+        int[][] nArrayArray6 = new int[13][];
         int[] nArray36 = new int[5];
         nArray36[0] = 6;
         nArray36[2] = 2;
@@ -830,9 +828,12 @@ public final class ConstantesJogo {
         nArray46[2] = 2;
         nArray46[4] = 4;
         nArrayArray6[10] = nArray46;
+        // Fórmulas acrescentadas para os estaduais de 2026 (Rondoniense e Segundinha do DF; Roraimense).
+        nArrayArray6[11] = new int[]{7, 0, 4, 1, 1};
+        nArrayArray6[12] = new int[]{9, 0, 4, 0, 1};
         sL = nArrayArray6;
         aeH = new String[]{"Europa", "Am\u00e9rica do Sul", "\u00c1frica", "\u00c1sia", "Concacaf", "Oceania"};
-        sN = new String[]{"6 times - padr\u00e3o", "8 times - 4 classificados", "10 times - 4 classificados", "11 times - 4 classificados", "12 times - 4 classificados", "12 times - 8 classificados", "14 times - 8 classificados", "16 times - 4 grupos - SP 2021", "16 times - 4 classificados", "16 times - 8 classificados", "20 times - 4 grupos"};
+        sN = new String[]{"6 times - padr\u00e3o", "8 times - 4 classificados", "10 times - 4 classificados", "11 times - 4 classificados", "12 times - 4 classificados", "12 times - 8 classificados", "14 times - 8 classificados", "16 times - 4 grupos - SP 2021", "16 times - 4 classificados", "16 times - 8 classificados", "20 times - 4 grupos", "7 times - 4 classificados", "9 times - 4 classificados"};
         sO = new String[]{"corinthians_bra", "santoandre_sp", "interlimeirasp_bra", "botafogosp_bra", "saopaulo_bra", "ferroviaria_sp", "pontepreta_bra", "saobento_bra", "bragantino_bra", "palmeiras", "ituano_sp", "novorinzontino_sp", "miirassol_sp", "santos", "guaranisp_bra", "saocaetano_bra"};
         sP = new String[]{"liverpool_uru", "univcatolicaquito_equ", "cesarvallejo_per", "caracas_ven", "royalpari_bol", "guarani_par", "libertad_par", "gremio", "ayacucho_per", "wanderers_uru", "bolivar_bol", "universidadchile_chi", "sanlorenzo_ar", "santos", "deportivolara_ven", "junior_col", "unionespanola_chi", "independiente_equ", "nacional_col"};
         sQ = new String[]{"palmeiras", "defensayjusticia_ar", "universitario_per", "olimpia_par", "internacional_bra", "deptachira_ven", "alwaysready_bol", "bocajuniors_arg", "barcelona_equ", "thestrongest_bol", "riverplate_arg", "santafe_col", "flurj", "saopaulo_bra", "racing_arg", "sportingcristal_per", "rentistas_uru", "nacional_uru", "universidadcatolica_chi", "argentinojnrs_arg", "flarj", "ldu_equ", "velezsarsfield_arg", "unionlacalera_chi", "cerroporteno_par", "atleticomg_bra", "americacali_col", "deplaguaira_ven"};
@@ -849,20 +850,6 @@ public final class ConstantesJogo {
         aeI = new String[]{"Conference League", "", "", "", "", ""};
         tD = new String[]{GerenciadorIdioma.getString("cro"), GerenciadorIdioma.getString("cam"), GerenciadorIdioma.getString("cafr"), GerenciadorIdioma.getString("casi"), GerenciadorIdioma.getString("nCOuro"), GerenciadorIdioma.getString("nCopaOFC"), "", GerenciadorIdioma.getString("ncm")};
         tE = new int[]{727312, 412438, 219869, 319352, 530593, 157171};
-        boolean[] blArray = new boolean[8];
-        blArray[0] = true;
-        blArray[1] = true;
-        blArray[2] = true;
-        blArray[3] = true;
-        blArray[4] = true;
-        blArray[5] = true;
-        tF = blArray;
-        boolean[] blArray2 = new boolean[8];
-        blArray2[0] = true;
-        blArray2[2] = true;
-        blArray2[3] = true;
-        blArray2[4] = true;
-        tG = blArray2;
         tH = new int[]{16, 22, 26, 31, 40, 42};
         tI = new Random();
     }

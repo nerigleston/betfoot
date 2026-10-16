@@ -1,5 +1,6 @@
 package telas;
 
+import nucleo.Plataforma;
 import telas.PainelAnimacaoPenaltis;
 import telas.PainelOrdemBatedoresPenaltis;
 import telas.PainelTaticaPartida;
@@ -151,14 +152,12 @@ extends JPanel {
 
     private void a(JComponent jComponent) {
         InputMap inputMap = jComponent.getInputMap(1);
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(112, 0), "f1");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(113, 0), "f2");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(114, 0), "f3");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(115, 0), "f4");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(116, 0), "f5");
-        if (GerenciadorJogo.vL()) {
-            jComponent.getInputMap().put(KeyStroke.getKeyStroke(116, 0), "f6");
-        }
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 112, "f1");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 113, "f2");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 114, "f3");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 115, "f4");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 116, "f5");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 116, "f6");
         jComponent.getInputMap().put(KeyStroke.getKeyStroke(10, 0), "st");
         jComponent.getInputMap().put(KeyStroke.getKeyStroke(32, 0), "st");
         ActionMap actionMap = this.getActionMap();

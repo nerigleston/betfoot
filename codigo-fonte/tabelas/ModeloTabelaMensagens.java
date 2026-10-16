@@ -8,7 +8,6 @@ public class ModeloTabelaMensagens
 extends AbstractTableModel {
     private String[] Nt;
     private ArrayList vp;
-    private static String SD = "";
 
     public ModeloTabelaMensagens(ArrayList arrayList) {
         this.vp = arrayList;

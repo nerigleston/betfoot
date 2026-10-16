@@ -1,14 +1,9 @@
 package telas;
 
-import telas.TelaChaveamentoCopa;
 import telas.ListenerDesativarOpcao;
 import telas.ListenerAtivarOpcao;
 import telas.ListenerPressionarSoltarPainel;
 import telas.ListenerArrastoPainel;
-import tabelas.ModeloTabelaArtilharia;
-import nucleo.VerificadorRegistro;
-import nucleo.RegistroLicenca;
-import nucleo.IniciadorCarreira;
 import components.PainelCampoEscalacao;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,19 +38,6 @@ extends JPanel {
         this.At = mouseEvent.getY();
         this.Au = this.As;
         this.Av = this.At;
-    }
-
-    public static void nZ() {
-        if (ModeloTabelaArtilharia.vF().equals(RegistroLicenca.jG())) {
-            VerificadorRegistro.m(RegistroLicenca.getNome());
-            VerificadorRegistro.eS();
-            VerificadorRegistro.eT();
-            TelaChaveamentoCopa aa2 = new TelaChaveamentoCopa();
-            IniciadorCarreira.dv();
-            if (IniciadorCarreira.du() < 8) {
-                IniciadorCarreira.n(true);
-            }
-        }
     }
 
     private void b(MouseEvent mouseEvent) {

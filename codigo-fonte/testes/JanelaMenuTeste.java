@@ -12,7 +12,6 @@ import testes.ListenerAbrirConversor;
 import testes.ListenerInicializarJogo;
 import testes.OuvinteTesteIniciarJogo;
 import testes.OuvinteTesteAbrirEditor;
-import testes.OuvinteTesteAbrirRegistro;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -51,7 +50,6 @@ public class JanelaMenuTeste {
         this.xb();
         this.xA();
         this.xB();
-        this.xC();
         this.xD();
         this.xE();
         this.xa();
@@ -164,12 +162,6 @@ public class JanelaMenuTeste {
     private void xB() {
         JButton jButton = new JButton("e");
         jButton.addActionListener(new OuvinteTesteAbrirEditor(this));
-        this.WY.add(jButton);
-    }
-
-    private void xC() {
-        JButton jButton = new JButton("r");
-        jButton.addActionListener(new OuvinteTesteAbrirRegistro(this));
         this.WY.add(jButton);
     }
 

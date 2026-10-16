@@ -11,7 +11,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Empacota os dados do jogo (pasta jogo/) num zip que o Lancador extrai para a pasta do usuário.
+ * Empacota os dados do jogo (pasta jogo/) num zip que o Betfoot extrai para a pasta do usuário.
  *
  * Num zip os nomes vão em UTF-8: alguns arquivos de teams/ têm caracteres de uso privado (ex.: "cracvia_pl.ban",
  * referenciados assim dentro dos próprios .ban), que o WiX do instalador do Windows não aceita como nome de arquivo.

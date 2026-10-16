@@ -1,6 +1,5 @@
 package nucleo;
 
-import nucleo.VerificadorRegistro;
 import nucleo.Calendario;
 import nucleo.ConstantesJogo;
 import nucleo.GerenciadorIdioma;
@@ -56,29 +55,6 @@ public class LancadorTestes {
         new GerenciadorIdioma(true);
         UtilitariosTexto.cU();
         LancadorTestes.mh();
-        LancadorTestes.mg();
-    }
-
-    public static void mg() {
-        Preferences preferences = Preferences.userRoot();
-        preferences = preferences.node("systemacxy");
-        String string = preferences.get("n", "nf");
-        int n2 = preferences.getInt("nr", -1);
-        VerificadorRegistro.n(string);
-        VerificadorRegistro.eT();
-        n2 = LancadorTestes.a(n2, string);
-        int n3 = VerificadorRegistro.eX();
-        if (n2 == n3) {
-            motor.GerenciadorJogo.ey(new Random().nextInt(300) + 150);
-        } else {
-            motor.GerenciadorJogo.ey(new Random().nextInt(50) + 30);
-        }
-    }
-
-    private static int a(int n2, String string) {
-        char c2 = string.charAt(0);
-        int n3 = c2 * 31348;
-        return n2 + n3;
     }
 
     public static void mh() {

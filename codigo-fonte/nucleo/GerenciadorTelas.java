@@ -8,7 +8,6 @@ import telas.PainelFimTemporada;
 import telas.DialogoMarcarAmistoso;
 import telas.DialogoCampeaoCompeticao;
 import telas.PainelPartidaAoVivo;
-import telas.DialogoRegistroBetfoot;
 import telas.DialogoGaleriaTrofeusTecnico;
 import telas.DialogoGaleriaTrofeusTimeIcones;
 import telas.PainelHistoricoCarreiraJogador;
@@ -60,7 +59,6 @@ public class GerenciadorTelas {
     private static PainelConfiguracaoNovoJogo gL;
     private static PainelPartidaAoVivo gM;
     private static PainelPrincipalClube gN;
-    private static DialogoRegistroBetfoot gO;
     private static PainelPartidaAoVivo2 gP;
     private static PainelFimTemporada gQ;
     private static PainelFichaJogador gR;
@@ -151,10 +149,6 @@ public class GerenciadorTelas {
             gQ = new PainelFimTemporada(cC);
             gQ.setPreferredSize(new Dimension(1024, 718));
             gI.add((Component)gQ, "Center");
-        } else if (n2 == 7) {
-            gO = new DialogoRegistroBetfoot(cC);
-            gO.setPreferredSize(new Dimension(941, 718));
-            gI.add((Component)gO, "Center");
         } else if (n2 == 8) {
             gR = new PainelFichaJogador(cC);
             gR.setPreferredSize(new Dimension(941, 718));

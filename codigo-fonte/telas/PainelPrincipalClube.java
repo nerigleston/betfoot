@@ -1,5 +1,6 @@
 package telas;
 
+import nucleo.Plataforma;
 import java.io.IOException;
 import telas.PainelCalendarioTime;
 import telas.TelaCampeoes;
@@ -325,9 +326,7 @@ extends JPanel {
             this.Ig.setVisible(false);
         }
         this.mY();
-        if (GerenciadorJogo.vL()) {
-            this.Eh.setVisible(false);
-        }
+        this.Eh.setVisible(false);
         if (!HP) {
             if (HQ > 10) {
                 HP = true;
@@ -349,18 +348,22 @@ extends JPanel {
         InputMap inputMap = jComponent.getInputMap(1);
         jComponent.getInputMap().put(KeyStroke.getKeyStroke(10, 0), "enter");
         jComponent.getInputMap().put(KeyStroke.getKeyStroke(32, 0), "enter");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(113, 0), "f2");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(114, 0), "f3");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(115, 0), "f4");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(117, 0), "f6");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(116, 0), "ctrlt");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(118, 0), "f7");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(119, 0), "f8");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(120, 0), "f9");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(121, 0), "f10");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(122, 0), "f11");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(84, 128, false), "ctrlt");
-        jComponent.getInputMap().put(KeyStroke.getKeyStroke(70, 128, false), "ctrlf");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 113, "f2");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 114, "f3");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 115, "f4");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 117, "f6");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 116, "ctrlt");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 118, "f7");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 119, "f8");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 120, "f9");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 121, "f10");
+        Plataforma.registrarTeclaF(jComponent.getInputMap(), 122, "f11");
+        jComponent.getInputMap().put(Plataforma.atalho(84), "ctrlt");
+        jComponent.getInputMap().put(Plataforma.atalho(70), "ctrlf");
+        if (Plataforma.MAC) {
+            jComponent.getInputMap().put(Plataforma.atalho(83), "f2");
+            jComponent.getInputMap().put(Plataforma.atalho(44), "f3");
+        }
         ActionMap actionMap = this.getActionMap();
         jComponent.getActionMap().put("enter", new ListenerAtalhoEscalarTime(this));
         jComponent.getActionMap().put("f2", new ListenerAtalhoSalvarJogo(this));
@@ -1315,12 +1318,12 @@ extends JPanel {
     public void AL() {
         JMenuItem jMenuItem = new JMenuItem("Jogos do seu time");
         jMenuItem.addActionListener(new ListenerAbrirJogosDoTime(this));
-        jMenuItem.setAccelerator(KeyStroke.getKeyStroke(115, 0));
+        jMenuItem.setAccelerator(Plataforma.teclaF(115));
         this.Hx.add(jMenuItem);
         this.Hx.addSeparator();
         JMenuItem jMenuItem2 = new JMenuItem("Jogos Amistosos");
         jMenuItem2.addActionListener(new ListenerAbrirJogosAmistosos(this));
-        jMenuItem2.setAccelerator(KeyStroke.getKeyStroke(120, 0));
+        jMenuItem2.setAccelerator(Plataforma.teclaF(120));
         this.Hx.add(jMenuItem2);
         this.Hx.addSeparator();
         JMenuItem jMenuItem3 = new JMenuItem("Central de Empregos");
@@ -1370,14 +1373,14 @@ extends JPanel {
         jMenuItem3.addActionListener(new ListenerSalvarJogo(this));
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("/aicons/save1.png"));
         jMenuItem3.setIcon(imageIcon);
-        jMenuItem3.setAccelerator(KeyStroke.getKeyStroke(113, 0));
+        jMenuItem3.setAccelerator(Plataforma.MAC ? Plataforma.atalho(83) : KeyStroke.getKeyStroke(113, 0));
         this.Hy.add(jMenuItem3);
         this.Hy.addSeparator();
         JMenuItem jMenuItem4 = new JMenuItem("Prefer\u00eancias");
         jMenuItem4.addActionListener(new OuvinteMenuPreferencias(this));
         ImageIcon imageIcon2 = new ImageIcon(this.getClass().getResource("/aicons/iconsetup.png"));
         jMenuItem4.setIcon(imageIcon2);
-        jMenuItem4.setAccelerator(KeyStroke.getKeyStroke(114, 0));
+        jMenuItem4.setAccelerator(Plataforma.MAC ? Plataforma.atalho(44) : KeyStroke.getKeyStroke(114, 0));
         this.Hy.add(jMenuItem4);
         this.Hy.addSeparator();
         JMenuItem jMenuItem5 = new JMenuItem("Pedir demiss\u00e3o");
@@ -1410,7 +1413,7 @@ extends JPanel {
         this.Hz.add(jMenuItem11);
         JMenuItem jMenuItem12 = new JMenuItem("Campe\u00f5es");
         jMenuItem12.addActionListener(new ListenerAbrirCampeoes(this));
-        jMenuItem12.setAccelerator(KeyStroke.getKeyStroke(121, 0));
+        jMenuItem12.setAccelerator(Plataforma.teclaF(121));
         this.HA.add(jMenuItem12);
         this.HA.addSeparator();
         JMenuItem jMenuItem13 = new JMenuItem("Ranking Clubes");
@@ -1425,7 +1428,7 @@ extends JPanel {
         }
         jMenuItem2 = new JMenuItem("Artilheiros");
         jMenuItem2.addActionListener(new ListenerAbrirArtilheiros(this));
-        jMenuItem2.setAccelerator(KeyStroke.getKeyStroke(122, 0));
+        jMenuItem2.setAccelerator(Plataforma.teclaF(122));
         this.HA.add(jMenuItem2);
         this.HA.addSeparator();
         JMenuItem jMenuItem14 = new JMenuItem("L\u00edderes de Assist\u00eancias");

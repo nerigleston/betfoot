@@ -46,17 +46,17 @@ SEP=$([ $SO = windows ] && echo ';' || echo ':')
 cp -R "$OBRA/recursos/." "$OBRA/jogo-classes/"
 "$BIN/jar" --create --file "$OBRA/entrada/betfoot.jar" -C "$OBRA/jogo-classes" .
 
-# Lançador: copia os dados para a pasta do usuário e chama nucleo.LancadorBetfoot (ver Lancador.java).
-"$BIN/javac" --release 17 -encoding UTF-8 -d "$OBRA/classes" "$RAIZ/empacotamento/Lancador.java"
-printf 'Main-Class: lancador.Lancador\nClass-Path: betfoot.jar %s\n' "$LIBS" > "$OBRA/manifesto.txt"
-"$BIN/jar" --create --file "$OBRA/entrada/lancador.jar" --manifest "$OBRA/manifesto.txt" -C "$OBRA/classes" .
+# Lançador: copia os dados para a pasta do usuário e chama nucleo.LancadorBetfoot (ver Betfoot.java).
+"$BIN/javac" --release 17 -encoding UTF-8 -d "$OBRA/classes" "$RAIZ/empacotamento/Betfoot.java"
+printf 'Main-Class: betfoot.Betfoot\nClass-Path: betfoot.jar %s\n' "$LIBS" > "$OBRA/manifesto.txt"
+"$BIN/jar" --create --file "$OBRA/entrada/betfoot-launcher.jar" --manifest "$OBRA/manifesto.txt" -C "$OBRA/classes" .
 
 # Dados do jogo (lidos e gravados em user.dir) num zip; sem atalhos, backups e metadados do macOS (ver Dados.java).
 "$BIN/java" "$RAIZ/empacotamento/Dados.java" "$RAIZ/jogo" "$OBRA/entrada/jogo.zip" \
   "$VERSAO-$(git -C "$RAIZ" rev-parse --short HEAD 2>/dev/null || date +%s)"
 
 COMUM=(--name "$NOME" --app-version "$VERSAO" --vendor "Betfoot" --description "Betfoot com a temporada 2026/2027"
-  --input "$OBRA/entrada" --main-jar lancador.jar --main-class lancador.Lancador --dest "$OBRA/saida"
+  --input "$OBRA/entrada" --main-jar betfoot-launcher.jar --main-class betfoot.Betfoot --dest "$OBRA/saida"
   --add-modules "$MODULOS" --jlink-options "--strip-debug --no-man-pages --no-header-files"
   --java-options "--add-exports=java.desktop/sun.java2d=ALL-UNNAMED"
   --java-options "--add-opens=java.desktop/sun.java2d=ALL-UNNAMED")

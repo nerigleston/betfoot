@@ -1,6 +1,5 @@
 package editor;
 
-import nucleo.VerificadorRegistro;
 import nucleo.UtilitariosTexto;
 import editor.ComparadorPaisTime;
 import editor.ComparadorNomeTime;
@@ -79,7 +78,7 @@ extends AbstractTableModel {
         }
         int n2 = VX;
         while (n2 < cE.size()) {
-            if (string.length() <= ((ModeloTime2)cE.get(n2)).getNome().length() && string.equalsIgnoreCase(VerificadorRegistro.f(((ModeloTime2)cE.get(n2)).getNome()).substring(0, string.length()))) {
+            if (string.length() <= ((ModeloTime2)cE.get(n2)).getNome().length() && string.equalsIgnoreCase(UtilitariosTexto.f(((ModeloTime2)cE.get(n2)).getNome()).substring(0, string.length()))) {
                 int n3 = UtilitariosTexto.da().wO().convertRowIndexToView(n2);
                 UtilitariosTexto.da().wO().changeSelection(n3, 0, true, true);
                 UtilitariosTexto.da().wO().setRowSelectionInterval(n3, n3);
@@ -101,7 +100,7 @@ extends AbstractTableModel {
         }
         int n2 = VX;
         while (n2 < cE.size()) {
-            if (string.length() <= ((ModeloTime2)cE.get(n2)).getNome().length() && string.equalsIgnoreCase(VerificadorRegistro.f(((ModeloTime2)cE.get(n2)).getNome()).substring(0, string.length()))) {
+            if (string.length() <= ((ModeloTime2)cE.get(n2)).getNome().length() && string.equalsIgnoreCase(UtilitariosTexto.f(((ModeloTime2)cE.get(n2)).getNome()).substring(0, string.length()))) {
                 UtilitariosTexto.da().wS().xe().changeSelection(n2, 0, true, true);
                 UtilitariosTexto.da().wS().xe().setRowSelectionInterval(n2, n2);
                 VX = n2 + 1;
@@ -127,7 +126,7 @@ extends AbstractTableModel {
             }
             int n3 = VZ;
             while (n3 < ((ModeloTime2)cE.get(n2)).getJogadores().size()) {
-                if (string.length() <= ((ModeloJogador2)((ModeloTime2)cE.get(n2)).getJogadores().get(n3)).getNome().length() && string.equalsIgnoreCase(VerificadorRegistro.f(((ModeloJogador2)((ModeloTime2)cE.get(n2)).getJogadores().get(n3)).getNome()).substring(0, string.length()))) {
+                if (string.length() <= ((ModeloJogador2)((ModeloTime2)cE.get(n2)).getJogadores().get(n3)).getNome().length() && string.equalsIgnoreCase(UtilitariosTexto.f(((ModeloJogador2)((ModeloTime2)cE.get(n2)).getJogadores().get(n3)).getNome()).substring(0, string.length()))) {
                     int n4 = UtilitariosTexto.da().wO().convertRowIndexToView(n2);
                     UtilitariosTexto.da().wO().changeSelection(n4, 0, true, true);
                     UtilitariosTexto.da().wO().setRowSelectionInterval(n4, n4);

@@ -116,22 +116,7 @@ extends JPanel {
     }
 
     private void sm() {
-        if (!GerenciadorJogo.vL()) {
-            this.Mi.setSelected(false);
-            this.Mj.setSelected(false);
-            this.Mh.setSelected(false);
-            this.Mk.setEnabled(false);
-            this.Mk.setSelected(false);
-            this.Mi.setEnabled(false);
-            this.Mj.setEnabled(false);
-            this.Mh.setEnabled(false);
-            this.Mk.setEnabled(false);
-            this.Mc.setEnabled(false);
-            this.Mb.setEnabled(false);
-            GerenciadorJogo.SR.setJogaRegionais(false);
-        } else {
-            this.ug.setVisible(false);
-        }
+        this.ug.setVisible(false);
     }
 
     public void sn() {

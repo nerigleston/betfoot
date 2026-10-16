@@ -63,10 +63,6 @@ extends JPanel {
         this.vm.addActionListener(new OuvinteFecharDialogoTrofeusTimeTabela(this));
     }
 
-    public static void pu() {
-        GerenciadorJogo.ey(1920);
-    }
-
     public static void pv() {
     }
 

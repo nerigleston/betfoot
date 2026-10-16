@@ -118,12 +118,7 @@ extends JPanel {
         this.Bu[3].addActionListener(new ListenerSelecionarDivisao3(this));
         this.Bw.addActionListener(new OuvinteIniciarJogoNovoJogo(this));
         this.Bx.addActionListener(new OuvinteAdicionarOutroTecnicoNovoJogo(this));
-        if (GerenciadorJogo.vL()) {
-            this.ug.setText("");
-        } else {
-            this.By.setSelected(false);
-            this.By.setEnabled(false);
-        }
+        this.ug.setText("");
     }
 
     private void ol() {
@@ -153,18 +148,14 @@ extends JPanel {
     }
 
     private void om() {
-        if (!GerenciadorJogo.vL()) {
-            JOptionPane.showMessageDialog(null, "Somente na vers\u00e3o registrada \u00e9 poss\u00edvel jogarcom mais de um t\u00e9cnico humano.", "T\u00e9cnicos humanos", 2);
+        String string = this.oo();
+        if (string == null) {
+            this.or();
+            this.vf.setText("Adicionar t\u00e9cnico humano " + Integer.toString(++count));
+            this.uf.setText("");
+            this.ot();
         } else {
-            String string = this.oo();
-            if (string == null) {
-                this.or();
-                this.vf.setText("Adicionar t\u00e9cnico humano " + Integer.toString(++count));
-                this.uf.setText("");
-                this.ot();
-            } else {
-                JOptionPane.showMessageDialog(null, string, "", 0);
-            }
+            JOptionPane.showMessageDialog(null, string, "", 0);
         }
     }
 
@@ -265,31 +256,14 @@ extends JPanel {
             this.cX(n2);
             ++n2;
         }
-        if (GerenciadorJogo.vL()) {
-            if (this.Bu[0].getItemCount() > 0) {
-                this.cW(0);
-            } else if (this.Bu[1].getItemCount() > 0) {
-                this.cW(1);
-            } else if (this.Bu[2].getItemCount() > 0) {
-                this.cW(2);
-            } else if (this.Bu[3].getItemCount() > 0) {
-                this.cW(3);
-            }
-        } else {
-            n2 = 0;
-            while (n2 < this.Bu.length) {
-                this.Bu[n2].setEnabled(false);
-                ++n2;
-            }
-            if (this.Bu[3].getItemCount() > 0) {
-                this.cW(3);
-            } else if (this.Bu[2].getItemCount() > 0) {
-                this.cW(2);
-            } else if (this.Bu[1].getItemCount() > 0) {
-                this.cW(1);
-            } else if (this.Bu[0].getItemCount() > 0) {
-                this.cW(0);
-            }
+        if (this.Bu[0].getItemCount() > 0) {
+            this.cW(0);
+        } else if (this.Bu[1].getItemCount() > 0) {
+            this.cW(1);
+        } else if (this.Bu[2].getItemCount() > 0) {
+            this.cW(2);
+        } else if (this.Bu[3].getItemCount() > 0) {
+            this.cW(3);
         }
         if (this.zu == null) {
             this.BN.setText("");
@@ -416,7 +390,6 @@ extends JPanel {
         this.ug.setFont(new Font("Tahoma", 0, 12));
         this.ug.setForeground(new Color(255, 255, 255));
         this.ug.setHorizontalAlignment(0);
-        this.ug.setText("<html>\nVers\u00e3o n\u00e3o registrada do Betfoot. Sem o registro voc\u00ea s\u00f3 pode iniciar da \u00faltima divis\u00e3o.<br> Na vers\u00e3o registrada, pode iniciar com qualquer time de qualquer divis\u00e3o.\n<br><b>Registre sua c\u00f3pia em www.betfoot.com</b>\n</html>  ");
         this.BM.setFont(new Font("Tahoma", 0, 14));
         this.BM.setForeground(new Color(255, 255, 255));
         this.BM.setHorizontalAlignment(4);
@@ -433,7 +406,6 @@ extends JPanel {
         this.setLayout(groupLayout);
         groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(this.vf, -1, -1, Short.MAX_VALUE).addComponent(this.ug).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.BF, -2, 308, -2).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(261, 261, 261).addComponent(this.a_)).addGroup(groupLayout.createSequentialGroup().addGap(100, 100, 100).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.BE, -2, 308, -2).addGroup(groupLayout.createSequentialGroup().addComponent(this.BO, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.ue, -2, 154, -2)))).addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup().addGap(94, 94, 94).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(GroupLayout.Alignment.TRAILING, groupLayout.createSequentialGroup().addComponent(this.BM, -2, 214, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BN, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING).addComponent(this.By).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addComponent(this.BI, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BA, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BH, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.Bz, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BJ, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BB, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.BK, -2, 246, -2).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addComponent(this.BC, -2, 154, -2)).addGroup(groupLayout.createSequentialGroup().addGap(6, 6, 6).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addComponent(this.BL, -2, 198, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.BD, -2, 202, -2)).addGroup(groupLayout.createSequentialGroup().addComponent(this.uF, -2, 198, -2).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.uf, -2, 202, -2)))))).addGap(31, 31, 31))))).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false).addGroup(groupLayout.createSequentialGroup().addComponent(this.Bx).addGap(18, 18, 18).addComponent(this.Bw, -1, -1, Short.MAX_VALUE)).addComponent(this.BG, -2, 308, -2))).addContainerGap(156, Short.MAX_VALUE)));
         groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(groupLayout.createSequentialGroup().addGap(30, 30, 30).addComponent(this.a_).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.vf).addGap(41, 41, 41).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(this.BO).addComponent(this.ue, -2, -1, -2)).addGap(18, 18, 18).addComponent(this.BE, -2, 10, -2).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.Bz, -2, -1, -2).addComponent(this.BH)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BA, -2, -1, -2).addComponent(this.BI)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BB, -2, -1, -2).addComponent(this.BJ)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BC, -2, -1, -2).addComponent(this.BK)).addGap(18, 18, 18).addComponent(this.By).addGap(7, 7, 7).addComponent(this.BF, -2, 10, -2).addGap(4, 4, 4).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.uf, -2, -1, -2).addComponent(this.uF)).addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BL).addComponent(this.BD, -2, 20, -2)).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.BN).addComponent(this.BM)).addGap(18, 18, 18).addComponent(this.BG, -2, 10, -2).addGap(18, 18, 18).addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(this.Bw, -2, 32, -2).addComponent(this.Bx, -2, 32, -2)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(this.ug, -1, 78, Short.MAX_VALUE).addContainerGap()));
-        this.ug.getAccessibleContext().setAccessibleName("<html> Vers\u00e3o n\u00e3o registrada do Betfoot. Sem o registro voc\u00ea s\u00f3 pode iniciar da \u00faltima divis\u00e3o.<br> Na vers\u00e3o registrada, pode iniciar com qualquer time de qualquer divis\u00e3o. </html>  ");
     }
 
     static /* synthetic */ void a(PainelConfiguracaoNovoJogo bv_02) {

@@ -1,7 +1,7 @@
 package editor;
 
 import tabelas.RendererNomeTime;
-import nucleo.VerificadorRegistro;
+import nucleo.UtilitariosTexto;
 import nucleo.ConstantesJogo;
 import nucleo.GerenciadorIdioma;
 import editor.ListenerSelecaoJogadorEditor;
@@ -355,14 +355,14 @@ extends JFrame {
 
     private void ws() {
         if (!this.Ek.getText().isEmpty()) {
-            String string = VerificadorRegistro.f(this.Ek.getText());
+            String string = UtilitariosTexto.f(this.Ek.getText());
             ((ModeloTabelaTimes)this.Vg.getModel()).ak(string);
         }
     }
 
     private void wt() {
         if (!this.Ej.getText().isEmpty()) {
-            String string = VerificadorRegistro.f(this.Ej.getText());
+            String string = UtilitariosTexto.f(this.Ej.getText());
             ((ModeloTabelaTimes)this.Vg.getModel()).ai(string);
         }
     }
@@ -729,7 +729,7 @@ extends JFrame {
     public void an(String string) {
         int n2 = 0;
         while (n2 < this.Uu.getJogadores().size()) {
-            if (string.length() <= ((ModeloJogador2)this.Uu.getJogadores().get(n2)).getNome().length() && string.equalsIgnoreCase(VerificadorRegistro.f(((ModeloJogador2)this.Uu.getJogadores().get(n2)).getNome()).substring(0, string.length()))) {
+            if (string.length() <= ((ModeloJogador2)this.Uu.getJogadores().get(n2)).getNome().length() && string.equalsIgnoreCase(UtilitariosTexto.f(((ModeloJogador2)this.Uu.getJogadores().get(n2)).getNome()).substring(0, string.length()))) {
                 nucleo.UtilitariosTexto.da().wJ().changeSelection(n2, 0, true, true);
                 nucleo.UtilitariosTexto.da().wJ().setRowSelectionInterval(n2, n2);
                 break;

@@ -1,6 +1,5 @@
 package nucleo;
 
-import nucleo.VerificadorRegistro;
 import nucleo.ModeloJogador;
 import nucleo.LigaNacional;
 import motor.GerenciadorJogo;
@@ -175,12 +174,12 @@ public class FiltroBuscaJogador {
         if (this.mO && !f2.ft().booleanValue()) {
             return false;
         }
-        return this.nome == null || this.nome.isEmpty() || this.nome.length() <= 0 || this.nome.length() <= f2.getNome().length() && this.nome.equalsIgnoreCase(VerificadorRegistro.f(f2.getNome()).substring(0, this.nome.length()));
+        return this.nome == null || this.nome.isEmpty() || this.nome.length() <= 0 || this.nome.length() <= f2.getNome().length() && this.nome.equalsIgnoreCase(UtilitariosTexto.f(f2.getNome()).substring(0, this.nome.length()));
     }
 
     public void setNome(String string) {
         if (string != null && !string.isEmpty()) {
-            string = VerificadorRegistro.f(string);
+            string = UtilitariosTexto.f(string);
         }
         this.nome = string;
     }

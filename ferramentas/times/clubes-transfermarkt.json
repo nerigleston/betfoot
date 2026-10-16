@@ -1,0 +1,2268 @@
+[
+{
+"uf": "AC",
+"div": "A",
+"nome": "Adesg",
+"tmid": "32560",
+"tm_nome": "AD Senador Guiomard (AC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AC",
+"div": "A",
+"nome": "Rio Branco-AC",
+"tmid": "10871",
+"tm_nome": "Rio Branco Football Club (AC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AC",
+"div": "A",
+"nome": "Santa Cruz-AC",
+"tmid": "137893",
+"tm_nome": "Santa Cruz Acre EC",
+"confianca": "media",
+"obs": "Santa Cruz Acre EC, sem sigla de estado mas nome indica AC"
+},
+{
+"uf": "AC",
+"div": "A",
+"nome": "São Francisco",
+"tmid": "87723",
+"tm_nome": "São Francisco FC",
+"confianca": "baixa",
+"obs": "São Francisco FC sem UF; alternativa PA é outro estado"
+},
+{
+"uf": "AC",
+"div": "A",
+"nome": "Vasco-AC",
+"tmid": "10862",
+"tm_nome": "Associação Desportiva Vasco da Gama (AC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AC",
+"div": "B",
+"nome": "Andirá",
+"tmid": "87722",
+"tm_nome": "Andirá EC",
+"confianca": "media",
+"obs": "sem sigla de UF"
+},
+{
+"uf": "AC",
+"div": "B",
+"nome": "Atlético-AC",
+"tmid": "36960",
+"tm_nome": "Atlético Acreano (AC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AC",
+"div": "B",
+"nome": "Náuas",
+"tmid": "78897",
+"tm_nome": "Náuas Esporte Clube",
+"confianca": "media",
+"obs": "sem sigla de UF"
+},
+{
+"uf": "AC",
+"div": "B",
+"nome": "Plácido de Castro",
+"tmid": "30647",
+"tm_nome": "Plácido de Castro FC (AC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AL",
+"div": "A",
+"nome": "Penedense",
+"tmid": "85388",
+"tm_nome": "Sport Club Penedense (AL)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AL",
+"div": "B",
+"nome": "São Domingos",
+"tmid": "142031",
+"tm_nome": "AS São Domingos",
+"confianca": "baixa",
+"obs": "AS São Domingos sem UF; incerto"
+},
+{
+"uf": "AL",
+"div": "B",
+"nome": "Miguelense",
+"tmid": "81094",
+"tm_nome": "Miguelense Futebol Clube (AL)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AL",
+"div": "B",
+"nome": "Sete de Setembro",
+"tmid": "28134",
+"tm_nome": "Sete de Setembro (AL)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AL",
+"div": "B",
+"nome": "Zumbi",
+"tmid": "85387",
+"tm_nome": "Zumbi Esporte Clube (AL)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "A",
+"nome": "São Raimundo",
+"tmid": "8143",
+"tm_nome": "São Raimundo Esporte Clube (AM)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "A",
+"nome": "Parintins",
+"tmid": "104329",
+"tm_nome": "Parintins Futebol Clube (AM)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "A",
+"nome": "Itacoatiara",
+"tmid": "142112",
+"tm_nome": "Itacoatiara FC",
+"confianca": "media",
+"obs": "sem sigla de UF"
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Fast Clube",
+"tmid": "54243",
+"tm_nome": "Nacional Fast Clube (AM)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Operário-AM",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Operário-AM: só achei times de MS/MT"
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Manicoré",
+"tmid": "87729",
+"tm_nome": "CDC Manicoré",
+"confianca": "media",
+"obs": "CDC Manicoré, sem UF"
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Cliper",
+"tmid": "87728",
+"tm_nome": "Atlético Cliper",
+"confianca": "media",
+"obs": "Atlético Cliper, sem UF"
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "RB do Norte",
+"tmid": "104330",
+"tm_nome": "RB do Norte Clube (AM)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Unidos do Alvorada",
+"tmid": "104331",
+"tm_nome": "Unidos do Alvorada Esporte Clube (AM)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AM",
+"div": "B",
+"nome": "Sete",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Sete (AM) não encontrado"
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "Macapá",
+"tmid": "26494",
+"tm_nome": "Esporte Clube Macapá (AP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "Independente",
+"tmid": "54247",
+"tm_nome": "Independente Esporte Clube (AP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "Ypiranga",
+"tmid": "83882",
+"tm_nome": "Ypiranga Clube (AP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "Santos-AP",
+"tmid": "37491",
+"tm_nome": "Santos Futebol Clube (Macapá)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "Cristal",
+"tmid": "123477",
+"tm_nome": "Clube Atlético Cristal",
+"confianca": "media",
+"obs": "Clube Atlético Cristal, sem UF"
+},
+{
+"uf": "AP",
+"div": "A",
+"nome": "São José-AP",
+"tmid": "36532",
+"tm_nome": "S. E. R. São José (AP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "A",
+"nome": "Galícia",
+"tmid": "33313",
+"tm_nome": "Galícia Esporte Clube (BA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "A",
+"nome": "Jequié",
+"tmid": "66813",
+"tm_nome": "AD Jequié",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Barreiras",
+"tmid": "8358",
+"tm_nome": "Barreiras Esporte Clube (BA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Camaçari",
+"tmid": "31994",
+"tm_nome": "Camaçari Futebol Clube (BA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Fluminense de Feira",
+"tmid": "25116",
+"tm_nome": "Fluminense de Feira Futebol Clube (BA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Grapiúna",
+"tmid": "94136",
+"tm_nome": "Grapiúna AC",
+"confianca": "media",
+"obs": "Grapiúna AC, sem UF"
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Jacobina",
+"tmid": "12659",
+"tm_nome": "Jacobina EC",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Leônico",
+"tmid": "93572",
+"tm_nome": "Associação Desportiva Leônico (BA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "Redenção",
+"tmid": "142100",
+"tm_nome": "Redenção FC",
+"confianca": "baixa",
+"obs": "Redenção FC sem UF; incerto"
+},
+{
+"uf": "BA",
+"div": "B",
+"nome": "SSA FC",
+"tmid": "104185",
+"tm_nome": "SSA FC",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "CE",
+"div": "A",
+"nome": "Horizonte",
+"tmid": "22332",
+"tm_nome": "Horizonte Futebol Clube (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "A",
+"nome": "Maranguape",
+"tmid": "66164",
+"tm_nome": "Maranguape FC (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "A",
+"nome": "Quixadá",
+"tmid": "28623",
+"tm_nome": "Quixadá Futebol Clube (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Itapipoca",
+"tmid": "25221",
+"tm_nome": "Itapipoca Esporte Clube (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Crateús",
+"tmid": "25295",
+"tm_nome": "Crateús Esporte Clube (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Guarany de Sobral",
+"tmid": "22790",
+"tm_nome": "Guarany Sporting Club (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Cariri",
+"tmid": "91101",
+"tm_nome": "Cariri Football Club",
+"confianca": "media",
+"obs": "Cariri FC, sem UF"
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Guarani de Juazeiro",
+"tmid": "29475",
+"tm_nome": "Guarani Esporte Clube (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "CE",
+"div": "B",
+"nome": "Barbalha",
+"tmid": "75584",
+"tm_nome": "Barbalha FC (CE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Aruc",
+"tmid": "7015",
+"tm_nome": "ARUC (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Brasília",
+"tmid": "27832",
+"tm_nome": "Brasília Futebol Clube (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Paranoá",
+"tmid": "74824",
+"tm_nome": "Paranoá Esporte Clube",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Real Brasília",
+"tmid": "87734",
+"tm_nome": "Real Brasília Futebol Clube (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Samambaia",
+"tmid": "83810",
+"tm_nome": "Samambaia Futebol Clube",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "DF",
+"div": "A",
+"nome": "Sobradinho",
+"tmid": "4790",
+"tm_nome": "Sobradinho Esporte Clube (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Canaã",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Canaã DF: candidatos sem UF, ambíguo"
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Candango",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Candango não encontrado"
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Greval",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Greval não encontrado"
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Legião",
+"tmid": "19060",
+"tm_nome": "Legião Futebol Clube (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Luziânia",
+"tmid": "25582",
+"tm_nome": "Associação Atlética Luziânia (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Planaltina",
+"tmid": "8695",
+"tm_nome": "Planaltina Esporte Clube (DF)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "DF",
+"div": "B",
+"nome": "Taguatinga",
+"tmid": "90186",
+"tm_nome": "Taguatinga Esporte Clube (DF)",
+"confianca": "media",
+"obs": "Taguatinga EC (DF); existe também 56286 Clube Atlético Taguatinga"
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Capixaba",
+"tmid": "55042",
+"tm_nome": "Sport Club Capixaba",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Desportiva Ferroviária",
+"tmid": "22013",
+"tm_nome": "Desportiva Ferroviária (ES)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Forte",
+"tmid": "137890",
+"tm_nome": "Forte Futebol Clube",
+"confianca": "media",
+"obs": "Forte FC, comp BRES"
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Rio Branco-VN",
+"tmid": "30489",
+"tm_nome": "Rio Branco Atlético Clube (ES)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Serra",
+"tmid": "29718",
+"tm_nome": "S. E. Serra Futebol Clube (ES)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Vilavelhense",
+"tmid": "12530",
+"tm_nome": "Vilavelhense Futebol Clube (ES)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "B",
+"nome": "Audax São Mateus",
+"tmid": "143853",
+"tm_nome": "Audax São Mateus",
+"confianca": "media",
+"obs": "Audax São Mateus; alternativa 36472 AA São Mateus (ES)"
+},
+{
+"uf": "ES",
+"div": "B",
+"nome": "Linhares",
+"tmid": "25993",
+"tm_nome": "Linhares Futebol Clube (ES)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "B",
+"nome": "Brasil Capixaba",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Brasil Capixaba não encontrado"
+},
+{
+"uf": "GO",
+"div": "A",
+"nome": "Abecat Ouvidorense",
+"tmid": "115027",
+"tm_nome": "ABECAT Ouvidorense",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "A",
+"nome": "Centro-Oeste",
+"tmid": "104802",
+"tm_nome": "Centro Oeste Futebol Clube (GO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Rio Verde",
+"tmid": "32990",
+"tm_nome": "Esporte Clube Rio Verde (GO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Bom Jesus",
+"tmid": "134629",
+"tm_nome": "Bom Jesus EC",
+"confianca": "media",
+"obs": "Bom Jesus EC, sem UF"
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Mineiros",
+"tmid": "20888",
+"tm_nome": "Mineiros Esporte Clube (GO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Goiânia",
+"tmid": "5752",
+"tm_nome": "Goiânia Esporte Clube (GO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Tupy",
+"tmid": "75852",
+"tm_nome": "Esporte Clube Tupy",
+"confianca": "baixa",
+"obs": "Esporte Clube Tupy sem UF; incerto"
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "São Luís AC",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "São Luís AC GO: 114097 usado em MA, ambíguo"
+},
+{
+"uf": "GO",
+"div": "B",
+"nome": "Trindade",
+"tmid": "27244",
+"tm_nome": "Trindade Atlético Clube (GO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "A",
+"nome": "Luminense",
+"tmid": "137869",
+"tm_nome": "Luminense Atlético Clube",
+"confianca": "media",
+"obs": "Luminense Atlético Clube, sem UF; nome bate"
+},
+{
+"uf": "MA",
+"div": "A",
+"nome": "ITZ Sport",
+"tmid": "75260",
+"tm_nome": "ITZ Sport (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Americano-MA",
+"tmid": "22837",
+"tm_nome": "Americano Futebol Clube (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Araioses",
+"tmid": "59891",
+"tm_nome": "Araioses Futebol Clube (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Expressinho",
+"tmid": "71342",
+"tm_nome": "Expressinho Futebol Clube (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "São Luís",
+"tmid": "114097",
+"tm_nome": "São Luís Futebol Clube",
+"confianca": "baixa",
+"obs": "São Luís FC sem UF; incerto (Moto Club é outro clube)"
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Tupan",
+"tmid": "71952",
+"tm_nome": "Sociedade Esportiva Tupan (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Lago Verde",
+"tmid": "140906",
+"tm_nome": "Lago Verde EC",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Viana",
+"tmid": "75259",
+"tm_nome": "Esporte Clube Viana (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Balsas",
+"tmid": "71950",
+"tm_nome": "Balsas Futebol Clube (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MA",
+"div": "B",
+"nome": "Timon",
+"tmid": "71343",
+"tm_nome": "Timon Esporte Clube (MA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "A",
+"nome": "Itabirito",
+"tmid": "104773",
+"tm_nome": "Itabirito Futebol Clube (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "A",
+"nome": "North",
+"tmid": "103966",
+"tm_nome": "North Esporte Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Uberaba",
+"tmid": "15925",
+"tm_nome": "Uberaba Sport Club (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Boa Esporte",
+"tmid": "17561",
+"tm_nome": "Boa Esporte Clube (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Mamoré",
+"tmid": "25216",
+"tm_nome": "Esporte Clube Mamoré (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Guarani-MG",
+"tmid": "22331",
+"tm_nome": "Guarani Esporte Clube (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Valeriodoce",
+"tmid": "35546",
+"tm_nome": "Valeriodoce Esporte Clube (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Democrata-SL",
+"tmid": "3364",
+"tm_nome": "EC Democrata (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Aymorés",
+"tmid": "98872",
+"tm_nome": "Sport Club Aymorés",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Coimbra",
+"tmid": "27323",
+"tm_nome": "Coimbra Esporte Clube Ltda (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MG",
+"div": "B",
+"nome": "Ipatinga",
+"tmid": "3270",
+"tm_nome": "Ipatinga Futebol Clube (MG)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Bataguassu",
+"tmid": "137903",
+"tm_nome": "Asociação Atlética Bataguassu",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Pantanal",
+"tmid": "114997",
+"tm_nome": "Pantanal Esporte Clube",
+"confianca": "media",
+"obs": "Pantanal EC, sem UF"
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Dourados",
+"tmid": "88545",
+"tm_nome": "Dourados AC",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Naviraiense",
+"tmid": "36304",
+"tm_nome": "Clube Esportivo Naviraiense (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Corumbaense",
+"tmid": "7096",
+"tm_nome": "Corumbaense Futebol Clube (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Aquidauana",
+"tmid": "136568",
+"tm_nome": "CR Aquidauana",
+"confianca": "media",
+"obs": "CR Aquidauana, sem UF"
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Águia Negra",
+"tmid": "19709",
+"tm_nome": "Esporte Clube Águia Negra (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "A",
+"nome": "Costa Rica",
+"tmid": "77648",
+"tm_nome": "Costa Rica Esporte Clube (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Aquidauanense",
+"tmid": "36473",
+"tm_nome": "Aquidauanense Futebol Clube (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Misto",
+"tmid": "28837",
+"tm_nome": "Misto Esporte Clube (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Comercial-MS",
+"tmid": "35647",
+"tm_nome": "EC Comercial (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Campo Grande",
+"tmid": "96191",
+"tm_nome": "AE Campo Grande FC",
+"confianca": "media",
+"obs": "AE Campo Grande FC, sem UF"
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Taveirópolis",
+"tmid": "142201",
+"tm_nome": "EC Taveirópolis",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "União ABC",
+"tmid": "60351",
+"tm_nome": "União ABC",
+"confianca": "media",
+"obs": "União ABC, sem UF"
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "Sete de Setembro-MS",
+"tmid": "55687",
+"tm_nome": "Clube Desportivo Sete de Setembro (MS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "MS",
+"div": "B",
+"nome": "São Gabriel",
+"tmid": "115595",
+"tm_nome": "São Gabriel (MS)",
+"confianca": "media",
+"obs": "São Gabriel (MS)"
+},
+{
+"uf": "MT",
+"div": "A",
+"nome": "Primavera-MT",
+"tmid": "32539",
+"tm_nome": null,
+"confianca": "alta",
+"obs": "corrigido na revisão"
+},
+{
+"uf": "MT",
+"div": "A",
+"nome": "Chapada",
+"tmid": "137868",
+"tm_nome": "Chapada Futebol Clube",
+"confianca": "media",
+"obs": "Chapada FC, sem UF"
+},
+{
+"uf": "MT",
+"div": "A",
+"nome": "Várzea Grande",
+"tmid": "32542",
+"tm_nome": "CE Operário Várzea-Grandense (MT) ",
+"confianca": "alta",
+"obs": "corrigido na revisão"
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "Amazônia",
+"tmid": "94529",
+"tm_nome": "Amazônia Independente FC",
+"confianca": "baixa",
+"obs": "Amazônia Independente FC sem UF; alternativa 137765 ASA da Amazônia"
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "Cametá",
+"tmid": "33211",
+"tm_nome": "Cametá Sport Club (PA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "Capitão Poço",
+"tmid": "119509",
+"tm_nome": "Capitão Poço EC",
+"confianca": "media",
+"obs": "Capitão Poço EC, sem UF"
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "Santa Rosa",
+"tmid": "111762",
+"tm_nome": "Santa Rosa Esporte Clube",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "São Francisco-PA",
+"tmid": "54907",
+"tm_nome": "Sao Francisco Futebol Clube (PA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "A",
+"nome": "São Raimundo-PA",
+"tmid": "32192",
+"tm_nome": "São Raimundo Esporte Clube (PA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Canaã",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Canaã PA ambíguo"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Caeté",
+"tmid": "96028",
+"tm_nome": "Sociedade Esportiva Caeté",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Santos-PA",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Santos-PA: só Santos SP e Santos AP"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Marajó",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Marajó não encontrado"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Paragominas",
+"tmid": "87800",
+"tm_nome": "Paragominas Futebol Clube (PA)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Urumajó",
+"tmid": "137328",
+"tm_nome": "Urumajó FC",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Izabelense",
+"tmid": "111731",
+"tm_nome": "Atlético Clube Izabelense",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "União Paraense",
+"tmid": "95861",
+"tm_nome": "União Paraense Futebol Clube",
+"confianca": "media",
+"obs": "União Paraense FC, sem UF"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Atlético Paraense",
+"tmid": "72112",
+"tm_nome": "Clube Atlético Paraense",
+"confianca": "media",
+"obs": "Clube Atlético Paraense, sem UF"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Carajás",
+"tmid": "87810",
+"tm_nome": "Carajás EC",
+"confianca": "media",
+"obs": "Carajás EC, sem UF"
+},
+{
+"uf": "PA",
+"div": "B",
+"nome": "Itupiranga",
+"tmid": "87811",
+"tm_nome": "SC Itupiranga",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "A",
+"nome": "Atlético Cajazeirense",
+"tmid": "28021",
+"tm_nome": "Atlético Cajazeirense de Desportos (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "A",
+"nome": "Confiança-PB",
+"tmid": "93513",
+"tm_nome": "Confiança Esporte Clube (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "A",
+"nome": "Esporte de Patos",
+"tmid": "36010",
+"tm_nome": "Esporte Clube de Patos (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "A",
+"nome": "Pombal",
+"tmid": "103709",
+"tm_nome": "Pombal Esporte Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Atlético Santa Rita",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Atlético Santa Rita não encontrado (só AL)"
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Auto Esporte-PB",
+"tmid": "36475",
+"tm_nome": "Auto Esporte Clube (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Cruzeiro-PB",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Cruzeiro-PB não encontrado (só AL/RS/MG)"
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Desportiva Guarabira",
+"tmid": "87812",
+"tm_nome": "AD Guarabira",
+"confianca": "media",
+"obs": "AD Guarabira, sem UF"
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Femar",
+"tmid": "103708",
+"tm_nome": "FEMAR Futebol Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Picuiense",
+"tmid": "83849",
+"tm_nome": "AD Picuiense",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "São Paulo Crystal",
+"tmid": "87813",
+"tm_nome": "São Paulo Crystal FC",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Serrano-PB",
+"tmid": "84049",
+"tm_nome": "Grêmio Recreativo Serrano (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Spartax",
+"tmid": "65921",
+"tm_nome": "Spartax João Pessoa FC (PB)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PB",
+"div": "B",
+"nome": "Sport-PB",
+"tmid": "84050",
+"tm_nome": "Sport Lagoa Seca (PB)",
+"confianca": "baixa",
+"obs": "Sport Lagoa Seca (PB) - palpite"
+},
+{
+"uf": "PE",
+"div": "A",
+"nome": "Vitória das Tabocas",
+"tmid": "32650",
+"tm_nome": "AAD Vitória das Tabocas (PE)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PE",
+"div": "A",
+"nome": "Jaguar",
+"tmid": "103699",
+"tm_nome": "Associação Desporitva Jaguar",
+"confianca": "baixa",
+"obs": "AD Jaguar sem UF; incerto"
+},
+{
+"uf": "PI",
+"div": "A",
+"nome": "Atlético-PI",
+"tmid": "122695",
+"tm_nome": "CA Piauiense",
+"confianca": "media",
+"obs": "CA Piauiense, provável Atlético-PI"
+},
+{
+"uf": "PI",
+"div": "A",
+"nome": "Corisabbá",
+"tmid": "96020",
+"tm_nome": "Associação Atlética Corisabbá",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "A",
+"nome": "Oeirense",
+"tmid": "96019",
+"tm_nome": "Associação Atlética Oeirense",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "A",
+"nome": "Teresina",
+"tmid": "137892",
+"tm_nome": "Teresina Esporte Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "4 de Julho",
+"tmid": "36257",
+"tm_nome": "4 de Julho Esporte Clube (PI)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "Caiçara",
+"tmid": "97242",
+"tm_nome": "Caiçara Esporte Clube",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "Comercial-PI",
+"tmid": "36260",
+"tm_nome": "Comercial Atlético Clube (PI)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "Picos",
+"tmid": "16440",
+"tm_nome": "Sociedade Esportiva Picos (PI)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "Flamengo-PI",
+"tmid": "28708",
+"tm_nome": "Esporte Clube Flamengo (PI)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PI",
+"div": "B",
+"nome": "River-PI",
+"tmid": "35388",
+"tm_nome": "River Atlético Clube (PI)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "A",
+"nome": "Andraus",
+"tmid": "27782",
+"tm_nome": "Clube Andraus Brasil (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "A",
+"nome": "Foz do Iguaçu",
+"tmid": "33226",
+"tm_nome": "Foz do Iguaçu Futebol Clube (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Batel",
+"tmid": "4965",
+"tm_nome": "Associação Atlética Batel (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Laranja Mecânica",
+"tmid": "98861",
+"tm_nome": "Esporte Clube Laranja Mecânica",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Nacional-PR",
+"tmid": "4568",
+"tm_nome": "Nacional Atlético Clube (PR)",
+"confianca": "media",
+"obs": "Nacional AC (PR)"
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Paranavaí",
+"tmid": "17299",
+"tm_nome": "Atlético Clube Paranavaí (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Patriotas",
+"tmid": "93697",
+"tm_nome": "Patriotas Futebol Clube",
+"confianca": "media",
+"obs": "Patriotas FC, sem UF"
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Toledo",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Toledo EC PR não encontrado (só PA)"
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Prudentópolis",
+"tmid": "1019",
+"tm_nome": "Prudentópolis Esporte Clube (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "B",
+"nome": "Araucária",
+"tmid": "90753",
+"tm_nome": "Araucária Esporte Clube (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Americano",
+"tmid": "19080",
+"tm_nome": "Americano Futebol Clube (RJ)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Araruama",
+"tmid": "115211",
+"tm_nome": "Araruama Futebol Clube",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Bonsucesso",
+"tmid": "3972",
+"tm_nome": "Bonsucesso Futebol Clube (RJ)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Cabofriense",
+"tmid": "11932",
+"tm_nome": "Associação Desportiva Cabofriense (RJ)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Olaria",
+"tmid": "1516",
+"tm_nome": "Olaria Atlético Clube (RJ)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Pérolas Negras",
+"tmid": "82181",
+"tm_nome": "Viva Rio Pérolas Negras",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "São Gonçalo EC",
+"tmid": "35946",
+"tm_nome": "São Gonçalo Esporte Clube (RJ)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RJ",
+"div": "B",
+"nome": "Serrano",
+"tmid": "95478",
+"tm_nome": "Serrano - RJ",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RN",
+"div": "A",
+"nome": "QFC",
+"tmid": "126428",
+"tm_nome": "Quinho FC",
+"confianca": "baixa",
+"obs": "Quinho FC; QFC pode ser esse, incerto"
+},
+{
+"uf": "RN",
+"div": "B",
+"nome": "Alecrim",
+"tmid": "25219",
+"tm_nome": "Alecrim Futebol Clube (RN)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RN",
+"div": "B",
+"nome": "Baraúnas",
+"tmid": "32657",
+"tm_nome": "AC Esporte Clube Baraúnas (RN)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RN",
+"div": "B",
+"nome": "Mossoró",
+"tmid": "104783",
+"tm_nome": "Mossoró Esporte Clube (RN)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RN",
+"div": "B",
+"nome": "Visão Celeste",
+"tmid": "71626",
+"tm_nome": "Visão Celeste Esporte Clube (RN)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RN",
+"div": "B",
+"nome": "Parnamirim",
+"tmid": "115058",
+"tm_nome": "Parnamirim Sport Club",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RO",
+"div": "A",
+"nome": "Rondoniense",
+"tmid": "28605",
+"tm_nome": "Clube Atlético Rondoniense (RO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RO",
+"div": "A",
+"nome": "Genus",
+"tmid": "68823",
+"tm_nome": "Sport Club Genus de Porto Velho",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RO",
+"div": "A",
+"nome": "Barcelona-RO",
+"tmid": "72476",
+"tm_nome": "Barcelona Futebol Clube (RO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RO",
+"div": "A",
+"nome": "Ji-Paraná",
+"tmid": "64303",
+"tm_nome": "Ji-Paraná Futebol Clube (RO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RO",
+"div": "A",
+"nome": "União Cacoalense",
+"tmid": "54241",
+"tm_nome": "União Cacoalense (RO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "Baré",
+"tmid": "70707",
+"tm_nome": null,
+"confianca": "alta",
+"obs": "corrigido na revisão"
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "Náutico-RR",
+"tmid": "65748",
+"tm_nome": "Náutico FC Caracaraí (RR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "Atlético Progresso",
+"tmid": "87824",
+"tm_nome": "Progresso",
+"confianca": "baixa",
+"obs": "Progresso, sem UF"
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "Atlético Rio Negro",
+"tmid": "87823",
+"tm_nome": "Rio Negro (RR)",
+"confianca": "media",
+"obs": "Rio Negro (RR); Atlético Rio Negro Clube (AM) descartado por ser do AM"
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "River",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "River-RR não encontrado"
+},
+{
+"uf": "RS",
+"div": "A",
+"nome": "Avenida",
+"tmid": "12777",
+"tm_nome": "Esporte Clube Avenida (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "A",
+"nome": "Inter de Santa Maria",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Inter de Santa Maria não encontrado"
+},
+{
+"uf": "RS",
+"div": "A",
+"nome": "Monsoon",
+"tmid": "103992",
+"tm_nome": "Monsoon Futebol Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Apafut",
+"tmid": "122684",
+"tm_nome": "APAFUT",
+"confianca": "media",
+"obs": "APAFUT, sem UF"
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Bagé",
+"tmid": "93762",
+"tm_nome": "GE Bagé",
+"confianca": "media",
+"obs": "GE Bagé, sem UF"
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Brasil de Farroupilha",
+"tmid": "21604",
+"tm_nome": "S.E.R.C. Brasil Farroupilha (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Gaúcho",
+"tmid": "13187",
+"tm_nome": "Sport Club Gaúcho (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Glória",
+"tmid": "13064",
+"tm_nome": "Grêmio Esportivo Glória (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Gramadense",
+"tmid": "103991",
+"tm_nome": "Centro Esportivo Gramadense",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Guarani de Venâncio Aires",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "Guarani de Venâncio Aires não encontrado"
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Lajeadense",
+"tmid": "31843",
+"tm_nome": "Clube Esportivo Lajeadense (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Passo Fundo",
+"tmid": "22690",
+"tm_nome": "Esporte Clube Passo Fundo (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Santa Cruz-RS",
+"tmid": "28024",
+"tm_nome": "Futebol Clube Santa Cruz (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RS",
+"div": "B",
+"nome": "Veranópolis",
+"tmid": "9231",
+"tm_nome": "Veranópolis Esporte Clube (RS)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SC",
+"div": "A",
+"nome": "Carlos Renaux",
+"tmid": "73041",
+"tm_nome": "Clube Atletico Carlos Renaux",
+"confianca": "media",
+"obs": "sem UF"
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Caravaggio",
+"tmid": "23920",
+"tm_nome": "Caravaggio Futebol Clube (SC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Fluminense-SC",
+"tmid": "56221",
+"tm_nome": "Fluminense Futebol Clube (SC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Guarani de Palhoça",
+"tmid": "25213",
+"tm_nome": "SERC Guarani (SC)",
+"confianca": "media",
+"obs": "SERC Guarani (SC)"
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Jaraguá",
+"tmid": "55739",
+"tm_nome": "Sport Club Jaraguá",
+"confianca": "media",
+"obs": "Sport Club Jaraguá, sem UF"
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Nação",
+"tmid": "87001",
+"tm_nome": "Nação Esportes Futebol Clube (SC)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SC",
+"div": "B",
+"nome": "Tubarão",
+"tmid": "557",
+"tm_nome": "Tubarão Futebol Clube (SC)",
+"confianca": "baixa",
+"obs": "Tubarão FC (SC); alternativa 23838 CA Tubarão (SC)"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "Falcon",
+"tmid": "94168",
+"tm_nome": "Falcon FC",
+"confianca": "media",
+"obs": "Falcon FC, sem UF"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "Desportiva Aracaju",
+"tmid": "122240",
+"tm_nome": "Desportiva Aracaju ",
+"confianca": "media",
+"obs": "Desportiva Aracaju, sem UF"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "América de Propriá",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "América de Propriá não encontrado"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "Atlético Gloriense",
+"tmid": "87826",
+"tm_nome": "AD Atlética Gloriense",
+"confianca": "media",
+"obs": "AD Atlética Gloriense, sem UF"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "Dorense",
+"tmid": "56342",
+"tm_nome": "Dorense Futebol Clube (SE)",
+"confianca": "media",
+"obs": "Dorense FC (SE)"
+},
+{
+"uf": "SE",
+"div": "A",
+"nome": "Guarany-SE",
+"tmid": "82391",
+"tm_nome": "AA Guarany (SE)",
+"confianca": "media",
+"obs": "AA Guarany (SE)"
+},
+{
+"uf": "SP",
+"div": "A",
+"nome": "Capivariano",
+"tmid": "3297",
+"tm_nome": "Capivariano Futebol Clube (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "A",
+"nome": "Primavera",
+"tmid": "25558",
+"tm_nome": null,
+"confianca": "alta",
+"obs": "corrigido na revisão"
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Grêmio Prudente",
+"tmid": "36166",
+"tm_nome": "Grêmio Desportivo Prudente (SP)",
+"confianca": "media",
+"obs": "Grêmio Desportivo Prudente (SP)"
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Juventus-SP",
+"tmid": "8144",
+"tm_nome": "Clube Atlético Juventus (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Linense",
+"tmid": "20132",
+"tm_nome": "Clube Atlético Linense (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Monte Azul",
+"tmid": "25671",
+"tm_nome": "Atlético Monte Azul (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Osasco Sporting",
+"tmid": "21829",
+"tm_nome": null,
+"confianca": "alta",
+"obs": "é o antigo Oeste: atualiza o time existente",
+"fref": "oestesp_bra"
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "São José-SP",
+"tmid": "26731",
+"tm_nome": "São José Esporte Clube (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Sertãozinho",
+"tmid": "3296",
+"tm_nome": "Sertãozinho Futebol Clube (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Taubaté",
+"tmid": "27219",
+"tm_nome": "Esporte Clube Taubaté (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "SP",
+"div": "B",
+"nome": "Votuporanguense",
+"tmid": "45257",
+"tm_nome": "Clube Atlético Votuporanguense (SP)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "Palmas",
+"tmid": "48003",
+"tm_nome": "Palmas Futebol e Regatas",
+"confianca": "media",
+"obs": "Palmas Futebol e Regatas, sem UF"
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "Capital-TO",
+"tmid": "82329",
+"tm_nome": "Capital Futebol Clube (TO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "Guaraí",
+"tmid": "114114",
+"tm_nome": "Sport Club Guaraí",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "Bela Vista",
+"tmid": "93602",
+"tm_nome": "Bela Vista",
+"confianca": "baixa",
+"obs": "Bela Vista sem UF"
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "Gurupi",
+"tmid": "36477",
+"tm_nome": "Gurupi Esporte Clube (TO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "A",
+"nome": "União-TO",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "União-TO não encontrado"
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "Interporto",
+"tmid": "82328",
+"tm_nome": "Interporto Futebol Clube (TO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "São José-TO",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "São José-TO não encontrado"
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "Araguaia",
+"tmid": "82820",
+"tm_nome": "AA Araguaia",
+"confianca": "baixa",
+"obs": "AA Araguaia sem UF"
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "União de Palmas",
+"tmid": null,
+"tm_nome": null,
+"confianca": "baixa",
+"obs": "União de Palmas: só Palmas FR, já usado por Palmas"
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "Taquarussú",
+"tmid": "96880",
+"tm_nome": "Associação Taquarussú Esporte Clube",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "TO",
+"div": "B",
+"nome": "Paraíso",
+"tmid": "104799",
+"tm_nome": "Clube Atlético Paraíso (TO)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "PR",
+"div": "A",
+"nome": "Galo Maringá",
+"tmid": "12523",
+"tm_nome": "Adap Galo Maringá Football Club (PR)",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "ES",
+"div": "A",
+"nome": "Porto Vitória",
+"tmid": "93843",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "RR",
+"div": "A",
+"nome": "Atlético Roraima",
+"tmid": "73575",
+"confianca": "alta",
+"obs": ""
+},
+{
+"uf": "GO",
+"div": "A",
+"nome": "Anapolina",
+"tmid": "7319",
+"confianca": "alta",
+"obs": ""
+}
+]

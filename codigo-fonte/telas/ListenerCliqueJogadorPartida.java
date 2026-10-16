@@ -1,5 +1,6 @@
 package telas;
 
+import nucleo.Plataforma;
 import telas.PainelTaticaPartida;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,7 +16,7 @@ extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        if (SwingUtilities.isRightMouseButton(mouseEvent)) {
+        if (Plataforma.isCliqueSecundario(mouseEvent)) {
             PainelTaticaPartida.a(this.DI, mouseEvent);
         }
         if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
